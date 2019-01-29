@@ -14,12 +14,12 @@ Make sure all dependencies have been installed before moving on:
 
 The recommended directory structure for the project looks like:
 ```shell
-S0EN343-Team15/                # → Root folder for the project
+S0EN344-Team17/                # → Root folder for the project
 ├── client/                    # → Client folder where AngularCLI reside
 └── server/                    # → Server folder where Java with SpringBoot reside
 ```
 
-1. Clone the project: `$ git clone --recursive https://github.com/Zhen-Yee/SOEN343-Team15.git`
+1. Clone the project: `$ git clone https://github.com/eyitsKevin/SOEN344-Team17.git`
 
 ## Local development setup
 
