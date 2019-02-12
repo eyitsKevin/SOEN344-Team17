@@ -49,6 +49,15 @@ public class Doctor {
         this.password = password;
     }
 
+    public Doctor(Doctor doctor) {
+        this.permitNumber = doctor.getPermitNumber();
+        this.lastName = doctor.getLastName();
+        this.firstName = doctor.getFirstName();
+        this.specialty = doctor.getSpecialty();
+        this.city = doctor.getCity();
+        this.password = doctor.getPassword();
+    }
+
     public String getPermitNumber() {
         return permitNumber;
     }
