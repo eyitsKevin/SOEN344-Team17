@@ -1,0 +1,19 @@
+<form [formGroup]="patientLogin" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input matInput placeholder="Healthcard Number" formControlName="healthNum">
+    </mat-form-field>
+    <mat-error *ngIf="patientLogin.get('healthNum').hasError('pattern')">
+      Please enter a valid healthcard number
+    </mat-error>
+    <mat-form-field>
+        <input matInput placeholder="Password" formControlName="password">
+      </mat-form-field>
+    <div>
+      <button mat-raised-button type="submit" mat-button> Login </button>
+    </div>
+
+    <div>
+        <a href="/">New to UberSante? Register now.</a>
+    </div>
+
+</form>

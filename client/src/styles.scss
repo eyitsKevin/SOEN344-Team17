@@ -1,2 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@material/layout-grid/mdc-layout-grid";
+
+ * {
+    margin: 0;
+}
+
+body {
+    background-color: #F0F5F8;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+mat-form-field {
+    margin: 2%;
+    width: 350px;
+}
+
+mat-error {
+    font-size: 11px;
+}
+
+a {
+    text-decoration: none;
+}

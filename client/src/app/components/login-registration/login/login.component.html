@@ -1,3 +1,24 @@
-<p (click) = "login()">
-  login works!
-</p>
+<div class="background">
+
+  <div class="form">
+
+    <h1> 〄 UberSante </h1>
+
+    <div class="loginUser">
+
+      <mat-button-toggle-group [(ngModel)]="toggleValue" name="userType" multiple=false #group="matButtonToggleGroup">
+        <mat-button-toggle value="patient">Patient</mat-button-toggle>
+        <mat-button-toggle value="doctor">Doctor</mat-button-toggle>
+        <mat-button-toggle value="nurse">Nurse</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <app-patient-login *ngIf="toggleValue==='patient'"></app-patient-login>
+      <app-doctor-login *ngIf="toggleValue==='doctor'"></app-doctor-login>
+      <app-nurse-login *ngIf="toggleValue==='nurse'"></app-nurse-login>
+
+    </div>
+
+  </div>
+
+
+</div>
