@@ -50,6 +50,17 @@ public class Patient {
         this.address = address;
     }
 
+    public Patient(Patient patient) {
+        this.healthCard = patient.getHealthCard();
+        this.firstName = patient.getFirstName();
+        this.lastName = patient.getLastName();
+        this.birthday = patient.getBirthday();
+        this.gender = patient.getGender();
+        this.phone = patient.getPhone();
+        this.email = patient.getEmail();
+        this.address = patient.getAddress();
+    }
+
     public void setHealthCard(String healthCard) {
         this.healthCard = healthCard;
     }
