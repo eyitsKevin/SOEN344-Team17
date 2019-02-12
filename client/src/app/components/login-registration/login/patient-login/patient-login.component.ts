@@ -10,6 +10,7 @@ import { ChangeDetectorRef } from '@angular/core';
 export class PatientLoginComponent implements OnInit {
 
   patientLogin: FormGroup;
+  register = false;
 
   constructor(private formBuilder: FormBuilder, private ref: ChangeDetectorRef) { }
 
@@ -24,6 +25,10 @@ export class PatientLoginComponent implements OnInit {
 
   onSubmit() {
 
+  }
+
+  registerPatient() {
+    this.register = true;
   }
 
   }

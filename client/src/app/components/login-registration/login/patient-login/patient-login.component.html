@@ -1,4 +1,4 @@
-<form [formGroup]="patientLogin" (ngSubmit)="onSubmit()">
+<form *ngIf="!this.register" [formGroup]="patientLogin" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <input matInput placeholder="Healthcard Number" formControlName="healthNum">
     </mat-form-field>
@@ -13,7 +13,9 @@
     </div>
 
     <div>
-        <a href="/">New to UberSante? Register now.</a>
+        <button mat-button (click)="registerPatient()">New to UberSante? Register now.</button>
     </div>
 
 </form>
+
+<app-registration *ngIf="this.register" > </app-registration>
