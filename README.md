@@ -53,5 +53,5 @@ Client application is now available at `http://localhost:4200`
 - Kevin Luu (40037514) - [eyitsKevin](https://github.com/eyitsKevin)
 - Tristan Vu (40028927) - [phistanx](https://github.com/phistanx)
 - Wu Wen Tang (40028075) - [wuwentang](https://github.com/wuwentang)
-- Tamar Merdkhanian (40030718) - [TMerdkh](https://github.com/TMerdkh)
+- Tamar Merdkhanian (40030718) - [TMerdkh](https://github.com/legendoftamar)
 - Mathew Jackson (27709315) - [MatJackson](https://github.com/MatJackson)
