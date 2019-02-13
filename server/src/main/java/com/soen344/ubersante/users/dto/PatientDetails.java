@@ -1,16 +1,14 @@
 package com.soen344.ubersante.users.dto;
 
-import com.soen344.ubersante.validation.PasswordMatches;
+import com.soen344.ubersante.users.models.Patient;
 import com.soen344.ubersante.validation.ValidEmail;
 import com.soen344.ubersante.validation.ValidHealthCard;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@PasswordMatches
-public class PatientDto {
+public class PatientDetails {
 
-    @NotEmpty
     @ValidHealthCard
     private String healthCard;
 
@@ -35,11 +33,16 @@ public class PatientDto {
     @NotEmpty
     private String address;
 
-    @NotEmpty
-    private String password;
-
-    @NotEmpty
-    private String matchingPassword;
+    public PatientDetails(Patient patient) {
+        healthCard = patient.getHealthCard();
+        firstName = patient.getFirstName();
+        lastName = patient.getLastName();
+        birthday = patient.getBirthday();
+        gender = patient.getGender();
+        phone = patient.getPhone();
+        email = patient.getEmail();
+        address = patient.getAddress();
+    }
 
     public String getHealthCard() {
         return healthCard;
@@ -71,14 +74,6 @@ public class PatientDto {
 
     public String getAddress() {
         return address;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getMatchingPassword() {
-        return matchingPassword;
     }
 
     public void setHealthCard(String healthCard) {
@@ -113,11 +108,17 @@ public class PatientDto {
         this.address = address;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
+    @Override
+    public String toString() {
+        return "PatientDetails{" +
+                "healthCard='" + healthCard + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", gender='" + gender + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

@@ -1,7 +1,11 @@
 package com.soen344.ubersante.users.controllers;
 
-import com.soen344.ubersante.users.dto.PatientDto;
+import com.soen344.ubersante.users.dto.PatientDetails;
+import com.soen344.ubersante.users.dto.PatientLoginForm;
+import com.soen344.ubersante.users.dto.PatientRegistrationForm;
+import com.soen344.ubersante.users.exceptions.InvalidPasswordException;
 import com.soen344.ubersante.users.exceptions.PatientAlreadyExistsException;
+import com.soen344.ubersante.users.exceptions.PatientNotFoundException;
 import com.soen344.ubersante.users.models.Patient;
 import com.soen344.ubersante.users.repositories.PatientRepository;
 import com.soen344.ubersante.users.services.PatientService;
@@ -36,15 +40,28 @@ public class PatientController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<String> registerNewPatient(@Valid @RequestBody final PatientDto patientDto) {
+    public ResponseEntity registerNewPatient(@Valid @RequestBody final PatientRegistrationForm registrationForm) {
 
         try {
-            patientService.registerNewPatient(patientDto);
+            patientService.registerNewPatient(registrationForm);
         } catch (PatientAlreadyExistsException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
 
         return new ResponseEntity<>("Patient Successfully Registered", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity loginPatient(@Valid @RequestBody final PatientLoginForm loginForm) {
+        try {
+           return new ResponseEntity<>(patientService.validateLogin(loginForm), HttpStatus.OK);
+        } catch (PatientNotFoundException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (InvalidPasswordException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
     }
 }
