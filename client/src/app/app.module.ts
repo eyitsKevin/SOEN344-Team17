@@ -1,13 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-// Material UI
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
 import { DoctorComponent } from './components/doctors/doctor/doctor.component';
@@ -48,7 +45,11 @@ import { NurseLoginComponent } from './components/login-registration/login/nurse
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatButtonToggleModule
+    MatButtonToggleModule, 
+    MatToolbarModule, 
+    MatSidenavModule, 
+    MatIconModule, 
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

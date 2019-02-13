@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
+import { AuthenticationService } from '../../../../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-login',
@@ -10,20 +11,26 @@ import { ChangeDetectorRef } from '@angular/core';
 export class DoctorLoginComponent implements OnInit {
 
   doctorLogin: FormGroup;
+  authenticated;
 
-  constructor(private formBuilder: FormBuilder, private ref: ChangeDetectorRef) { }
+  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
-    
+
     this.doctorLogin = this.formBuilder.group({
       permitNum: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
       password: ["", Validators.required]
-  });
+    });
 
   }
 
   onSubmit() {
+    this.login();
+  }
 
+  login() {
+    this.authenticationService.changeAuthentication("doctor");
+    this.router.navigate(['doctor']);
   }
 
 }

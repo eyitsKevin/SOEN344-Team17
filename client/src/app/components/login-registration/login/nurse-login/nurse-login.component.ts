@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
+import { AuthenticationService } from '../../../../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nurse-login',
@@ -10,8 +11,9 @@ import { ChangeDetectorRef } from '@angular/core';
 export class NurseLoginComponent implements OnInit {
 
   nurseLogin: FormGroup;
+  authenticated;
 
-  constructor(private formBuilder: FormBuilder, private ref: ChangeDetectorRef) { }
+  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
     
@@ -23,7 +25,13 @@ export class NurseLoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.login();
+  }
 
+  login() {
+    console.log("hi")
+    this.authenticationService.changeAuthentication("nurse");
+    this.router.navigate(['nurse']);
   }
 
 }
