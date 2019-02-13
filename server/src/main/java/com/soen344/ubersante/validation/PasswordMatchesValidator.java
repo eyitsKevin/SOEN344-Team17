@@ -1,6 +1,6 @@
 package com.soen344.ubersante.validation;
 
-import com.soen344.ubersante.users.models.Patient;
+import com.soen344.ubersante.users.dto.PatientDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,7 +13,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context){
-        Patient patient = (Patient) obj;
-        return patient.getPassword().equals(patient.getMatchingPassword());
+        PatientDto patientDto = (PatientDto) obj;
+        return patientDto.getPassword().equals(patientDto.getMatchingPassword());
     }
 }

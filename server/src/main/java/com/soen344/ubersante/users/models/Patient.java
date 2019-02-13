@@ -1,6 +1,5 @@
 package com.soen344.ubersante.users.models;
 
-import com.soen344.ubersante.validation.PasswordMatches;
 import com.soen344.ubersante.validation.ValidEmail;
 import com.soen344.ubersante.validation.ValidHealthCard;
 
@@ -11,7 +10,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "patient")
-@PasswordMatches
 public class Patient {
 
     @Id
@@ -54,8 +52,6 @@ public class Patient {
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String matchingPassword;
 
     public Patient() {
 
@@ -119,10 +115,6 @@ public class Patient {
         return password;
     }
 
-    public String getMatchingPassword() {
-        return matchingPassword;
-    }
-
     public String getHealthCard() {
         return healthCard;
     }
@@ -157,10 +149,6 @@ public class Patient {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
     }
 
     @Override
