@@ -5,8 +5,6 @@ import com.soen344.ubersante.dto.PatientRegistrationForm;
 import com.soen344.ubersante.exceptions.InvalidPasswordException;
 import com.soen344.ubersante.exceptions.PatientAlreadyExistsException;
 import com.soen344.ubersante.exceptions.PatientNotFoundException;
-import com.soen344.ubersante.models.Patient;
-import com.soen344.ubersante.repositories.PatientRepository;
 import com.soen344.ubersante.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -23,20 +19,7 @@ import java.util.List;
 public class PatientController {
 
     @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
     private PatientService patientService;
-
-    @GetMapping("/all")
-    public List<Patient> getAllPatients() {
-        System.out.println("Get all Patients...");
-
-        List<Patient> patients = new ArrayList<>();
-        patientRepository.findAll().forEach(patients::add);
-
-        return patients;
-    }
 
     @PostMapping("/registration")
     public ResponseEntity registerNewPatient(@Valid @RequestBody final PatientRegistrationForm registrationForm) {
