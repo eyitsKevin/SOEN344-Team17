@@ -1,5 +1,7 @@
 package com.soen344.ubersante.users.models;
 
+import com.soen344.ubersante.validation.ValidPermitNumber;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
@@ -8,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import java.util.Objects;
 
 @Entity
 @Table (name = "doctor")
@@ -17,20 +22,25 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Id
     @Column(name = "permit_number")
+    @NotEmpty
+    @ValidPermitNumber
     private String permitNumber;
 
     @Column(name = "last_name")
+    @NotEmpty
     private String lastName;
 
     @Column(name = "first_name")
+    @NotEmpty
     private String firstName;
 
     @Column(name = "specialty")
+    @NotEmpty
     private String specialty;
 
     @Column(name = "city")
+    @NotEmpty
     private String city;
 
     @Column(name = "password")
@@ -115,5 +125,18 @@ public class Doctor {
                 ", specialty='" + specialty + '\'' +
                 ", city='" + city + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals (Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Doctor)) return false;
+        Doctor doctor = (Doctor) o;
+        return permitNumber.equals(doctor.permitNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(permitNumber);
     }
 }
