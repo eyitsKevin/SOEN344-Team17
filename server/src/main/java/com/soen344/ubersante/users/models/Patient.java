@@ -6,7 +6,6 @@ import com.soen344.ubersante.validation.ValidHealthCard;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity
@@ -36,7 +35,6 @@ public class Patient {
 
     @Column(name = "gender")
     @NotEmpty
-    @Pattern(regexp = "^Male$|^Female$|^Other$", message = "Gender must be either 'Male', 'Female', or 'Other'")
     private String gender;
 
     @Column(name = "phone")
@@ -50,6 +48,12 @@ public class Patient {
     @Column(name = "address")
     @NotEmpty
     private String address;
+
+    @Column(name = "password")
+    private String password;
+
+    @Transient
+    private String passwordConfirm;
 
     public Patient() {
 
@@ -109,6 +113,14 @@ public class Patient {
         this.address = address;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
     public String getHealthCard() {
         return healthCard;
     }
@@ -139,6 +151,14 @@ public class Patient {
 
     public String getAddress() {
         return address;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     @Override
