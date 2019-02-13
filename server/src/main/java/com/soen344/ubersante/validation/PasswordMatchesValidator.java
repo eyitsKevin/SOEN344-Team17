@@ -1,6 +1,6 @@
 package com.soen344.ubersante.validation;
 
-import com.soen344.ubersante.users.dto.PatientRegistrationForm;
+import com.soen344.ubersante.dto.PatientRegistrationForm;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

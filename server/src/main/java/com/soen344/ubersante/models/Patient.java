@@ -1,4 +1,4 @@
-package com.soen344.ubersante.users.models;
+package com.soen344.ubersante.models;
 
 import com.soen344.ubersante.validation.ValidEmail;
 import com.soen344.ubersante.validation.ValidHealthCard;

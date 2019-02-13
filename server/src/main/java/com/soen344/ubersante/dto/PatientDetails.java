@@ -1,6 +1,6 @@
-package com.soen344.ubersante.users.dto;
+package com.soen344.ubersante.dto;
 
-import com.soen344.ubersante.users.models.Patient;
+import com.soen344.ubersante.models.Patient;
 import com.soen344.ubersante.validation.ValidEmail;
 import com.soen344.ubersante.validation.ValidHealthCard;
 

@@ -1,4 +1,4 @@
-package com.soen344.ubersante.users.exceptions;
+package com.soen344.ubersante.exceptions;
 
 public class PatientNotFoundException extends RuntimeException{
 

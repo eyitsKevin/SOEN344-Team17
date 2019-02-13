@@ -1,4 +1,4 @@
-package com.soen344.ubersante.users.dto;
+package com.soen344.ubersante.dto;
 
 import com.soen344.ubersante.validation.ValidHealthCard;
 
