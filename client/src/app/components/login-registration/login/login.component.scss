@@ -1,18 +1,22 @@
 .form {
     float: right;
-    height: 915px;
+    height: 100%;
     background-image: linear-gradient(rgb(207, 223, 230), white);
     opacity: 0.95;
-    width: 40%;
+    width: 35%;
     text-align: center;
     padding: 10px;
-    padding-top: 80px;
+    padding-top: 50px;
 }
 
 .background {
-    background-image: url("../../../../assets/cover-photo.jpg");
-    background-size: cover;
-    height: 1005px;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+}
+
+.background img {
+    width: 100%;
 }
 
 .loginUser {

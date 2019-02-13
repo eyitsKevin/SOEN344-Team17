@@ -4,22 +4,22 @@
       <input matInput placeholder="Healthcard Number" formControlName="healthNum">
     </mat-form-field>
   </div>
-    <mat-error *ngIf="patientLogin.get('healthNum').hasError('pattern')">
-      Please enter a valid healthcard number
-    </mat-error>
-    <div>
+  <mat-error *ngIf="patientLogin.get('healthNum').hasError('pattern')">
+    Please enter a valid healthcard number
+  </mat-error>
+  <div>
     <mat-form-field>
-        <input matInput placeholder="Password" formControlName="password">
-      </mat-form-field>
-    </div>
-    <div>
-      <button mat-raised-button type="submit" mat-button> Login </button>
-    </div>
+      <input matInput placeholder="Password" formControlName="password">
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-raised-button type="submit" mat-button> Login </button>
+  </div>
 
-    <div>
-        <button mat-button (click)="registerPatient()">New to UberSante? Register now.</button>
-    </div>
+  <div>
+    <button mat-button (click)="registerPatient()">New to UberSante? Register now.</button>
+  </div>
 
 </form>
 
-<app-registration *ngIf="this.register" > </app-registration>
+<app-registration *ngIf="this.register"> </app-registration>
