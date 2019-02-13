@@ -67,6 +67,71 @@ public class PatientValidationTest {
         assertEquals("InvalidHealthCard", violation.getInvalidValue());
     }
 
+    @Test
+    public void shouldDetectInvalidEmail() {
+        Set<ConstraintViolation<Patient>> violations;
+        ConstraintViolation<Patient> violation;
+
+        patient.setEmail("notvalid");
+        violations = validator.validate(patient);
+        assertEquals(1, violations.size());
+        violation = violations.iterator().next();
+        assertEquals("Invalid Email", violation.getMessage());
+        assertEquals("email", violation.getPropertyPath().toString());
+        assertEquals("notvalid", violation.getInvalidValue());
+
+        patient.setEmail("");
+        violations = validator.validate(patient);
+        assertEquals(1, violations.size());
+        violation = violations.iterator().next();
+        assertEquals("Invalid Email", violation.getMessage());
+        assertEquals("email", violation.getPropertyPath().toString());
+        assertEquals("", violation.getInvalidValue());
+
+        patient.setEmail("@");
+        violations = validator.validate(patient);
+        assertEquals(1, violations.size());
+        violation = violations.iterator().next();
+        assertEquals("Invalid Email", violation.getMessage());
+        assertEquals("email", violation.getPropertyPath().toString());
+        assertEquals("@", violation.getInvalidValue());
+
+        patient.setEmail("abc@ac");
+        violations = validator.validate(patient);
+        assertEquals(1, violations.size());
+        violation = violations.iterator().next();
+        assertEquals("Invalid Email", violation.getMessage());
+        assertEquals("email", violation.getPropertyPath().toString());
+        assertEquals("abc@ac", violation.getInvalidValue());
+
+        patient.setEmail("abc@test.c");
+        violations = validator.validate(patient);
+        assertEquals(1, violations.size());
+        violation = violations.iterator().next();
+        assertEquals("Invalid Email", violation.getMessage());
+        assertEquals("email", violation.getPropertyPath().toString());
+        assertEquals("abc@test.c", violation.getInvalidValue());
+    }
+
+    @Test
+    public void shouldDetectBlankFields() {
+        Set<ConstraintViolation<Patient>> violations;
+        ConstraintViolation<Patient> violation;
+        patient.setHealthCard("");
+        patient.setFirstName("");
+        patient.setLastName("");
+        patient.setGender("");
+        patient.setBirthday("");
+        patient.setPhone("");
+        patient.setEmail("");
+        patient.setAddress("");
+        patient.setPassword("");
+
+        violations = validator.validate(patient);
+        assertEquals(9, violations.size());
+
+    }
+
 
 
 
