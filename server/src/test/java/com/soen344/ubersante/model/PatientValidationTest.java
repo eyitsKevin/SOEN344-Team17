@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import com.soen344.ubersante.models.Patient;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ public class PatientValidationTest {
 
     private static ValidatorFactory validatorFactory;
     private static Validator validator;
+    private Patient patient;
 
     @BeforeClass
     public static void createValidator() {
@@ -29,9 +31,9 @@ public class PatientValidationTest {
         validatorFactory.close();
     }
 
-    @Test
-    public void shouldHaveNoViolations() {
-        Patient patient = new Patient();
+    @Before
+    public void SetUp() {
+        patient = new Patient();
         patient.setHealthCard("JACM00000000");
         patient.setFirstName("James");
         patient.setLastName("Jackson");
@@ -42,9 +44,27 @@ public class PatientValidationTest {
         patient.setAddress("H937");
         patient.setPassword("123456");
 
+    }
+
+    @Test
+    public void shouldHaveNoViolations() {
+
         Set<ConstraintViolation<Patient>> violations = validator.validate(patient);
 
         assertTrue("There are no validator violations", violations.isEmpty());
+    }
+
+    @Test
+    public void shouldDetectInvalidHealthCard() {
+        patient.setHealthCard("InvalidHealthCard");
+
+        Set<ConstraintViolation<Patient>> violations = validator.validate(patient);
+        assertEquals(1, violations.size());
+
+        ConstraintViolation<Patient> violation = violations.iterator().next();
+        assertEquals("Invalid Health Card", violation.getMessage());
+        assertEquals("healthCard", violation.getPropertyPath().toString());
+        assertEquals("InvalidHealthCard", violation.getInvalidValue());
     }
 
 
