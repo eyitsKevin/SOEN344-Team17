@@ -11,7 +11,7 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Id
+    @Column(name = "health_card")
     private String healthCard;
 
     @Column(name = "first_name")
