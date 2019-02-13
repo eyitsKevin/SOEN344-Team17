@@ -1,6 +1,9 @@
 package com.soen344.ubersante.users.models;
 
+import com.soen344.ubersante.validation.ValidAccessID;
+
 import javax.persistence.*;
+import java.util.Objects;
 
 
 @Entity
@@ -12,6 +15,7 @@ public class Nurse {
     private long id;
 
     @Column(name = "access_id")
+    @ValidAccessID
     private String accessID;
 
     @Column(name = "password")
@@ -51,5 +55,18 @@ public class Nurse {
                 "accessID='" + accessID + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals (Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Nurse)) return false;
+        Nurse nurse = (Nurse) o;
+        return accessID.equals(nurse.accessID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accessID);
     }
 }
