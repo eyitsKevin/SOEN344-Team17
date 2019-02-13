@@ -49,7 +49,7 @@ public class Patient {
     @NotEmpty
     private String address;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 60)
     private String password;
 
 

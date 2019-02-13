@@ -9,6 +9,7 @@ import com.soen344.ubersante.exceptions.PatientNotFoundException;
 import com.soen344.ubersante.models.Patient;
 import com.soen344.ubersante.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,9 +19,6 @@ public class PatientService implements IPatientService {
 
     @Autowired
     private PatientRepository patientRepository;
-
-    @Autowired
-    private IPatientService patientService;
 
     @Transactional
     public Patient registerNewPatient(PatientRegistrationForm patientRegistrationForm) throws PatientAlreadyExistsException {
@@ -43,9 +41,7 @@ public class PatientService implements IPatientService {
         patient.setPhone(patientRegistrationForm.getPhone());
         patient.setEmail(patientRegistrationForm.getEmail());
         patient.setAddress(patientRegistrationForm.getAddress());
-
-        // This is where you would encrypt!
-        patient.setPassword(patientRegistrationForm.getPassword());
+        patient.setPassword(BCrypt.hashpw(patientRegistrationForm.getPassword(), BCrypt.gensalt()));
 
         return patientRepository.save(patient);
     }
@@ -60,7 +56,7 @@ public class PatientService implements IPatientService {
             throw new PatientNotFoundException("Patient with health card '" + healthCard +"' is not registered" );
         }
 
-        if (!patient.getPassword().equals(loginForm.getPassword())) {
+        if (!BCrypt.checkpw(loginForm.getPassword(), patient.getPassword())) {
             throw new InvalidPasswordException("Invalid password for health card '" + healthCard + "'");
         }
 
