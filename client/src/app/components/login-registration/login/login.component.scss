@@ -1,6 +1,6 @@
 .form {
     float: right;
-    height: 800px;
+    height: 915px;
     background-image: linear-gradient(rgb(207, 223, 230), white);
     opacity: 0.95;
     width: 40%;
@@ -11,8 +11,8 @@
 
 .background {
     background-image: url("../../../../assets/cover-photo.jpg");
-    background-size: 1510px;
-    height: 890px;
+    background-size: cover;
+    height: 1005px;
 }
 
 .loginUser {

@@ -1,13 +1,17 @@
 <form [formGroup]="doctorLogin" (ngSubmit)="onSubmit()">
+    <div>
     <mat-form-field>
       <input matInput placeholder="Permit Number" formControlName="permitNum">
     </mat-form-field>
+  </div>
     <mat-error *ngIf="doctorLogin.get('permitNum').hasError('pattern')">
       Please enter a valid permit number
     </mat-error>
+    <div>
     <mat-form-field>
         <input matInput placeholder="Password" formControlName="password">
       </mat-form-field>
+    </div>
     <div>
       <button mat-raised-button type="submit" mat-button> Login </button>
     </div>
