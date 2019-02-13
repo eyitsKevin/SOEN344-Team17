@@ -32,7 +32,7 @@ public class PatientValidationTest {
     }
 
     @Before
-    public void SetUp() {
+    public void setUp() {
         patient = new Patient();
         patient.setHealthCard("JACM00000000");
         patient.setFirstName("James");
@@ -116,7 +116,6 @@ public class PatientValidationTest {
     @Test
     public void shouldDetectBlankFields() {
         Set<ConstraintViolation<Patient>> violations;
-        ConstraintViolation<Patient> violation;
         patient.setHealthCard("");
         patient.setFirstName("");
         patient.setLastName("");
