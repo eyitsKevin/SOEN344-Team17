@@ -1,6 +1,7 @@
 package com.soen344.ubersante.users.models;
 
 import com.soen344.ubersante.validation.ValidEmail;
+import com.soen344.ubersante.validation.ValidHealthCard;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -18,6 +19,7 @@ public class Patient {
 
     @Column(name = "health_card")
     @NotEmpty
+    @ValidHealthCard
     private String healthCard;
 
     @Column(name = "first_name")

@@ -16,4 +16,15 @@ public class PatientValidationTest {
         //TODO: test email validator
         assertTrue(true);
     }
+
+    @Test
+    public void whenValidHealthCard() {
+        //TODO: test health card validator
+        assertTrue(true);
+    }
+
+    @Test
+    public void whenInvalidHealthCard() {
+        //TODO: test health card validator
+    }
 }
