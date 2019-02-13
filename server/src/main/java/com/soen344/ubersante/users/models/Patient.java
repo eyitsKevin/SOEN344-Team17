@@ -1,7 +1,12 @@
 package com.soen344.ubersante.users.models;
 
+import com.soen344.ubersante.validation.ValidEmail;
+
 import javax.persistence.*;
-import java.sql.Date;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.Objects;
 
 @Entity
 @Table(name = "patient")
@@ -12,34 +17,43 @@ public class Patient {
     private long id;
 
     @Column(name = "health_card")
+    @NotEmpty
     private String healthCard;
 
     @Column(name = "first_name")
+    @NotEmpty
     private String firstName;
 
     @Column(name = "last_name")
+    @NotEmpty
     private String lastName;
 
     @Column(name = "birthday")
-    private Date birthday;
+    @NotNull
+    private String birthday;
 
     @Column(name = "gender")
+    @NotEmpty
+    @Pattern(regexp = "^Male$|^Female$|^Other$", message = "Gender must be either 'Male', 'Female', or 'Other'")
     private String gender;
 
     @Column(name = "phone")
+    @NotEmpty
     private String phone;
 
     @Column(name = "email")
+    @ValidEmail
     private String email;
 
     @Column(name = "address")
+    @NotEmpty
     private String address;
 
     public Patient() {
 
     }
 
-    public Patient(String healthCard, String firstName, String lastName, Date birthday, String gender, String phone, String email, String address) {
+    public Patient(String healthCard, String firstName, String lastName, String birthday, String gender, String phone, String email, String address) {
         this.healthCard = healthCard;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -73,7 +87,7 @@ public class Patient {
         this.lastName = lastName;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -105,7 +119,7 @@ public class Patient {
         return lastName;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
@@ -137,5 +151,18 @@ public class Patient {
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Patient)) return false;
+        Patient patient = (Patient) o;
+        return healthCard.equals(patient.healthCard);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(healthCard);
     }
 }
