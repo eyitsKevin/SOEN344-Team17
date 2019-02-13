@@ -1,11 +1,13 @@
-<!-- if logged-in is false, redirect to login page -->
 <div appLoggedIn>
 
     <app-header> </app-header>
 
     <app-sidenav> </app-sidenav>
 
-    <!-- depending type of user.... load right component -->
-    <router-outlet> </router-outlet> 
+    <div class = "content"> 
+
+        <router-outlet> </router-outlet> 
+
+    </div>
 
 </div>
