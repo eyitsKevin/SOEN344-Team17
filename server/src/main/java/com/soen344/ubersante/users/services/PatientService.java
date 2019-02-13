@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-public class PatientService {
+public class PatientService implements IPatientService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private IPatientService patientService;
 
     @Transactional
     public Patient registerNewPatient(PatientDto patientDto) throws PatientAlreadyExistsException {

@@ -1,9 +1,12 @@
 package com.soen344.ubersante.users.controllers;
 
 import com.soen344.ubersante.users.dto.PatientDto;
+import com.soen344.ubersante.users.exceptions.PatientAlreadyExistsException;
 import com.soen344.ubersante.users.models.Patient;
 import com.soen344.ubersante.users.repositories.PatientRepository;
+import com.soen344.ubersante.users.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +20,10 @@ import java.util.List;
 public class PatientController {
 
     @Autowired
-    PatientRepository patientRepository;
+    private PatientRepository patientRepository;
+
+    @Autowired
+    private PatientService patientService;
 
     @GetMapping("/all")
     public List<Patient> getAllPatients() {
@@ -30,8 +36,15 @@ public class PatientController {
     }
 
     @PostMapping("/registration")
-    @ResponseBody
-    public ResponseEntity<String> registerNewPatient(@Valid final PatientDto patientDto) {
-        
+    public ResponseEntity<String> registerNewPatient(@Valid @RequestBody final PatientDto patientDto) {
+
+        try {
+            patientService.registerNewPatient(patientDto);
+        } catch (PatientAlreadyExistsException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>("Patient Successfully Registered", HttpStatus.CREATED);
     }
 }
