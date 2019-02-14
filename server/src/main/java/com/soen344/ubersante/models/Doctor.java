@@ -1,16 +1,13 @@
-package com.soen344.ubersante.users.models;
+package com.soen344.ubersante.models;
 
 import com.soen344.ubersante.validation.ValidPermitNumber;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
@@ -23,7 +20,6 @@ public class Doctor {
     private long id;
 
     @Column(name = "permit_number")
-    @NotEmpty
     @ValidPermitNumber
     private String permitNumber;
 
@@ -43,7 +39,7 @@ public class Doctor {
     @NotEmpty
     private String city;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 60)
     private String password;
 
     public Doctor() {
