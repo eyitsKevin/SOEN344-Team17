@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({TYPE, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = PermitNumberValidator.class)
+@Constraint(validatedBy = AccessIdValidator.class)
 @Documented
 public @interface ValidAccessID {
 

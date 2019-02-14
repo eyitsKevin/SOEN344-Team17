@@ -1,8 +1,9 @@
-package com.soen344.ubersante.users.models;
+package com.soen344.ubersante.models;
 
 import com.soen344.ubersante.validation.ValidAccessID;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 
@@ -18,7 +19,8 @@ public class Nurse {
     @ValidAccessID
     private String accessID;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 60)
+    @NotEmpty
     private String password;
 
     public Nurse() {}

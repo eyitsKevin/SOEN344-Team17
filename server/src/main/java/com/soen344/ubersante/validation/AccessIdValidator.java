@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AccessIDValidator implements ConstraintValidator<ValidAccessID, String> {
+public class AccessIdValidator implements ConstraintValidator<ValidAccessID, String> {
 
     private Pattern pattern;
     private Matcher matcher;
