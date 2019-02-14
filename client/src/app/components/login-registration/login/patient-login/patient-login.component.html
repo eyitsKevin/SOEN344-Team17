@@ -1,10 +1,10 @@
 <form *ngIf="!this.register" [formGroup]="patientLogin" (ngSubmit)="onSubmit()">
   <div>
     <mat-form-field>
-      <input matInput placeholder="Healthcard Number" formControlName="healthNum">
+      <input matInput placeholder="Healthcard Number" formControlName="healthCard">
     </mat-form-field>
   </div>
-  <mat-error *ngIf="patientLogin.get('healthNum').hasError('pattern')">
+  <mat-error *ngIf="patientLogin.get('healthCard').hasError('pattern')">
     Please enter a valid healthcard number
   </mat-error>
   <div>

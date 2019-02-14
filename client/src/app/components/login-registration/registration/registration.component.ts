@@ -38,15 +38,15 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit() {
   if (this.patientRegistration.valid) {
-    // using spread operator to pass the values to the object
     const patient = {
      ...this.patientRegistration.value
     };
     this.http.post("http://localhost:8080/patients/registration", patient)
       .subscribe(data => {
         this.openSnackBar(data[0], "Close");
+        this.router.navigate(['']);
       },
-      error => { console.log(error); this.openSnackBar(error.error, "Close"); }
+      error => { this.openSnackBar(error.error, "Close"); }
       );
   }
   

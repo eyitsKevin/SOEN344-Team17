@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from "@angular/material";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-patient-login',
@@ -14,30 +16,48 @@ export class PatientLoginComponent implements OnInit {
   register = false;
   authenticated;
 
-  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router, private http: HttpClient, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    
+
     this.patientLogin = this.formBuilder.group({
-      healthNum: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
+      healthCard: ["", [Validators.required, Validators.pattern("^[A-Z,a-z]{4}([0-9]{8})$")]],
       password: ["", Validators.required]
-  });
+    });
 
   }
 
   onSubmit() {
-    this.login();
+    if (this.patientLogin.valid) {
+      const patient = {
+        ...this.patientLogin.value
+      };
+      this.http.post("http://localhost:8080/patients/login", patient)
+        .subscribe(data => {
+          this.login(data);
+          this.router.navigate(['']);
+        },
+          error => { console.log(error); this.openSnackBar(error.error, "Close"); }
+        );
+    }
   }
 
   registerPatient() {
     this.register = true;
   }
 
-  login(){
+  login(data) {
     this.authenticationService.changeAuthentication("patient");
+    this.authenticationService.changeUser(data);
     this.router.navigate(['patient']);
   }
 
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000,
+    });
   }
+
+}
 
 
