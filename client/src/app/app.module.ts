@@ -20,6 +20,7 @@ import { DoctorLoginComponent } from './components/login-registration/login/doct
 import { NurseLoginComponent } from './components/login-registration/login/nurse-login/nurse-login.component';
 import { MatSnackBarModule } from "@angular/material";
 import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { UserProfileComponent } from './components/shared/user-profile/user-prof
     PatientLoginComponent,
     DoctorLoginComponent,
     NurseLoginComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

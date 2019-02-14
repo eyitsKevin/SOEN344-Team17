@@ -9,9 +9,12 @@ import { Router } from '@angular/router';
 })
 export class SidenavComponent implements OnInit {
 
+  authenticated;
+
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
+    this.authenticationService.authenticated.subscribe(authenticated => this.authenticated = authenticated);
   }
 
   logout() {

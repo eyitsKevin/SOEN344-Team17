@@ -2,7 +2,11 @@ i {
     font-size: 50px;
 }
 
-i:hover, h1:hover  {
+i:focus, h1:focus {
+    outline: none;
+}
+
+i:hover, h1:hover {
     cursor: pointer;
 }
 

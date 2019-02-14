@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login-registration/login/login.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SiteComponent } from './components/shared/site/site.component';
 import { PatientComponent } from './components/patients/patient/patient.component';
 import { DoctorComponent } from './components/doctors/doctor/doctor.component';
@@ -19,7 +20,9 @@ const routes: Routes = [
     { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent},
     { path: 'user-profile', component: UserProfileComponent}
   ]},
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({
