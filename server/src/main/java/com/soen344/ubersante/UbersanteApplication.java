@@ -9,6 +9,5 @@ public class UbersanteApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UbersanteApplication.class, args);
 	}
-
 }
 

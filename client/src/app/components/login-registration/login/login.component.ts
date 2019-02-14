@@ -10,14 +10,11 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   authenticated;
+  toggleValue = "patient";
 
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  login(){
-    this.authenticationService.changeAuthentication(true);
-    this.router.navigate(['']);
-  }
 }
