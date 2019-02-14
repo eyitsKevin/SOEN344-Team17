@@ -35,7 +35,7 @@ export class PatientLoginComponent implements OnInit {
       this.http.post("http://localhost:8080/patients/login", patient)
         .subscribe(data => {
           this.login(data);
-          this.router.navigate(['']);
+          this.router.navigate(['patient']);
         },
           error => { console.log(error); this.openSnackBar(error.error, "Close"); }
         );

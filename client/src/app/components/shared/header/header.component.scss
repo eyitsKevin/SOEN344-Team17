@@ -2,6 +2,10 @@ i {
     font-size: 50px;
 }
 
+i:hover, h1:hover  {
+    cursor: pointer;
+}
+
 .mdc-layout-grid {
     background-color: rgb(107, 165, 189);
     padding: 30px;

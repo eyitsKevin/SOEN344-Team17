@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DoctorLoginComponent } from './components/login-registration/login/doctor-login/doctor-login.component';
 import { NurseLoginComponent } from './components/login-registration/login/nurse-login/nurse-login.component';
 import { MatSnackBarModule } from "@angular/material";
+import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MatSnackBarModule } from "@angular/material";
     LoggedInDirective,
     PatientLoginComponent,
     DoctorLoginComponent,
-    NurseLoginComponent
+    NurseLoginComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
