@@ -13,7 +13,7 @@ export class LoggedInDirective {
 
     this.authenticationService.authenticated.subscribe(authentication => this.authenticated = authentication);
     
-    if(!this.authenticated){
+    if(this.authenticated==null){
       this.router.navigate(['login']);
     }
   }

@@ -1,3 +1,37 @@
-<p>
-  registration works!
-</p>
+<form [formGroup]="patientRegistration" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input matInput placeholder="Healthcard Number" formControlName="healthNum">
+  </mat-form-field>
+  <mat-error *ngIf="patientRegistration.get('healthNum').hasError('pattern')">
+    Please enter a valid healthcard number
+  </mat-error>
+  <mat-form-field>
+    <input matInput placeholder="Birthday" formControlName="birthday">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Gender" formControlName="gender">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Phone Number" formControlName="phone">
+  </mat-form-field>
+  <mat-error *ngIf="patientRegistration.get('phone').hasError('pattern')">
+    Please enter a valid phone number
+  </mat-error>
+  <mat-form-field>
+    <input matInput placeholder="Email" formControlName="email" name="email">
+  </mat-form-field>
+  <mat-error *ngIf="patientRegistration.get('email').hasError('pattern')">
+    Please enter a valid email
+  </mat-error>
+  <mat-form-field>
+    <input matInput placeholder="Address" formControlName="address" name="address">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Password" formControlName="password">
+  </mat-form-field>
+  <div>
+    <button mat-raised-button type="submit" mat-button> Register </button>
+    <button mat-raised-button (click)="cancel()" mat-button> Cancel </button>
+  </div>
+
+</form>

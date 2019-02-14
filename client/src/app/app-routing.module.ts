@@ -5,14 +5,17 @@ import { SiteComponent } from './components/shared/site/site.component';
 import { PatientComponent } from './components/patients/patient/patient.component';
 import { DoctorComponent } from './components/doctors/doctor/doctor.component';
 import { NurseComponent } from './components/nurses/nurse/nurse.component';
+import { DoctorAuthenticationGuard } from './guards/doctor-authentication.guard';
+import { PatientAuthenticationGuard } from './guards/patient-authentication.guard';
+import { NurseAuthenticationGuard } from './guards/nurse-authentication.guard';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
   //will need guards
   children: [
-    { path: '', component: PatientComponent},
-    { path: '', component: DoctorComponent},
-    { path: '', component: NurseComponent}
+    { path: 'patient', canActivate: [PatientAuthenticationGuard], component: PatientComponent},
+    { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: DoctorComponent},
+    { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent}
   ]},
   {path: 'login', component: LoginComponent}
 ];
