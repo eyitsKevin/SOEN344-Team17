@@ -21,7 +21,7 @@ public class DoctorLoginForm {
         return password;
     }
 
-    public void setPermitNumber(String healthCard) {
+    public void setPermitNumber(String permitNumber) {
         this.permitNumber = permitNumber;
     }
 
