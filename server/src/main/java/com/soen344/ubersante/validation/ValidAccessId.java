@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = AccessIdValidator.class)
 @Documented
-public @interface ValidAccessID {
+public @interface ValidAccessId {
 
     String message() default "Invalid access ID";
 

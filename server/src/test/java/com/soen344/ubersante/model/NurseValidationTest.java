@@ -33,8 +33,10 @@ public class NurseValidationTest {
     @Before
     public void setUp() {
         nurse = new Nurse();
-        nurse.setAccessID("DOL96315");
+        nurse.setAccessId("DOL96315");
         nurse.setPassword("12345");
+        nurse.setFirstName("testname");
+        nurse.setLastName("lastname");
     }
 
     @Test
@@ -48,11 +50,13 @@ public class NurseValidationTest {
     @Test
     public void shouldDetectBlankFields() {
         Set<ConstraintViolation<Nurse>> violations;
-        nurse.setAccessID("");
+        nurse.setAccessId("");
         nurse.setPassword("");
+        nurse.setFirstName("");
+        nurse.setLastName("");
 
         violations = validator.validate(nurse);
-        assertEquals("Detect all blank fields", 2, violations.size());
+        assertEquals("Detect all blank fields", 4, violations.size());
     }
 
     @Test
@@ -60,36 +64,36 @@ public class NurseValidationTest {
         Set<ConstraintViolation<Nurse>> violations;
         ConstraintViolation<Nurse> violation;
 
-        nurse.setAccessID("notvalid");
+        nurse.setAccessId("notvalid");
         violations = validator.validate(nurse);
         assertEquals(1, violations.size());
         violation = violations.iterator().next();
         assertEquals("Invalid access ID", violation.getMessage());
-        assertEquals("accessID", violation.getPropertyPath().toString());
+        assertEquals("accessId", violation.getPropertyPath().toString());
         assertEquals("notvalid", violation.getInvalidValue());
 
-        nurse.setAccessID("DOLL1234");
+        nurse.setAccessId("DOLL1234");
         violations = validator.validate(nurse);
         assertEquals(1, violations.size());
         violation = violations.iterator().next();
         assertEquals("Invalid access ID", violation.getMessage());
-        assertEquals("accessID", violation.getPropertyPath().toString());
+        assertEquals("accessId", violation.getPropertyPath().toString());
         assertEquals("DOLL1234", violation.getInvalidValue());
 
-        nurse.setAccessID("DO11234");
+        nurse.setAccessId("DO11234");
         violations = validator.validate(nurse);
         assertEquals(1, violations.size());
         violation = violations.iterator().next();
         assertEquals("Invalid access ID", violation.getMessage());
-        assertEquals("accessID", violation.getPropertyPath().toString());
+        assertEquals("accessId", violation.getPropertyPath().toString());
         assertEquals("DO11234", violation.getInvalidValue());
 
-        nurse.setAccessID("13212345");
+        nurse.setAccessId("13212345");
         violations = validator.validate(nurse);
         assertEquals(1, violations.size());
         violation = violations.iterator().next();
         assertEquals("Invalid access ID", violation.getMessage());
-        assertEquals("accessID", violation.getPropertyPath().toString());
+        assertEquals("accessId", violation.getPropertyPath().toString());
         assertEquals("13212345", violation.getInvalidValue());
     }
 

@@ -1,6 +1,6 @@
 package com.soen344.ubersante.models;
 
-import com.soen344.ubersante.validation.ValidAccessID;
+import com.soen344.ubersante.validation.ValidAccessId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -16,8 +16,16 @@ public class Nurse {
     private long id;
 
     @Column(name = "access_id")
-    @ValidAccessID
-    private String accessID;
+    @ValidAccessId
+    private String accessId;
+
+    @Column(name = "first_name")
+    @NotEmpty
+    private String firstName;
+
+    @Column(name = "last_name")
+    @NotEmpty
+    private String lastName;
 
     @Column(name = "password", length = 60)
     @NotEmpty
@@ -25,22 +33,31 @@ public class Nurse {
 
     public Nurse() {}
 
-    public Nurse(String accessID, String password) {
-        this.accessID = accessID;
+    public Nurse(String accessId, String password) {
+        this.accessId = accessId;
         this.password = password;
     }
 
     public Nurse(Nurse nurse) {
-        this.accessID = nurse.getAccessID();
+        this.accessId = nurse.getAccessId();
         this.password = nurse.getPassword();
     }
 
-    public String getAccessID() {
-        return accessID;
+
+    public long getId() {
+        return id;
     }
 
-    public void setAccessID(String accessID) {
-        this.accessID = accessID;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getAccessId() {
+        return accessId;
+    }
+
+    public void setAccessId(String accessId) {
+        this.accessId = accessId;
     }
 
     public String getPassword() {
@@ -51,10 +68,26 @@ public class Nurse {
         this.password = password;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     @Override
     public String toString() {
         return "Nurse{" +
-                "accessID='" + accessID + '\'' +
+                "accessId='" + accessId + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
@@ -64,11 +97,11 @@ public class Nurse {
         if (this == o) return true;
         if (!(o instanceof Nurse)) return false;
         Nurse nurse = (Nurse) o;
-        return accessID.equals(nurse.accessID);
+        return accessId.equals(nurse.accessId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accessID);
+        return Objects.hash(accessId);
     }
 }
