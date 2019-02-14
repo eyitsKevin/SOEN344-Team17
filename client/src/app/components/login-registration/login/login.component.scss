@@ -1,0 +1,27 @@
+.form {
+    float: right;
+    height: 800px;
+    background-image: linear-gradient(rgb(207, 223, 230), white);
+    opacity: 0.95;
+    width: 40%;
+    text-align: center;
+    padding: 10px;
+    padding-top: 80px;
+}
+
+.background {
+    background-image: url("../../../../assets/cover-photo.jpg");
+    background-size: 1510px;
+    height: 890px;
+}
+
+.loginUser {
+    margin-top: 10%;
+}
+
+mat-button-toggle-group {
+    margin-bottom: 5%;
+}
+
+
+
