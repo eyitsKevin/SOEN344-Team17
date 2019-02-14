@@ -7,9 +7,6 @@ import java.util.regex.Pattern;
 
 public class PermitNumberValidator implements ConstraintValidator<ValidPermitNumber, String> {
 
-    private Pattern pattern;
-    private Matcher matcher;
-
     private static final String VALID_PERMIT_NUMBER = "^[0-9]{7}$";
 
     public void initialize(final ValidPermitNumber constraintAnnotation) {}
@@ -19,8 +16,8 @@ public class PermitNumberValidator implements ConstraintValidator<ValidPermitNum
     }
 
     private boolean validatePermitNumber(String permitNumber) {
-        pattern = Pattern.compile(VALID_PERMIT_NUMBER);
-        matcher = pattern.matcher(permitNumber);
+        Pattern pattern = Pattern.compile(VALID_PERMIT_NUMBER);
+        Matcher matcher = pattern.matcher(permitNumber);
 
         return matcher.matches();
     }

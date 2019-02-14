@@ -7,9 +7,6 @@ import java.util.regex.Pattern;
 
 public class AccessIdValidator implements ConstraintValidator<ValidAccessId, String> {
 
-    private Pattern pattern;
-    private Matcher matcher;
-
     private static final String VALID_ACCESS_ID = "^[a-zA-Z]{3}[0-9]{5}$";
 
     public void initialize(final ValidAccessId constraintAnnotation) {}
@@ -19,8 +16,8 @@ public class AccessIdValidator implements ConstraintValidator<ValidAccessId, Str
     }
 
     private boolean validateAccessID(String accessID) {
-        pattern = Pattern.compile(VALID_ACCESS_ID);
-        matcher = pattern.matcher(accessID);
+        Pattern pattern = Pattern.compile(VALID_ACCESS_ID);
+        Matcher matcher = pattern.matcher(accessID);
 
         return matcher.matches();
     }
