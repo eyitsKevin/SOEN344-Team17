@@ -18,6 +18,7 @@ import { PatientLoginComponent } from './components/login-registration/login/pat
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DoctorLoginComponent } from './components/login-registration/login/doctor-login/doctor-login.component';
 import { NurseLoginComponent } from './components/login-registration/login/nurse-login/nurse-login.component';
+import { MatSnackBarModule } from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { NurseLoginComponent } from './components/login-registration/login/nurse
     MatToolbarModule, 
     MatSidenavModule, 
     MatIconModule, 
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
