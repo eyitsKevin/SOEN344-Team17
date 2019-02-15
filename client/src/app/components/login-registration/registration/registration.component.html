@@ -1,42 +1,52 @@
 <form [formGroup]="patientRegistration" (ngSubmit)="onSubmit()">
   <mat-form-field>
-    <input matInput placeholder="Healthcard #" formControlName="healthCard">
-  </mat-form-field>
-  <mat-error *ngIf="patientRegistration.get('healthCard').hasError('pattern')">
-      Please enter a valid healthcard number
-    </mat-error>
-  <mat-form-field>
     <input matInput placeholder="First Name" formControlName="firstName">
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Last Name" formControlName="lastName">
   </mat-form-field>
+  <br>
   <mat-form-field>
-    <input matInput placeholder="Birthday" formControlName="birthday">
+    <input matInput placeholder="Healthcard #" formControlName="healthCard">
+    <mat-error *ngIf="patientRegistration.get('healthCard').hasError('pattern')">
+        Invalid healthcard #
+      </mat-error>
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Gender" formControlName="gender">
+    <input matInput [matDatepicker]="picker" placeholder="Birthday" formControlName="birthday">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Phone Number" formControlName="phone">
+    <select matNativeControl placeholder="Gender" formControlName="gender">
+      <option value="female">Female</option>
+      <option value="male">Male</option>
+      <option value="other">Other</option>
+    </select>
   </mat-form-field>
-  <mat-error *ngIf="patientRegistration.get('phone').hasError('pattern')">
-    Please enter a valid phone number
-  </mat-error>
+  <mat-form-field>
+    <input matInput placeholder="Phone #" formControlName="phone">
+    <mat-error *ngIf="patientRegistration.get('phone').hasError('pattern')">
+        Invalid phone number
+      </mat-error>
+  </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Email" formControlName="email" name="email">
+    <mat-error *ngIf="patientRegistration.get('email').hasError('pattern')">
+        Invalid email
+      </mat-error>
   </mat-form-field>
-  <mat-error *ngIf="patientRegistration.get('email').hasError('pattern')">
-    Please enter a valid email
-  </mat-error>
+
   <mat-form-field>
     <input matInput placeholder="Address" formControlName="address" name="address">
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Password" formControlName="password">
+  <br>
+  <p id="password"> Create new password </p>
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="Password" type="password" formControlName="password">
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Confirm Password" formControlName="matchingPassword">
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="Confirm Password" type="password" formControlName="matchingPassword">
   </mat-form-field>
   <div>
     <button mat-raised-button type="submit" mat-button> Register </button>

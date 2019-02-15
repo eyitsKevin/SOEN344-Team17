@@ -21,6 +21,9 @@ import { NurseLoginComponent } from './components/login-registration/login/nurse
 import { MatSnackBarModule } from "@angular/material";
 import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -55,9 +58,11 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     MatSidenavModule, 
     MatIconModule, 
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [],
+  providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

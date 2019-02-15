@@ -2,17 +2,17 @@
   <div>
     <mat-form-field>
       <input matInput placeholder="Nurse Access ID" formControlName="nurseID">
+      <mat-error *ngIf="nurseLogin.get('nurseID').hasError('pattern')">
+          Please enter a valid ID
+        </mat-error>
     </mat-form-field>
   </div>
-  <mat-error *ngIf="nurseLogin.get('nurseID').hasError('pattern')">
-    Please enter a valid ID
-  </mat-error>
   <div>
     <mat-form-field>
       <input matInput placeholder="Password" formControlName="password">
     </mat-form-field>
   </div>
-  <div>
+  <div class="button">
     <button mat-raised-button type="submit" mat-button> Login </button>
   </div>
 
