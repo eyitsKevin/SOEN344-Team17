@@ -40,6 +40,7 @@ public class Doctor {
     private String city;
 
     @Column(name = "password", length = 60)
+    @NotEmpty
     private String password;
 
     public Doctor() {

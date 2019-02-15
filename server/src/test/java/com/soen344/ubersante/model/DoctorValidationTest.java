@@ -60,7 +60,7 @@ public class DoctorValidationTest {
         assertEquals(1, violations.size());
 
         ConstraintViolation<Doctor> violation = violations.iterator().next();
-        assertEquals("Invalid Permit Number", violation.getMessage());
+        assertEquals("Invalid permit number", violation.getMessage());
         assertEquals("permitNumber", violation.getPropertyPath().toString());
         assertEquals("InvalidPermitNumber", violation.getInvalidValue());
     }
