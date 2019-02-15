@@ -1,4 +1,4 @@
-package com.soen344.ubersante;
+package com.soen344.ubersante.model;
 
 import com.soen344.ubersante.models.Doctor;
 import org.junit.AfterClass;
@@ -16,18 +16,6 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 public class DoctorValidationTest {
-
-    @Test
-    public void whenInvalidPermitNumber() {
-        //TODO: permit number test validator
-        assertTrue(true);
-    }
-
-    @Test
-    public void whenValidPermitNumber() {
-        //TODO: test permit number validator
-        assertTrue(true);
-    }
 
     private static ValidatorFactory validatorFactory;
     private static Validator validator;

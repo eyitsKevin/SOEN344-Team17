@@ -6,7 +6,6 @@ import javax.validation.constraints.NotEmpty;
 
 public class DoctorLoginForm {
 
-    @NotEmpty
     @ValidPermitNumber
     private String permitNumber;
 

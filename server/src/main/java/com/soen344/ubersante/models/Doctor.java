@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity
-@Table (name = "doctor")
+@Table(name = "doctor")
 public class Doctor {
 
     @Id
