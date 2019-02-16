@@ -50,6 +50,7 @@ public class Patient {
     private String address;
 
     @Column(name = "password", length = 60)
+    @NotEmpty
     private String password;
 
 
