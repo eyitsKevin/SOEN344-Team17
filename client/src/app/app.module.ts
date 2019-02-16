@@ -18,6 +18,10 @@ import { PatientLoginComponent } from './components/login-registration/login/pat
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DoctorLoginComponent } from './components/login-registration/login/doctor-login/doctor-login.component';
 import { NurseLoginComponent } from './components/login-registration/login/nurse-login/nurse-login.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 @NgModule({
   declarations: [
@@ -45,11 +49,18 @@ import { NurseLoginComponent } from './components/login-registration/login/nurse
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatButtonToggleModule, 
-    MatToolbarModule, 
-    MatSidenavModule, 
-    MatIconModule, 
-    MatSelectModule
+    MatButtonToggleModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatSelectModule,
+    NgbModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
