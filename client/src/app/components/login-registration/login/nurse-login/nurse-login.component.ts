@@ -20,7 +20,7 @@ export class NurseLoginComponent implements OnInit {
   ngOnInit() {
     
     this.nurseLogin = this.formBuilder.group({
-      nurseID: ["", [Validators.required, Validators.pattern("^[0-9]*$")]],
+      accessId: ["", [Validators.required, Validators.pattern("^[a-zA-Z]{3}[0-9]{5}$")]],
       password: ["", Validators.required]
   });
 
@@ -28,10 +28,10 @@ export class NurseLoginComponent implements OnInit {
 
   onSubmit() {
     if (this.nurseLogin.valid) {
-      const patient = {
+      const nurse = {
         ...this.nurseLogin.value
       };
-      this.http.post("http://localhost:8080/nurses/login", patient)
+      this.http.post("http://localhost:8080/nurses/login", nurse)
         .subscribe(data => {
           this.login(data);
         },

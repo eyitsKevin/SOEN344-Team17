@@ -1,8 +1,8 @@
 <form [formGroup]="nurseLogin" (ngSubmit)="onSubmit()">
   <div>
     <mat-form-field>
-      <input matInput placeholder="Nurse Access ID" formControlName="nurseID">
-      <mat-error *ngIf="nurseLogin.get('nurseID').hasError('pattern')">
+      <input matInput placeholder="Nurse Access ID" formControlName="accessId">
+      <mat-error *ngIf="nurseLogin.get('accessId').hasError('pattern')">
           Please enter a valid ID
         </mat-error>
     </mat-form-field>
