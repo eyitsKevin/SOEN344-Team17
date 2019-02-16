@@ -22,4 +22,5 @@ public class PermitNumberValidator implements ConstraintValidator<ValidPermitNum
         return matcher.matches();
     }
 
+
 }
