@@ -44,7 +44,7 @@ export class NurseLoginComponent implements OnInit {
     this.authenticationService.changeAuthentication("nurse");
     this.authenticationService.changeUser(data);
     localStorage.setItem("authentication", "nurse");
-    localStorage.setItem("user", data);
+    localStorage.setItem("user", JSON.stringify(data));
     this.router.navigate(['nurse']);
   }
 
