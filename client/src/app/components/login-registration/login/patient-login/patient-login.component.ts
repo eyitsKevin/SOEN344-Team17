@@ -48,6 +48,9 @@ export class PatientLoginComponent implements OnInit {
   login(data) {
     this.authenticationService.changeAuthentication("patient");
     this.authenticationService.changeUser(data);
+    console.log(data);
+    localStorage.setItem("authentication", "patient");
+    localStorage.setItem("user", JSON.stringify(data));
     this.router.navigate(['patient']);
   }
 

@@ -11,6 +11,11 @@ export class LoggedInDirective {
 
   constructor(private authenticationService: AuthenticationService, private router: Router) { 
 
+    if(localStorage.authentication!=null){
+      this.authenticationService.changeAuthentication(localStorage.authentication);
+      this.authenticationService.changeUser(JSON.parse(localStorage.getItem('user')));
+    }
+
     this.authenticationService.authenticated.subscribe(authentication => this.authenticated = authentication);
     
     if(this.authenticated==null){
