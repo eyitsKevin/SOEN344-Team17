@@ -1,21 +1,26 @@
 <form *ngIf="!this.register" [formGroup]="patientLogin" (ngSubmit)="onSubmit()">
+  <div>
     <mat-form-field>
-      <input matInput placeholder="Healthcard Number" formControlName="healthNum">
+      <input matInput placeholder="Healthcard Number" formControlName="healthCard">
+      <mat-error *ngIf="patientLogin.get('healthCard').hasError('pattern')">
+          Please enter a valid healthcard number
+        </mat-error>
     </mat-form-field>
-    <mat-error *ngIf="patientLogin.get('healthNum').hasError('pattern')">
-      Please enter a valid healthcard number
-    </mat-error>
+  </div>
+  <div>
     <mat-form-field>
-        <input matInput placeholder="Password" formControlName="password">
-      </mat-form-field>
-    <div>
-      <button mat-raised-button type="submit" mat-button> Login </button>
-    </div>
+      <input matInput placeholder="Password" type="password" formControlName="password">
+    </mat-form-field>
+  </div>
 
-    <div>
-        <button mat-button (click)="registerPatient()">New to UberSante? Register now.</button>
-    </div>
+  <div class="button">
+    <button mat-raised-button type="submit" mat-button> Login </button>
+  </div>
+
+  <div class="button">
+    <button mat-button (click)="registerPatient()">New to UberSante? Register now.</button>
+  </div>
 
 </form>
 
-<app-registration *ngIf="this.register" > </app-registration>
+<app-registration *ngIf="this.register"> </app-registration>

@@ -18,6 +18,12 @@ import { PatientLoginComponent } from './components/login-registration/login/pat
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DoctorLoginComponent } from './components/login-registration/login/doctor-login/doctor-login.component';
 import { NurseLoginComponent } from './components/login-registration/login/nurse-login/nurse-login.component';
+import { MatSnackBarModule } from "@angular/material";
+import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +39,9 @@ import { NurseLoginComponent } from './components/login-registration/login/nurse
     LoggedInDirective,
     PatientLoginComponent,
     DoctorLoginComponent,
-    NurseLoginComponent
+    NurseLoginComponent,
+    UserProfileComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -49,9 +57,12 @@ import { NurseLoginComponent } from './components/login-registration/login/nurse
     MatToolbarModule, 
     MatSidenavModule, 
     MatIconModule, 
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [],
+  providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
