@@ -25,6 +25,12 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { DoctorViewAllComponent } from './components/doctors/doctor-view-all/doctor-view-all.component';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component';
+import { MatSnackBarModule } from "@angular/material";
+import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -38,11 +44,13 @@ import { DoctorCalendarViewComponent } from './components/doctors/doctor-calenda
     NurseComponent,
     RegistrationComponent,
     SiteComponent,
-    LoggedInDirective, 
+    LoggedInDirective,
     PatientLoginComponent,
     DoctorLoginComponent,
     NurseLoginComponent,
-    DoctorCalendarViewComponent
+    DoctorCalendarViewComponent,
+    UserProfileComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -56,10 +64,10 @@ import { DoctorCalendarViewComponent } from './components/doctors/doctor-calenda
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatButtonToggleModule, 
-    MatToolbarModule, 
-    MatSidenavModule, 
-    MatIconModule, 
+    MatButtonToggleModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
     MatSelectModule,
     NgbModalModule,
     CalendarModule.forRoot({
@@ -67,8 +75,12 @@ import { DoctorCalendarViewComponent } from './components/doctors/doctor-calenda
       useFactory: adapterFactory
     })
   ],
-  providers: [],
   bootstrap: [AppComponent],
-  exports: [DoctorCalendarViewComponent]
+  exports: [DoctorCalendarViewComponent,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
+  providers: [MatDatepickerModule]
 })
 export class AppModule { }

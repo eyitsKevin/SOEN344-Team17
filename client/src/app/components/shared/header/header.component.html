@@ -1,14 +1,14 @@
 <div class="mdc-layout-grid">
     <div class="mdc-layout-grid__inner">
       <div class="mdc-layout-grid__cell"> 
-          <h1> 〄 UberSante </h1>
+          <h1 routerLink="/{{authenticated}}"> 〄 UberSante </h1>
       </div>
       <div class="mdc-layout-grid__cell">
-          <p> Your are logged in as: </p>
-          <h1> Person.... </h1>
+          <p> You are logged in as: </p>
+          <h1 routerLink="/user-profile"> {{user.firstName}} </h1>
       </div>
       <div class="mdc-layout-grid__cell">
-       <i class="material-icons"> person_pin </i>
+       <i class="material-icons" routerLink="/user-profile"> person_pin </i>
       </div>
     </div>
   </div>

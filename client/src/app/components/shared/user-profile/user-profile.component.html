@@ -1,0 +1,10 @@
+<h1> User Profile </h1> 
+
+<div class = "content">
+    <table>
+        <tr *ngFor="let key of objectKeys(user)">
+            <td class = "key"> {{key}}</td>
+            <td class = "value"> {{user[key]}}</td>   
+        </tr>
+    </table>
+</div>
