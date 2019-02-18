@@ -201,3 +201,4 @@ buildNumber.properties
 
 /lib
 /production
+client/package-lock.json
