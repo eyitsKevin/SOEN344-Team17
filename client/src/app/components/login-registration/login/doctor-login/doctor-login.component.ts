@@ -43,7 +43,10 @@ export class DoctorLoginComponent implements OnInit {
   login(data) {
     this.authenticationService.changeAuthentication("doctor");
     this.authenticationService.changeUser(data);
+    localStorage.setItem("authentication", "doctor");
+    localStorage.setItem("user", JSON.stringify(data));
     this.router.navigate(['doctor']);
+
   }
 
   openSnackBar(message: string, action: string) {

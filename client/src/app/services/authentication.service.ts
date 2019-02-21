@@ -20,6 +20,5 @@ export class AuthenticationService {
 
   changeUser(user: Object){
     this.userSource.next(user);
-    console.log(user);
   }
 }
