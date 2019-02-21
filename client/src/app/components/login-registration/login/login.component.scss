@@ -1,18 +1,25 @@
 .form {
     float: right;
-    height: 800px;
+    height: 100%;
     background-image: linear-gradient(rgb(207, 223, 230), white);
-    opacity: 0.95;
-    width: 40%;
+    opacity: 0.99;
+    width: 35%;
     text-align: center;
     padding: 10px;
-    padding-top: 80px;
+    padding-top: 50px;
+    position: fixed;
+    right: 0;
 }
 
 .background {
-    background-image: url("../../../../assets/cover-photo.jpg");
-    background-size: 1510px;
-    height: 890px;
+    position: fixed;
+    height: 100%;
+    background-image: linear-gradient(rgb(207, 223, 230), rgb(69, 97, 109));
+    width: 100%;
+}
+
+.background img {
+    height: 100%;
 }
 
 .loginUser {

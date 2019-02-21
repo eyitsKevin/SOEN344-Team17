@@ -1,13 +1,25 @@
 .sidenav {
     background-color: rgb(255, 255, 255);
     float: left;
-    position: fixed;
+    position: absolute;
     width: 15%;
     border-right: solid rgb(206, 214, 218);
     height: 100%;
 }
 
-.option {
-    padding: 5%;
+.option div {
+    padding: 10%;
     border-bottom: solid rgb(206, 214, 218);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.option div:hover {
+    cursor: pointer;
+    color:rgb(120, 128, 132);
+}
+
+.option div:focus {
+    color:rgb(120, 128, 132);
+    outline: none;
 }
