@@ -32,7 +32,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { PatientBookingComponent } from './components/patients/patient-booking/patient-booking.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +44,7 @@ import { PatientBookingComponent } from './components/patients/patient-booking/p
     NurseComponent,
     RegistrationComponent,
     SiteComponent,
-    LoggedInDirective,
+    LoggedInDirective, 
     PatientLoginComponent,
     DoctorLoginComponent,
     NurseLoginComponent,
@@ -73,7 +72,7 @@ import { PatientBookingComponent } from './components/patients/patient-booking/p
     MatIconModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatNativeDateModule
     MatSelectModule,
     NgbModalModule,
     CalendarModule.forRoot({
