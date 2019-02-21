@@ -1,4 +1,6 @@
 # SOEN344-Team17
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1bd9b8dc141847e7a5664f49f9192ad9)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eyitsKevin/SOEN344-Team17&amp;utm_campaign=Badge_Grade)
+
 Uber Santé a walk-in clinics hassle free project is a system that will be used by patients and clinic personals.
 
 
