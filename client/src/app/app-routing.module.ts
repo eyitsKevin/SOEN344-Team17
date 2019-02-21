@@ -13,7 +13,6 @@ import { NurseAuthenticationGuard } from './guards/nurse-authentication.guard';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
-  //will need guards
   children: [
     { path: 'patient', canActivate: [PatientAuthenticationGuard], component: PatientComponent},
     { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: DoctorComponent},
