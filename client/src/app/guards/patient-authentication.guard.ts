@@ -13,6 +13,6 @@ export class PatientAuthenticationGuard implements CanActivate {
   
   canActivate(): boolean {
     this.authenticationService.authenticated.subscribe(authentication => this.authenticated = authentication);
-    return (this.authenticated==="patient");
+    return (this.authenticated==="patient" || localStorage.authenticated==="patient");
   }
 }

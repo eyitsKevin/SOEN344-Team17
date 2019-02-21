@@ -7,14 +7,14 @@ import { Router } from '@angular/router';
 })
 export class LoggedInDirective {
 
-  authenticated;
-
   constructor(private authenticationService: AuthenticationService, private router: Router) { 
-
-    this.authenticationService.authenticated.subscribe(authentication => this.authenticated = authentication);
     
-    if(this.authenticated==null){
+    if(localStorage.authentication==null){
       this.router.navigate(['login']);
+    }
+    else{
+      this.authenticationService.changeAuthentication(localStorage.authentication);
+      this.authenticationService.changeUser(JSON.parse(localStorage.getItem('user')));
     }
   }
 

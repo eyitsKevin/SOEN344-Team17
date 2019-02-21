@@ -20,6 +20,7 @@ export class SidenavComponent implements OnInit {
   logout() {
     this.authenticationService.changeAuthentication(null);
     this.authenticationService.changeUser(null);
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 
