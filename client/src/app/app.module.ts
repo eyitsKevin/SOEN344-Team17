@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule, MatDialogModule } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
 import { DoctorComponent } from './components/doctors/doctor/doctor.component';
@@ -30,6 +30,7 @@ import { UserProfileComponent } from './components/shared/user-profile/user-prof
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import { PatientBookingComponent } from './components/patients/patient-booking/patient-booking.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { MatNativeDateModule } from '@angular/material';
     NurseLoginComponent,
     DoctorCalendarViewComponent,
     UserProfileComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    PatientBookingComponent
   ],
   imports: [
     BrowserModule,
@@ -63,14 +65,15 @@ import { MatNativeDateModule } from '@angular/material';
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatButtonToggleModule, 
-    MatToolbarModule, 
-    MatSidenavModule, 
-    MatIconModule, 
-    MatSelectModule,
+    MatButtonToggleModule,
+    MatToolbarModule,
+    MatDialogModule,
+    MatSidenavModule,
+    MatIconModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatNativeDateModule
+    MatSelectModule,
     NgbModalModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -78,6 +81,7 @@ import { MatNativeDateModule } from '@angular/material';
     })
   ],
   bootstrap: [AppComponent],
+  entryComponents: [PatientBookingComponent],
   exports: [DoctorCalendarViewComponent],
   providers: [MatDatepickerModule]
 })
