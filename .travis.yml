@@ -1,0 +1,38 @@
+os:
+  - linux
+
+env:
+  - CODACY_PROJECT_TOKEN="4e184f934b624b2aaa35fcd811b27d8d"
+
+git:
+  submodules: false
+
+dist: trusty
+
+language: java
+jdk: oraclejdk8
+install: true
+
+notifications:
+  slack:
+    rooms:
+      - teamzucchini-soen390:1YoyQMulviiVqecj4QrKX9p6
+    on_success: never
+    on_failure: always
+
+before_install:
+  - sudo apt-get install jq
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar
+
+before_script:
+  - cd server
+  - mvn clean install
+
+jobs:
+  include:
+    - stage: Compile
+      language: java
+      script: mvn clean verify test
+
+after_success:
+  - java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r ./target/site/jacoco/jacoco.xml
