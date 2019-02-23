@@ -7,64 +7,40 @@
   </div>
   <div class="modal-body">
     <div>
-        <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Starts at</th>
-                <th>Ends at</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
-          
-            <tbody>
-              <tr>
-                <td>
-                  <p> {{modalData?.event.title}}</p>
-                </td>
-                <td>
-                  <input
-                    class="form-control"
-                    type="text"
-                    mwlFlatpickr
-                    [(ngModel)]="modalData?.event.start"
-                    (ngModelChange)="refresh.next()"
-                    [altInput]="true"
-                    [convertModelValue]="true"
-                    [enableTime]="true"
-                    dateFormat="Y-m-dTH:i"
-                    altFormat="F j, Y H:i"
-                    placeholder="Not set"
-                  />
-                </td>
-                <td>
-                    <input
-                      class="form-control"
-                      type="text"
-                      mwlFlatpickr
-                      [(ngModel)]="modalData?.event.end"
-                      (ngModelChange)="refresh.next()"
-                      [altInput]="true"
-                      [convertModelValue]="true"
-                      [enableTime]="true"
-                      dateFormat="Y-m-dTH:i"
-                      altFormat="F j, Y H:i"
-                      placeholder="Not set"
-                      disabled
-                    />
-                  </td>
-                <td>
-                  <button
-                    class="btn btn-danger"
-                    (click)="events.splice(index, 1); refresh.next(); close()"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Starts at</th>
+            <th>Ends at</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>
+              <p> {{modalData?.event.title}}</p>
+            </td>
+            <td>
+              <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="modalData?.event.start"
+                (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+                dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+            </td>
+            <td>
+              <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="modalData?.event.end"
+                (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+                dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" disabled />
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="events.splice(index, 1); refresh.next(); close()">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
   </div>
   <div class="modal-footer">
@@ -74,35 +50,18 @@
   </div>
 </ng-template>
 
-
-
-
 <div class="row text-center">
   <div class="col-md-4">
     <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        mwlCalendarPreviousView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="activeDayIsOpen = false"
-      >
+      <div class="btn btn-primary mb1 black bg-darken-4" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="activeDayIsOpen = false">
         Previous
       </div>
-      <div
-        class="btn btn-outline-secondary"
-        mwlCalendarToday
-        [(viewDate)]="viewDate"
-      >
+      <div class="btn btn-outline-secondary mb1 black bg-darken-4" mwlCalendarToday [(viewDate)]="viewDate">
         Today
       </div>
-      <div
-        class="btn btn-primary"
-        mwlCalendarNextView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="activeDayIsOpen = false"
-      >
+      <div class="btn btn-primary mb1 black bg-darken-4" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="activeDayIsOpen = false">
         Next
       </div>
     </div>
@@ -112,25 +71,13 @@
   </div>
   <div class="col-md-4">
     <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        (click)="view = CalendarView.Month"
-        [class.active]="view === CalendarView.Month"
-      >
+      <div class="btn btn-primary" (click)="view = CalendarView.Month" [class.active]="view === CalendarView.Month">
         Month
       </div>
-      <div
-        class="btn btn-primary"
-        (click)="view = CalendarView.Week"
-        [class.active]="view === CalendarView.Week"
-      >
+      <div class="btn btn-primary" (click)="view = CalendarView.Week" [class.active]="view === CalendarView.Week">
         Week
       </div>
-      <div
-        class="btn btn-primary"
-        (click)="view = CalendarView.Day"
-        [class.active]="view === CalendarView.Day"
-      >
+      <div class="btn btn-primary" (click)="view = CalendarView.Day" [class.active]="view === CalendarView.Day">
         Day
       </div>
     </div>
@@ -138,49 +85,34 @@
 </div>
 <br />
 <div [ngSwitch]="view">
-  <mwl-calendar-month-view
-    *ngSwitchCase="CalendarView.Month"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    [activeDayIsOpen]="activeDayIsOpen"
-    (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
+  <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+    [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-month-view>
-  <mwl-calendar-week-view
-    *ngSwitchCase="CalendarView.Week"
-    [viewDate]="viewDate"
-    [events]="events"
-    [dayStartHour]="8"
-    [dayEndHour]="20"
-    [hourSegments]="3"
-    [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
+  <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [dayStartHour]="8"
+    [dayEndHour]="20" [hourSegments]="3" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-week-view>
-  <mwl-calendar-day-view
-    *ngSwitchCase="CalendarView.Day"
-    [viewDate]="viewDate"
-    [events]="events"
-    [dayStartHour]="8"
-    [dayEndHour]="20"
-    [hourSegments]="3"
-    [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
+  <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [dayStartHour]="8"
+    [dayEndHour]="20" [hourSegments]="3" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-day-view>
 </div>
 
-<br>
-
-<h3>
-    Add availabilities
-  </h3>
-
-  <button mat-button (click)="addAvailability('walkin')">
-      Add Walk-In Availability
-   </button>
+<div class="fab">
+  <button class="add-button" mat-fab data-tooltip="Add Availability" color="primary" (click)="addAvailability('walkin')">
+    <mat-icon><i class="material-icons">add</i></mat-icon>
+  </button>
+  <ul class="fab-buttons">
+    <li class="fab-buttons__item">
+        <button mat-mini-fab data-tooltip="Add Walk-in" class = "walkin" (click)="addAvailability('walkin')">
+            <mat-icon><i class="material-icons">directions_walk</i></mat-icon>
+          </button>
+    </li>
+    <li class="fab-buttons__item">
+        <button mat-mini-fab data-tooltip="Add Annual Checkup" class = "annual" (click)="addAvailability('annual')">
+            <mat-icon><i class="material-icons">local_hospital</i></mat-icon>
+          </button>
+    </li>
+  </ul>
+</div>
