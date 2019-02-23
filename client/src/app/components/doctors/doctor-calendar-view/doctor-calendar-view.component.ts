@@ -89,11 +89,7 @@ export class DoctorCalendarViewComponent {
     }
   }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
+  eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
@@ -103,23 +99,29 @@ export class DoctorCalendarViewComponent {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
+
   }
 
   addAvailability(availabilityType): void {
     let startTime = new Date();
     startTime.setHours(8, 0, 0);
-    this.events.push({
+    let newEvent = {
       title: type[availabilityType].title,
       start: startTime,
-      end: new Date(startTime.getTime() + (20*60000)),
+      end: new Date(startTime.getTime() + ((type[availabilityType].duration)*60000)),
       color: type[availabilityType].color,
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    });
-    console.log(this.events[0].end);
+      draggable: true
+    };
+    this.handleEvent("add", newEvent);
     this.refresh.next();
   }
+
+  apply(action, event) {
+    if(action=="add") {
+      this.events.push(event);
+      this.refresh.next();
+    }
+  }
+
 }
+

@@ -1,6 +1,6 @@
 <ng-template #modalContent let-close="close">
   <div class="modal-header">
-    <h5 class="modal-title"> Edit Event</h5>
+    <h5 class="modal-title"> Event</h5>
     <button type="button" class="close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -13,7 +13,7 @@
             <th>Type</th>
             <th>Starts at</th>
             <th>Ends at</th>
-            <th>Remove</th>
+            <th *ngIf="modalData?.action !== 'add'" >Remove</th>
           </tr>
         </thead>
 
@@ -32,7 +32,7 @@
                 (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
                 dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" disabled />
             </td>
-            <td>
+            <td *ngIf="modalData?.action !== 'add'">
               <button class="btn btn-danger" (click)="events.splice(index, 1); refresh.next(); close()">
                 Delete
               </button>
@@ -44,7 +44,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+    <button type="button" (click) = "apply(modalData?.action, modalData?.event)" class="btn btn-outline-secondary" (click)="close()">
       Apply
     </button>
   </div>
@@ -86,21 +86,18 @@
 <br />
 <div [ngSwitch]="view">
   <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
-    [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="viewDate = $event.day.date; view = 'day'" (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-month-view>
   <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [dayStartHour]="8"
-    [dayEndHour]="20" [hourSegments]="3" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)">
+    [dayEndHour]="20" [hourSegments]="3" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-week-view>
   <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [dayStartHour]="8"
-    [dayEndHour]="20" [hourSegments]="3" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)">
+    [dayEndHour]="20" [hourSegments]="3" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-day-view>
 </div>
 
 <div class="fab">
-  <button class="add-button" mat-fab data-tooltip="Add Availability" color="primary" (click)="addAvailability('walkin')">
+  <button class="add-button" mat-fab data-tooltip="Add Availability" color="primary">
     <mat-icon><i class="material-icons">add</i></mat-icon>
   </button>
   <ul class="fab-buttons">
@@ -110,7 +107,7 @@
           </button>
     </li>
     <li class="fab-buttons__item">
-        <button mat-mini-fab data-tooltip="Add Annual Checkup" class = "annual" (click)="addAvailability('annual')">
+        <button mat-mini-fab data-tooltip="Add Annual Checkup" class = "checkup" (click)="addAvailability('checkup')">
             <mat-icon><i class="material-icons">local_hospital</i></mat-icon>
           </button>
     </li>
