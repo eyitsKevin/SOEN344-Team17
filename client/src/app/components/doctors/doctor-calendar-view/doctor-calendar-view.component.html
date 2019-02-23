@@ -30,7 +30,7 @@
             <td>
               <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="modalData?.event.end"
                 (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
-                dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" disabled />
+                dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
             </td>
             <td *ngIf="modalData?.action !== 'add'">
               <button class="btn btn-danger" (click)="events.splice(index, 1); refresh.next(); close()">
@@ -49,6 +49,8 @@
     </button>
   </div>
 </ng-template>
+
+<div class = "content">
 
 <div class="row text-center">
   <div class="col-md-4">
@@ -95,6 +97,9 @@
     [dayEndHour]="20" [hourSegments]="3" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-day-view>
 </div>
+
+</div>
+
 
 <div class="fab">
   <button class="add-button" mat-fab data-tooltip="Add Availability" color="primary">

@@ -1,3 +1,7 @@
+.content {
+    margin-right: 7%;
+}
+
 .walkin {
     background-color: #e3bc08;
 }
@@ -25,7 +29,7 @@
 }
 
 .fab:hover .fab-buttons__link {
-    transform: scaleY(1) scaleX(1) translateY(-16px) translateX(0px);
+    transform: scaleY(1) scaleX(1) translateY(-16px) translateX(0px) translateZ(1000000px);
 }
 
 .fab-buttons {
