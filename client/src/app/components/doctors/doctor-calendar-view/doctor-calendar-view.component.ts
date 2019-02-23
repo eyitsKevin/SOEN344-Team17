@@ -1,42 +1,33 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours
-} from 'date-fns';
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
+import { startOfHour, isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView
-} from 'angular-calendar';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
 const colors: any = {
   red: {
     primary: '#ad2121',
     secondary: '#FAE3E3'
   },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
   yellow: {
     primary: '#e3bc08',
     secondary: '#FDF1BA'
   }
 };
+
+const type: any = {
+  walkin: {
+    title: "Walk-In",
+    color: colors.yellow,
+    duration: 20
+  },
+  checkup: {
+    title: "Annual Checkup",
+    color: colors.red,
+    duration: 60
+  }
+};
+
 @Component({
   selector: 'app-doctor-calendar-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,7 +71,7 @@ export class DoctorCalendarViewComponent {
     
   ];
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
   constructor(private modal: NgbModal) {}
 
@@ -114,18 +105,21 @@ export class DoctorCalendarViewComponent {
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
-  addEvent(): void {
+  addAvailability(availabilityType): void {
+    let startTime = new Date();
+    startTime.setHours(8, 0, 0);
     this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: colors.red,
+      title: type[availabilityType].title,
+      start: startTime,
+      end: new Date(startTime.getTime() + (20*60000)),
+      color: type[availabilityType].color,
       draggable: true,
       resizable: {
         beforeStart: true,
         afterEnd: true
       }
     });
+    console.log(this.events[0].end);
     this.refresh.next();
   }
 }

@@ -1,0 +1,16 @@
+
+<h3>Your week</h3>
+<br />
+<div class = "calendar">
+  <mwl-calendar-week-view
+    [viewDate]="viewDate"
+    [dayStartHour]="8"
+    [dayEndHour]="20"
+    [hourSegments]="3"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-week-view>
+</div>

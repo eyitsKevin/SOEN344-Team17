@@ -1,26 +1,81 @@
 <ng-template #modalContent let-close="close">
   <div class="modal-header">
-    <h5 class="modal-title">Event action occurred</h5>
+    <h5 class="modal-title"> Edit Event</h5>
     <button type="button" class="close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div>
-      Action:
-      <pre>{{ modalData?.action }}</pre>
-    </div>
-    <div>
-      Event:
-      <pre>{{ modalData?.event | json }}</pre>
+        <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Starts at</th>
+                <th>Ends at</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+          
+            <tbody>
+              <tr>
+                <td>
+                  <p> {{modalData?.event.title}}</p>
+                </td>
+                <td>
+                  <input
+                    class="form-control"
+                    type="text"
+                    mwlFlatpickr
+                    [(ngModel)]="modalData?.event.start"
+                    (ngModelChange)="refresh.next()"
+                    [altInput]="true"
+                    [convertModelValue]="true"
+                    [enableTime]="true"
+                    dateFormat="Y-m-dTH:i"
+                    altFormat="F j, Y H:i"
+                    placeholder="Not set"
+                  />
+                </td>
+                <td>
+                    <input
+                      class="form-control"
+                      type="text"
+                      mwlFlatpickr
+                      [(ngModel)]="modalData?.event.end"
+                      (ngModelChange)="refresh.next()"
+                      [altInput]="true"
+                      [convertModelValue]="true"
+                      [enableTime]="true"
+                      dateFormat="Y-m-dTH:i"
+                      altFormat="F j, Y H:i"
+                      placeholder="Not set"
+                      disabled
+                    />
+                  </td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    (click)="events.splice(index, 1); refresh.next(); close()"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        
     </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="close()">
-      OK
+      Apply
     </button>
   </div>
 </ng-template>
+
+
+
 
 <div class="row text-center">
   <div class="col-md-4">
@@ -98,6 +153,9 @@
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
     [events]="events"
+    [dayStartHour]="8"
+    [dayEndHour]="20"
+    [hourSegments]="3"
     [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
@@ -107,9 +165,22 @@
     *ngSwitchCase="CalendarView.Day"
     [viewDate]="viewDate"
     [events]="events"
+    [dayStartHour]="8"
+    [dayEndHour]="20"
+    [hourSegments]="3"
     [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
   >
   </mwl-calendar-day-view>
 </div>
+
+<br>
+
+<h3>
+    Add availabilities
+  </h3>
+
+  <button mat-button (click)="addAvailability('walkin')">
+      Add Walk-In Availability
+   </button>

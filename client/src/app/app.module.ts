@@ -9,7 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
-import { DoctorComponent } from './components/doctors/doctor/doctor.component';
 import { PatientComponent } from './components/patients/patient/patient.component';
 import { LoginComponent } from './components/login-registration/login/login.component';
 import { NurseComponent } from './components/nurses/nurse/nurse.component';
@@ -23,21 +22,19 @@ import { NurseLoginComponent } from './components/login-registration/login/nurse
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { DoctorViewAllComponent } from './components/doctors/doctor-view-all/doctor-view-all.component';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component';
 import { MatSnackBarModule } from "@angular/material";
 import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import { ThisWeekComponent } from './components/doctors/this-week/this-week.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DoctorViewAllComponent,
     SidenavComponent,
-    DoctorComponent,
     PatientComponent,
     LoginComponent,
     NurseComponent,
@@ -49,7 +46,8 @@ import { MatNativeDateModule } from '@angular/material';
     NurseLoginComponent,
     DoctorCalendarViewComponent,
     UserProfileComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ThisWeekComponent
   ],
   imports: [
     BrowserModule,
