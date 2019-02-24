@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule, MatDialogModule } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
 import { PatientComponent } from './components/patients/patient/patient.component';
@@ -29,6 +29,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { ThisWeekComponent } from './components/doctors/this-week/this-week.component';
+import { PatientBookingComponent } from './components/patients/patient-booking/patient-booking.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ThisWeekComponent } from './components/doctors/this-week/this-week.comp
     DoctorCalendarViewComponent,
     UserProfileComponent,
     NotFoundComponent,
-    ThisWeekComponent
+    ThisWeekComponent,
+    PatientBookingComponent
   ],
   imports: [
     BrowserModule,
@@ -61,14 +63,15 @@ import { ThisWeekComponent } from './components/doctors/this-week/this-week.comp
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatButtonToggleModule, 
-    MatToolbarModule, 
-    MatSidenavModule, 
-    MatIconModule, 
-    MatSelectModule,
+    MatButtonToggleModule,
+    MatToolbarModule,
+    MatDialogModule,
+    MatSidenavModule,
+    MatIconModule,
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
     NgbModalModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -76,6 +79,7 @@ import { ThisWeekComponent } from './components/doctors/this-week/this-week.comp
     })
   ],
   bootstrap: [AppComponent],
+  entryComponents: [PatientBookingComponent],
   exports: [DoctorCalendarViewComponent],
   providers: [MatDatepickerModule]
 })
