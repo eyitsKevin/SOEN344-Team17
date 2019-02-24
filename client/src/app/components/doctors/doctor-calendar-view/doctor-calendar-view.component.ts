@@ -49,22 +49,6 @@ export class DoctorCalendarViewComponent {
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
-
   refresh: Subject<any> = new Subject();
 
   events: CalendarEvent[] = [
@@ -108,7 +92,8 @@ export class DoctorCalendarViewComponent {
     let newEvent = {
       title: type[availabilityType].title,
       start: startTime,
-      end: new Date(startTime.getTime() + ((type[availabilityType].duration)*60000)),
+      duration: type[availabilityType].duration,
+      end: null,
       color: type[availabilityType].color,
       draggable: true
     };
@@ -119,8 +104,9 @@ export class DoctorCalendarViewComponent {
   apply(action, event) {
     if(action=="add") {
       this.events.push(event);
-      this.refresh.next();
     }
+    event.end = new Date(event.start.getTime() + ((event.duration)*60000));
+    this.refresh.next();
   }
 
 }
