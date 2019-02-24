@@ -1,5 +1,7 @@
 .content {
-    margin-right: 7%;
+    margin-right: 20%;
+    margin-left: 5%;
+    font-size: 10px;
 }
 
 .walkin {
@@ -8,6 +10,20 @@
 
 .checkup {
     background-color: #ad2121;
+}
+
+.btn-primary {
+    background-color: grey;
+    border-color: grey;
+}
+
+.calendar {
+    background-color: white;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    background-color: darkgray;
+    border-color: darkgray;
 }
 
 *:focus {

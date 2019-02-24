@@ -2,11 +2,11 @@ i {
     font-size: 50px;
 }
 
-i:focus, h1:focus {
+i:focus, h2:focus, h5:focus {
     outline: none;
 }
 
-i:hover, h1:hover {
+i:hover, h2:hover, h5:hover {
     cursor: pointer;
     color: rgb(223, 223, 223);
 }
