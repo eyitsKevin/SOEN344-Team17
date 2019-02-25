@@ -90,9 +90,9 @@ export class DoctorCalendarViewComponent {
     let startTime = new Date();
     startTime.setHours(8, 0, 0);
     let newEvent = {
-      title: type[availabilityType].title,
-      start: startTime,
-      duration: type[availabilityType].duration,
+      title: type[availabilityType].title, //call type - send
+      start: startTime, //send
+      duration: type[availabilityType].duration, //send
       end: null,
       color: type[availabilityType].color,
       draggable: true
@@ -107,6 +107,15 @@ export class DoctorCalendarViewComponent {
     }
     event.end = new Date(event.start.getTime() + ((event.duration)*60000));
     this.refresh.next();
+  }
+
+  remove(eventStart) {
+    for(var i = 0; i < this.events.length; i++){
+      if(this.events[i].start == eventStart){
+        this.events.splice(i, 1); 
+      }
+    }
+    this.refresh.next(); 
   }
 
 }

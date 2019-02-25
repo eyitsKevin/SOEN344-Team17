@@ -30,7 +30,7 @@
               <p> {{modalData?.event.duration}} minutes </p>
             </td>
             <td *ngIf="modalData?.action !== 'add'">
-              <button class="btn btn-danger" (click)="events.splice(index, 1); refresh.next(); close()">
+              <button class="btn btn-danger" (click)="remove(modalData?.event.start); close()">
                 Delete
               </button>
             </td>
