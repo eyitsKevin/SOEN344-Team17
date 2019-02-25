@@ -1,5 +1,10 @@
-<div class = "sidenav">
-  <div class = "option"> 
-  <button mat-button> View... </button>
-</div>
+<div class="sidenav">
+  <div class="option">
+    <div routerLink="/{{authenticated}}">
+      <p> View... </p>
+    </div>
+    <div (click)="this.logout()">
+      <p> Logout </p>
+    </div>
+  </div>
 </div>

@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule, MatDialogModule } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
 import { DoctorComponent } from './components/doctors/doctor/doctor.component';
@@ -25,6 +25,12 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { DoctorViewAllComponent } from './components/doctors/doctor-view-all/doctor-view-all.component';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component';
+import { MatSnackBarModule } from "@angular/material";
+import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+import { PatientBookingComponent } from './components/patients/patient-booking/patient-booking.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +48,10 @@ import { DoctorCalendarViewComponent } from './components/doctors/doctor-calenda
     PatientLoginComponent,
     DoctorLoginComponent,
     NurseLoginComponent,
-    DoctorCalendarViewComponent
+    DoctorCalendarViewComponent,
+    UserProfileComponent,
+    NotFoundComponent,
+    PatientBookingComponent
   ],
   imports: [
     BrowserModule,
@@ -56,10 +65,14 @@ import { DoctorCalendarViewComponent } from './components/doctors/doctor-calenda
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatButtonToggleModule, 
-    MatToolbarModule, 
-    MatSidenavModule, 
-    MatIconModule, 
+    MatButtonToggleModule,
+    MatToolbarModule,
+    MatDialogModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
     MatSelectModule,
     NgbModalModule,
     CalendarModule.forRoot({
@@ -67,8 +80,9 @@ import { DoctorCalendarViewComponent } from './components/doctors/doctor-calenda
       useFactory: adapterFactory
     })
   ],
-  providers: [],
   bootstrap: [AppComponent],
-  exports: [DoctorCalendarViewComponent]
+  entryComponents: [PatientBookingComponent],
+  exports: [DoctorCalendarViewComponent],
+  providers: [MatDatepickerModule]
 })
 export class AppModule { }

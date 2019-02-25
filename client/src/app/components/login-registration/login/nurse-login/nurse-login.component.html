@@ -1,15 +1,19 @@
 <form [formGroup]="nurseLogin" (ngSubmit)="onSubmit()">
+  <div>
     <mat-form-field>
-      <input matInput placeholder="Nurse Access ID" formControlName="nurseID">
+      <input matInput placeholder="Nurse Access ID" formControlName="accessId">
+      <mat-error *ngIf="nurseLogin.get('accessId').hasError('pattern')">
+          Please enter a valid ID
+        </mat-error>
     </mat-form-field>
-    <mat-error *ngIf="nurseLogin.get('nurseID').hasError('pattern')">
-      Please enter a valid ID
-    </mat-error>
+  </div>
+  <div>
     <mat-form-field>
-        <input matInput placeholder="Password" formControlName="password">
-      </mat-form-field>
-    <div>
-      <button mat-raised-button type="submit" mat-button> Login </button>
-    </div>
+      <input matInput placeholder="Password" type="password" formControlName="password">
+    </mat-form-field>
+  </div>
+  <div class="button">
+    <button mat-raised-button type="submit" mat-button> Login </button>
+  </div>
 
 </form>
