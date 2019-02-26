@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,13 +26,13 @@ public class AvailabilityController {
     @Autowired
     private AvailabilityService availabilityService;
 
-    @GetMapping("/view")
-    public ResponseEntity getAvailabilityByMonth(@RequestBody LocalDateTime date) {
+    @RequestMapping(value = "/view/{month}", method = RequestMethod.GET)
+    public ResponseEntity getAvailabilityByMonth(@PathVariable String month) {
         try {
-            return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(date), HttpStatus.OK);
+            System.out.println(availabilityService.getAvailabilityByMonth(month));
+            return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>("Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
 }

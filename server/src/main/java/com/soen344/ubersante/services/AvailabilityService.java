@@ -20,7 +20,7 @@ public class AvailabilityService {
     @Autowired
     AvailabilityRepository availabilityRepository;
 
-    public List<Availability> getAvailabilityByMonth(LocalDateTime date) {
-        return availabilityRepository.findByAllByMonth(date);
+    public List<Availability> getAvailabilityByMonth(String month) {
+        return availabilityRepository.findAvailabilitiesByMonth(month);
     }
 }
