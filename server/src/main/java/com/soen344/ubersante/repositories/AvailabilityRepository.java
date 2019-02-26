@@ -1,11 +1,9 @@
 package com.soen344.ubersante.repositories;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.soen344.ubersante.models.Availability;
 
-import org.jboss.logging.Param;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
