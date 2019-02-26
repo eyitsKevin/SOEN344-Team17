@@ -15,15 +15,11 @@ public class AvailabilityController {
     @Autowired
     private AvailabilityService availabilityService;
 
-    @RequestMapping(value = "/view/{month}", method = RequestMethod.GET)
-    public ResponseEntity getAvailabilityByMonth(@PathVariable String month) {
+    @RequestMapping(value = "/view/{availabilityType}/{month}", method = RequestMethod.GET)
+    public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType) {
         int monthVal = Integer.parseInt(month);
         try {
-            if (0 < monthVal && monthVal <= 12) {
-                return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month), HttpStatus.OK);
-            } else {
-                throw new DateNotFoundException();
-            }
+            return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType), HttpStatus.OK);
         } catch(DateNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
