@@ -1,6 +1,7 @@
 package com.soen344.ubersante.controllers;
 
 import com.soen344.ubersante.exceptions.DateNotFoundException;
+import com.soen344.ubersante.exceptions.InvalidAppointmentException;
 import com.soen344.ubersante.services.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,11 +18,14 @@ public class AvailabilityController {
 
     @RequestMapping(value = "/view/{availabilityType}/{month}", method = RequestMethod.GET)
     public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType) {
-        int monthVal = Integer.parseInt(month);
         try {
             return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType), HttpStatus.OK);
         } catch(DateNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch(InvalidAppointmentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch(NumberFormatException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
