@@ -1,6 +1,7 @@
 package com.soen344.ubersante.controllers;
 
 import com.soen344.ubersante.dto.DoctorLoginForm;
+import com.soen344.ubersante.exceptions.DateNotFoundException;
 import com.soen344.ubersante.exceptions.DoctorNotFoundException;
 import com.soen344.ubersante.exceptions.InvalidPasswordException;
 import com.soen344.ubersante.models.Availability;
@@ -28,11 +29,15 @@ public class AvailabilityController {
 
     @RequestMapping(value = "/view/{month}", method = RequestMethod.GET)
     public ResponseEntity getAvailabilityByMonth(@PathVariable String month) {
+        int monthVal = Integer.parseInt(month);
         try {
-            System.out.println(availabilityService.getAvailabilityByMonth(month));
-            return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month), HttpStatus.OK);
-        } catch(Exception e) {
-            return new ResponseEntity<>("Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
+            if (0 < monthVal && monthVal <= 12) {
+                return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month), HttpStatus.OK);
+            } else {
+                throw new DateNotFoundException();
+            }
+        } catch(DateNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }
