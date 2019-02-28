@@ -1,0 +1,10 @@
+<div>
+<h2>Cart</h2>
+<ul>
+  <li *ngFor="let list of list">
+    <span class="badge">Appointment from {{list.start}} to {{list.end}} on {{list.day}}
+        </span>
+  </li>
+</ul>
+</div>
+<button *ngIf="this.list.length>=1" mat-button (click)="checkout()">Checkout</button>
