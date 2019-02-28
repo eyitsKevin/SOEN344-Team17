@@ -79,19 +79,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
   constructor(private modal: NgbModal, public dialog: MatDialog, private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
-    if(this.router.url.includes('walkin')) {
-      this.http
-      .get('http://localhost:8080/availability/view/walkin/3')
-      .subscribe((result: Array<Object>) => {
-        result.map(availability => this.addAppointmentToCalendar(availability))
-      });
-    } else if(this.router.url.includes('annual')) {
-      this.http
-      .get('http://localhost:8080/availability/view/annual/2')
-      .subscribe((result: Array<Object>) => {
-        result.map(availability => this.addAppointmentToCalendar(availability))
-      });
-    }
+    this.getNewAvailabilities();
   }
 
 
@@ -105,6 +93,22 @@ export class PatientViewAvailabilityComponent implements OnInit{
     }
     this.events.push(newEvent);
     this.refresh.next();
+  }
+
+  getNewAvailabilities(){
+    if(this.router.url.includes('walkin')) {
+      this.http
+      .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
+      .subscribe((result: Array<Object>) => {
+        result.map(availability => this.addAppointmentToCalendar(availability));
+      });
+    } else if(this.router.url.includes('annual')) {
+      this.http
+      .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
+      .subscribe((result: Array<Object>) => {
+        result.map(availability => this.addAppointmentToCalendar(availability));
+      });
+    }
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {

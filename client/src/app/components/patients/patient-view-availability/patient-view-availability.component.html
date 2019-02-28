@@ -11,7 +11,7 @@
         <div class="btn btn-outline-secondary mb1 black bg-darken-4" mwlCalendarToday [(viewDate)]="viewDate">
           Today
         </div>
-        <div class="btn btn-primary mb1 black bg-darken-4" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+        <div class="btn btn-primary mb1 black bg-darken-4" mwlCalendarNextView [view]="view" (click)="getNewAvailabilities()" [(viewDate)]="viewDate"
           (viewDateChange)="activeDayIsOpen = false">
           Next
         </div>
