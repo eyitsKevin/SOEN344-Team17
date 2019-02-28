@@ -17,7 +17,8 @@ const routes: Routes = [
   //will need guards
   children: [
     { path: 'patient', canActivate: [PatientAuthenticationGuard], component: PatientComponent},
-    { path: 'patient/book', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
+    { path: 'patient/book/walkin', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
+    { path: 'patient/book/annual', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
     { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: DoctorComponent},
     { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent},
     { path: 'user-profile', component: UserProfileComponent}

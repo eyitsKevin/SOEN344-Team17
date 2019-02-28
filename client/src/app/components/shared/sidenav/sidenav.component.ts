@@ -24,14 +24,4 @@ export class SidenavComponent implements OnInit {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
-
-  retrieveWalkin() {
-    this.http.get("http://localhost:8080/availability/view/walkin/3")
-      .subscribe(result => {console.log(result)});
-  }
-
-  retrieveAnnual() {
-    this.http.get("http://localhost:8080/availability/view/annual/2")
-      .subscribe(result => {console.log(result)});
-  }
 }

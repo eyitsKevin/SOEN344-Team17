@@ -2,7 +2,8 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
-  TemplateRef
+  TemplateRef,
+  OnInit
 } from '@angular/core';
 import {MatDialogModule, MatDialog} from '@angular/material/dialog';
 import {
@@ -24,6 +25,8 @@ import {
   CalendarView
 } from 'angular-calendar';
 import { PatientBookingComponent } from '../patient-booking/patient-booking.component';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 const colors: any = {
   red: {
@@ -45,7 +48,7 @@ const colors: any = {
     templateUrl: 'patient-view-availability.component.html',
     styleUrls: ['patient-view-availability.component.scss']
 })
-export class PatientViewAvailabilityComponent {
+export class PatientViewAvailabilityComponent implements OnInit{
     @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
@@ -86,7 +89,23 @@ export class PatientViewAvailabilityComponent {
   ];
   activeDayIsOpen = true;
 
-  constructor(private modal: NgbModal, public dialog: MatDialog) {}
+  constructor(private modal: NgbModal, public dialog: MatDialog, private router: Router, private http: HttpClient) {}
+
+  ngOnInit() {
+    if(this.router.url.includes('walkin')) {
+      this.http
+      .get('http://localhost:8080/availability/view/walkin/3')
+      .subscribe(result => {
+        console.log(result);
+      });
+    } else if(this.router.url.includes('annual')) {
+      this.http
+      .get('http://localhost:8080/availability/view/annual/2')
+      .subscribe(result => {
+        console.log(result);
+      });
+    }
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {

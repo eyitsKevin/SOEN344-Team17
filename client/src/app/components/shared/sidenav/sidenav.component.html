@@ -6,8 +6,8 @@
     <div *ngIf="this.authenticated=='patient'" [matMenuTriggerFor]="menu">
       <p>Book</p>
 <mat-menu #menu="matMenu" xPosition="before">
-  <button mat-menu-item routerLink="/{{authenticated}}/book" (click)="this.retrieveWalkin()">Walkin</button>
-  <button mat-menu-item routerLink="/{{authenticated}}/book" (click)="this.retrieveAnnual()">Annual</button>
+  <button mat-menu-item routerLink="/{{authenticated}}/book/walkin" (click)="this.retrieveWalkin()">Walkin</button>
+  <button mat-menu-item routerLink="/{{authenticated}}/book/annual" (click)="this.retrieveAnnual()">Annual</button>
 </mat-menu>
     </div>
     <div (click)="this.logout()">
