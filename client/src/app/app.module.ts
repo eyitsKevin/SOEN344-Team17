@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule, MatDialogModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule, MatDialogModule, MatMenuModule } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
 import { DoctorComponent } from './components/doctors/doctor/doctor.component';
@@ -30,7 +30,8 @@ import { UserProfileComponent } from './components/shared/user-profile/user-prof
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
-import { PatientBookingComponent } from './components/patients/patient-booking/patient-booking.component';
+import { PatientBookingComponent} from './components/patients/patient-booking/patient-booking.component';
+import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
 
 @NgModule({
   declarations: [
@@ -44,14 +45,15 @@ import { PatientBookingComponent } from './components/patients/patient-booking/p
     NurseComponent,
     RegistrationComponent,
     SiteComponent,
-    LoggedInDirective, 
+    LoggedInDirective,
     PatientLoginComponent,
     DoctorLoginComponent,
     NurseLoginComponent,
     DoctorCalendarViewComponent,
     UserProfileComponent,
     NotFoundComponent,
-    PatientBookingComponent
+    PatientBookingComponent,
+    PatientViewAvailabilityComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +62,7 @@ import { PatientBookingComponent } from './components/patients/patient-booking/p
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MatMenuModule,
     MatButtonModule,
     MatCheckboxModule,
     ReactiveFormsModule,
@@ -72,7 +75,7 @@ import { PatientBookingComponent } from './components/patients/patient-booking/p
     MatIconModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
     MatSelectModule,
     NgbModalModule,
     CalendarModule.forRoot({

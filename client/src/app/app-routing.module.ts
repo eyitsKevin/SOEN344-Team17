@@ -10,12 +10,15 @@ import { UserProfileComponent } from './components/shared/user-profile/user-prof
 import { DoctorAuthenticationGuard } from './guards/doctor-authentication.guard';
 import { PatientAuthenticationGuard } from './guards/patient-authentication.guard';
 import { NurseAuthenticationGuard } from './guards/nurse-authentication.guard';
+import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
   //will need guards
   children: [
     { path: 'patient', canActivate: [PatientAuthenticationGuard], component: PatientComponent},
+    { path: 'patient/book/walkin', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
+    { path: 'patient/book/annual', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
     { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: DoctorComponent},
     { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent},
     { path: 'user-profile', component: UserProfileComponent}
