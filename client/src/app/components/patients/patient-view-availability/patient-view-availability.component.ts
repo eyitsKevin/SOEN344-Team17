@@ -27,7 +27,7 @@ import {
 import { PatientBookingComponent } from '../patient-booking/patient-booking.component';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { map } from 'rxjs/operators';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -73,20 +73,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: startOfDay(new Date()),
-      title: 'Example event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    }
-  ];
+  events: CalendarEvent[] = [];
   activeDayIsOpen = true;
 
   constructor(private modal: NgbModal, public dialog: MatDialog, private router: Router, private http: HttpClient) {}
@@ -95,16 +82,31 @@ export class PatientViewAvailabilityComponent implements OnInit{
     if(this.router.url.includes('walkin')) {
       this.http
       .get('http://localhost:8080/availability/view/walkin/3')
-      .subscribe(result => {
-        console.log(result);
+      .subscribe((result : Array<Object>) => {
+        result.map(availability => this.addAppointmentToCalendar(availability))
       });
     } else if(this.router.url.includes('annual')) {
       this.http
       .get('http://localhost:8080/availability/view/annual/2')
+      .pipe(map(x => console.log(x)))
       .subscribe(result => {
         console.log(result);
       });
     }
+  }
+
+
+  addAppointmentToCalendar(x) {
+    const title = x.startTime.match(/(T........)/)[0].slice(1, 6);
+    const newEvent = {
+      title: title,
+      start: new Date(x.startTime),
+      duration: 20,
+      actions: this.actions,
+      color: colors.red
+    }
+    this.events.push(newEvent);
+    this.refresh.next();
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -114,7 +116,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0
       ) {
-        this.activeDayIsOpen = false;
+        this.activeDayIsOpen = true;
       } else {
        this.activeDayIsOpen = true;
       }
