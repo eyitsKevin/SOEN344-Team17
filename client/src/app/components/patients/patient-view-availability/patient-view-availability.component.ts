@@ -82,15 +82,14 @@ export class PatientViewAvailabilityComponent implements OnInit{
     if(this.router.url.includes('walkin')) {
       this.http
       .get('http://localhost:8080/availability/view/walkin/3')
-      .subscribe((result : Array<Object>) => {
+      .subscribe((result: Array<Object>) => {
         result.map(availability => this.addAppointmentToCalendar(availability))
       });
     } else if(this.router.url.includes('annual')) {
       this.http
       .get('http://localhost:8080/availability/view/annual/2')
-      .pipe(map(x => console.log(x)))
-      .subscribe(result => {
-        console.log(result);
+      .subscribe((result: Array<Object>) => {
+        result.map(availability => this.addAppointmentToCalendar(availability))
       });
     }
   }
@@ -102,7 +101,6 @@ export class PatientViewAvailabilityComponent implements OnInit{
       title: title,
       start: new Date(x.startTime),
       duration: 20,
-      actions: this.actions,
       color: colors.red
     }
     this.events.push(newEvent);
