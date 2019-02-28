@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-
+import { CartDataService } from '../../../services/cart-data.service';
 export interface DialogData {
 
 }
@@ -11,13 +11,19 @@ export interface DialogData {
   styleUrls: ['./patient-booking.component.css']
 })
 export class PatientBookingComponent {
-
+  appointment;
   constructor(
     public dialogRef: MatDialogRef<PatientBookingComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private cartDataService: CartDataService) {
     }
 
-  close() {
+    bookAppointment() {
+    this.cartDataService.addAppointment(this.data);
+    this.dialogRef.close();
+  }
+
+  close(){
     this.dialogRef.close();
   }
 
