@@ -1,18 +1,13 @@
 package com.soen344.ubersante.controllers;
 
-import com.soen344.ubersante.dto.AvailabilityDetails;
 import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.exceptions.DateNotFoundException;
 import com.soen344.ubersante.exceptions.InvalidAppointmentException;
-import com.soen344.ubersante.models.Availability;
-import com.soen344.ubersante.models.Patient;
 import com.soen344.ubersante.services.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController
