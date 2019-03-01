@@ -2,7 +2,6 @@ package com.soen344.ubersante.services;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +14,10 @@ import com.soen344.ubersante.models.Patient;
 import com.soen344.ubersante.repositories.AppointmentRepository;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.repositories.DoctorRepository;
+import com.soen344.ubersante.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
 
 @Service
 public class AvailabilityService {
@@ -31,6 +30,9 @@ public class AvailabilityService {
 
     @Autowired
     DoctorRepository doctorRepository;
+
+    @Autowired
+    PatientRepository patientRepository;
 
     public List<Availability> getAvailabilityByMonth(String month, String availabilityType) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
 
@@ -51,12 +53,16 @@ public class AvailabilityService {
         return availabilityRepository.findAvailabilitiesByMonth(month, availType);
     }
 
+    public void addAppointmentToTable(AvailabilityDetails availability, Appointment appointment) {
+       availabilityRepository.addAppointmentToAvailability(availability.getId() ,appointment.getId());
+    }
+
     public boolean availabilityToAppointment(Patient patient, List<AvailabilityDetails> availabilityDetailsCart) {
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
         for (AvailabilityDetails details : availabilityDetailsCart) {
             Appointment appointment = new Appointment(
-                    patient,
+                    patientRepository.findByHealthCard(patient.getHealthCard()),
                     doctorRepository.findByPermitNumber(details.getDoctorPermitNumber()),
                     patient.getFirstName() + " " + patient.getLastName(),
                     details.getAppointmentType(),
@@ -64,6 +70,7 @@ public class AvailabilityService {
                     LocalDateTime.parse(details.getEndTime()),
                     ts);
             appointmentRepository.save(appointment);
+            addAppointmentToTable(details, appointment);
         }
         return true;
     }
