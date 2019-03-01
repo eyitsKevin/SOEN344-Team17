@@ -3,6 +3,7 @@ import { CartDataService } from '../../../../services/cart-data.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { HttpClient } from "@angular/common/http";
 import { MatSnackBar } from "@angular/material";
+import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
 
 @Component({
   selector: 'app-patient-cart',
@@ -28,6 +29,10 @@ healthcard;
       this.list[i].start = fullDate[1];
       this.list[i].end = fullDate2[1];
     }
+  }
+
+  remove(index){
+    this.cartDataService.removeAppointment(index);
   }
 
   checkout(){
