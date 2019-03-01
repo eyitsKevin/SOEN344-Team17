@@ -35,8 +35,7 @@ deleteAllAppointments(){
   return this.list = [];
 }
 
-removeAppointment(index){
-  this.list.pop
+removeAppointment(number){
+  this.list.splice(number,1);
 }
 }
-
