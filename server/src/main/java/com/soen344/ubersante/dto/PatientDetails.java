@@ -33,6 +33,17 @@ public class PatientDetails {
     @NotEmpty
     private String address;
 
+    public PatientDetails(String healthCard, @NotEmpty String firstName, @NotEmpty String lastName, @NotNull String birthday, @NotEmpty String gender, @NotEmpty String phone, String email, @NotEmpty String address) {
+        this.healthCard = healthCard;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+    }
+
     public PatientDetails(Patient patient) {
         healthCard = patient.getHealthCard();
         firstName = patient.getFirstName();
