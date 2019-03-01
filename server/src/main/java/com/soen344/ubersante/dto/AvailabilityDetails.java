@@ -12,6 +12,9 @@ import java.util.Objects;
 public class AvailabilityDetails {
 
     @NotEmpty
+    private long id;
+
+    @NotEmpty
     private String doctorPermitNumber;
 
     @NotEmpty
@@ -22,6 +25,14 @@ public class AvailabilityDetails {
 
     @NotEmpty
     private String endTime;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getDoctorPermitNumber() {
         return doctorPermitNumber;
@@ -60,7 +71,8 @@ public class AvailabilityDetails {
         if (this == o) return true;
         if (!(o instanceof AvailabilityDetails)) return false;
         AvailabilityDetails that = (AvailabilityDetails) o;
-        return Objects.equals(getDoctorPermitNumber(), that.getDoctorPermitNumber()) &&
+        return getId() == that.getId() &&
+                Objects.equals(getDoctorPermitNumber(), that.getDoctorPermitNumber()) &&
                 getAppointmentType() == that.getAppointmentType() &&
                 Objects.equals(getStartTime(), that.getStartTime()) &&
                 Objects.equals(getEndTime(), that.getEndTime());
@@ -68,13 +80,14 @@ public class AvailabilityDetails {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDoctorPermitNumber(), getAppointmentType(), getStartTime(), getEndTime());
+        return Objects.hash(getId(), getDoctorPermitNumber(), getAppointmentType(), getStartTime(), getEndTime());
     }
 
     @Override
     public String toString() {
         return "AvailabilityDetails{" +
-                "doctorPermitNumber='" + doctorPermitNumber + '\'' +
+                "id=" + id +
+                ", doctorPermitNumber='" + doctorPermitNumber + '\'' +
                 ", appointmentType=" + appointmentType +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
