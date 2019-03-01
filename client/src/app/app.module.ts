@@ -30,8 +30,10 @@ import { UserProfileComponent } from './components/shared/user-profile/user-prof
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import {MatBadgeModule} from '@angular/material/badge';
 import { PatientBookingComponent} from './components/patients/patient-booking/patient-booking.component';
 import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
+import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import {PatientViewAvailabilityComponent} from './components/patients/patient-vi
     PatientComponent,
     LoginComponent,
     NurseComponent,
+    PatientCartComponent,
     RegistrationComponent,
     SiteComponent,
     LoggedInDirective,
@@ -76,6 +79,7 @@ import {PatientViewAvailabilityComponent} from './components/patients/patient-vi
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatBadgeModule,
     MatSelectModule,
     NgbModalModule,
     CalendarModule.forRoot({

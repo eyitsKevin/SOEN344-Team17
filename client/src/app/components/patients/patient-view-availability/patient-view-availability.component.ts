@@ -89,7 +89,8 @@ export class PatientViewAvailabilityComponent implements OnInit{
       title: title,
       start: new Date(x.startTime),
       duration: 20,
-      color: colors.red
+      color: colors.red,
+      data: x
     }
     this.events.push(newEvent);
     this.refresh.next();
@@ -136,10 +137,11 @@ export class PatientViewAvailabilityComponent implements OnInit{
     this.refresh.next();
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
+  handleEvent(action: string, event): void {
     const dialogRef = this.dialog.open(PatientBookingComponent, {
       width: '500px',
-      height: '500px'
+      height: '500px',
+      data: event.data
     });
 
     dialogRef.afterClosed().subscribe(result => {

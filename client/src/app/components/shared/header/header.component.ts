@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../services/authentication.service';
-
+import { CartDataService } from '../../../services/cart-data.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -11,7 +11,8 @@ export class HeaderComponent implements OnInit {
   user;
   authenticated;
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService,
+    private cartDataService: CartDataService) { }
 
   ngOnInit() {
     this.authenticationService.user.subscribe(user => this.user = user);
