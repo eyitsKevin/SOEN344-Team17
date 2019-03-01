@@ -7,7 +7,10 @@ import java.util.List;
 
 import com.soen344.ubersante.dto.AvailabilityDetails;
 import com.soen344.ubersante.exceptions.DateNotFoundException;
+import com.soen344.ubersante.exceptions.DoctorNotFoundException;
 import com.soen344.ubersante.exceptions.InvalidAppointmentException;
+import com.soen344.ubersante.exceptions.PatientNotFoundException;
+import com.soen344.ubersante.exceptions.EmptyCartException;
 import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Availability;
 import com.soen344.ubersante.models.Patient;
@@ -54,13 +57,27 @@ public class AvailabilityService {
     }
 
     public void addAppointmentToTable(AvailabilityDetails availability, Appointment appointment) {
-       availabilityRepository.addAppointmentToAvailability(availability.getId() ,appointment.getId());
+        availabilityRepository.addAppointmentToAvailability(availability.getId() ,appointment.getId());
     }
 
-    public boolean availabilityToAppointment(Patient patient, List<AvailabilityDetails> availabilityDetailsCart) {
+    public boolean availabilityToAppointment(Patient patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException {
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
+
+        if (patientRepository.findByHealthCard(patient.getHealthCard()) == null) {
+            throw new PatientNotFoundException("Patient not found in " + this);
+        }
+
+        if (availabilityDetailsCart.size() <= 0) {
+            throw new EmptyCartException("Nothing in the cart");
+        }
+
         for (AvailabilityDetails details : availabilityDetailsCart) {
+
+            if (doctorRepository.findByPermitNumber(details.getDoctorPermitNumber()) == null) {
+                throw new DoctorNotFoundException("Doctor not found in " + this);
+            }
+
             Appointment appointment = new Appointment(
                     patientRepository.findByHealthCard(patient.getHealthCard()),
                     doctorRepository.findByPermitNumber(details.getDoctorPermitNumber()),
