@@ -1,14 +1,12 @@
 package com.soen344.ubersante.repositories;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.soen344.ubersante.models.Availability;
-
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 public interface AvailabilityRepository extends CrudRepository<Availability, Long> {
 
