@@ -1,17 +1,26 @@
 <div class="sidenav">
   <div class="option">
-    <div routerLink="/{{authenticated}}">
-      <p> View... </p>
+
+    <!-- Doctor -->
+    <div routerLink="/{{authenticated}}" *ngIf="this.authenticated=='doctor'">
+      <p> This week </p>
     </div>
-    <div *ngIf="this.authenticated=='patient'" [matMenuTriggerFor]="menu">
-      <p>Book</p>
-<mat-menu #menu="matMenu" xPosition="before">
-  <button mat-menu-item routerLink="/{{authenticated}}/book/walkin">Walkin</button>
-  <button mat-menu-item routerLink="/{{authenticated}}/book/annual">Annual</button>
-</mat-menu>
+    <div routerLink="/{{authenticated}}/availabilities" *ngIf="this.authenticated=='doctor'">
+      <p> Your availabilities </p>
     </div>
-    <div (click)="this.logout()">
-      <p> Logout </p>
+
+    <div (click)="this.logout()" id="logout">
+      <div *ngIf="this.authenticated=='patient'" [matMenuTriggerFor]="menu">
+        <p>Book</p>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item routerLink="/{{authenticated}}/book/walkin">Walkin</button>
+          <button mat-menu-item routerLink="/{{authenticated}}/book/annual">Annual</button>
+        </mat-menu>
+      </div>
+
+
+      <div (click)="this.logout()">
+        <p> Logout </p>
+      </div>
     </div>
   </div>
-</div>
