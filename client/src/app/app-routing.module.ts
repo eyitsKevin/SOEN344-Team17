@@ -11,21 +11,23 @@ import { DoctorAuthenticationGuard } from './guards/doctor-authentication.guard'
 import { PatientAuthenticationGuard } from './guards/patient-authentication.guard';
 import { NurseAuthenticationGuard } from './guards/nurse-authentication.guard';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component'
+import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
 
 const routes: Routes = [
-  {
-    path: '', component: SiteComponent,
-    children: [
-      { path: 'patient', canActivate: [PatientAuthenticationGuard], component: PatientComponent },
-      { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: ThisWeekComponent },
-      { path: 'doctor/availabilities', component: DoctorCalendarViewComponent },
-      { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent },
-      { path: 'user-profile', component: UserProfileComponent }
-    ]
-  },
-  { path: 'login', component: LoginComponent },
-  { path: '404', component: NotFoundComponent },
-  { path: '**', redirectTo: '/404' }
+  {path: '', component: SiteComponent,
+  //will need guards
+  children: [
+    { path: 'patient', canActivate: [PatientAuthenticationGuard], component: PatientComponent},
+    { path: 'patient/book/walkin', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
+    { path: 'patient/book/annual', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
+    { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: ThisWeekComponent},
+    { path: 'doctor/availabilities', component: DoctorCalendarViewComponent },
+    { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent},
+    { path: 'user-profile', component: UserProfileComponent}
+  ]},
+  {path: 'login', component: LoginComponent},
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({

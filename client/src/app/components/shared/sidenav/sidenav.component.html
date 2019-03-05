@@ -9,8 +9,18 @@
       <p> Your availabilities </p>
     </div>
 
-    <div (click)="this.logout()" id = "logout">
-      <p> Logout </p>
+    <div (click)="this.logout()" id="logout">
+      <div *ngIf="this.authenticated=='patient'" [matMenuTriggerFor]="menu">
+        <p>Book</p>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item routerLink="/{{authenticated}}/book/walkin">Walkin</button>
+          <button mat-menu-item routerLink="/{{authenticated}}/book/annual">Annual</button>
+        </mat-menu>
+      </div>
+
+
+      <div (click)="this.logout()">
+        <p> Logout </p>
+      </div>
     </div>
   </div>
-</div>

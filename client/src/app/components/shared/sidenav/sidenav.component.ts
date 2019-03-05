@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { Router } from '@angular/router';
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-sidenav',
@@ -11,7 +12,7 @@ export class SidenavComponent implements OnInit {
 
   authenticated;
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private authenticationService: AuthenticationService, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
     this.authenticationService.authenticated.subscribe(authenticated => this.authenticated = authenticated);
@@ -23,5 +24,4 @@ export class SidenavComponent implements OnInit {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
-
 }
