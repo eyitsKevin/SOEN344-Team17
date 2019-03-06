@@ -34,7 +34,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { PatientBookingComponent} from './components/patients/patient-booking/patient-booking.component';
 import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
 import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
-
+import {PatientPaymentComponent} from './components/patients/patient-payment/patient-payment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +56,8 @@ import {PatientCartComponent} from './components/patients/patient-cart/patient-c
     UserProfileComponent,
     NotFoundComponent,
     PatientBookingComponent,
-    PatientViewAvailabilityComponent
+    PatientViewAvailabilityComponent,
+    PatientPaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +89,7 @@ import {PatientCartComponent} from './components/patients/patient-cart/patient-c
     })
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent],
+  entryComponents: [PatientBookingComponent,PatientPaymentComponent],
   exports: [DoctorCalendarViewComponent],
   providers: [MatDatepickerModule]
 })
