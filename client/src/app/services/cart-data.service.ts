@@ -11,20 +11,21 @@ export class CartDataService {
 constructor() { }
 
 addAppointment(appointment){
-// if(this.list.includes(appointment.id)){
-
-// }
-// else this.list.push(appointment)
+  var exists = false;
 if(this.list.length == 0){
   this.list.push(appointment)
 }
-else
+else{
 for(var i=0; i<this.list.length; i++){
     if(this.list[i].id == appointment.id ){
-      
+      exists = true;
     }
-    else this.list.push(appointment)
+    else {}
   }
+  if(exists == false){
+    this.list.push(appointment)
+  }
+}
 }
 
 getAllAppointments(){
