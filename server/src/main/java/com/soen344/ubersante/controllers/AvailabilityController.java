@@ -3,6 +3,7 @@ package com.soen344.ubersante.controllers;
 import com.soen344.ubersante.exceptions.DateNotFoundException;
 import com.soen344.ubersante.exceptions.InvalidAppointmentException;
 import com.soen344.ubersante.services.AvailabilityService;
+import com.soen344.ubersante.validation.ValidPermitNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,10 @@ public class AvailabilityController {
         } catch(NumberFormatException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @RequestMapping("/doctor/{permit}")
+    public ResponseEntity getAllDoctorAvailabilities(@ValidPermitNumber @PathVariable String permit) {
+        return new ResponseEntity<>(availabilityService.allAvailabilitiesByDoctorPermit(permit), HttpStatus.OK);
     }
 }

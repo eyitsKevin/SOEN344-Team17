@@ -33,4 +33,8 @@ public class AvailabilityService {
 
         return availabilityRepository.findAvailabilitiesByMonth(month, availType);
     }
+
+    public List<Availability> allAvailabilitiesByDoctorPermit(String doctorPermit) {
+        return availabilityRepository.findAllByDoctorPermitNumber(doctorPermit);
+    }
 }
