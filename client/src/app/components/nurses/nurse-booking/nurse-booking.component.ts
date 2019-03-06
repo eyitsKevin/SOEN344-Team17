@@ -12,12 +12,13 @@ import {Patient} from '../../../models/patient';
 })
 export class NurseBookingComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   myControl = new FormControl();
   options: Patient[];
   isDataLoaded;
-  // options: Map<String, String>;
+  selected;
   filteredOptions: Observable<Patient[]>;
 
   ngOnInit() {
@@ -30,7 +31,6 @@ export class NurseBookingComponent implements OnInit {
             map(patient => patient ? this._filter(patient) : this.options.slice())
           );
       }
-
     );
   }
 
@@ -39,8 +39,19 @@ export class NurseBookingComponent implements OnInit {
   }
 
   private _filter(value: any): Patient[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.healthCard.toLowerCase().includes(filterValue));
+    if (value !== undefined) {
+      const filterValue = value.toLowerCase();
+      return this.options.filter(option => option.healthCard.toLowerCase().indexOf(filterValue) === 0);
+    }
+  }
+
+  displayFn(patient: Patient): any {
+    this.selected = patient;
+    return patient ? patient.healthCard : patient;
+  }
+
+  getSelection(patient: Patient): void {
+    this.selected = patient;
   }
 
 }
