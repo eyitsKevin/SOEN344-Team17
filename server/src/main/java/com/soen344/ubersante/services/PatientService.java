@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PatientService implements IPatientService {
@@ -81,5 +83,17 @@ public class PatientService implements IPatientService {
         }
 
         return false;
+    }
+
+    public List<PatientDetails> findAll() throws PatientNotFoundException {
+        List<PatientDetails> patientDetailsList = new ArrayList<>();
+        if (patientRepository.findAll() == null) {
+            return new ArrayList<>();
+        } else {
+            for (Patient patient : patientRepository.findAll()) {
+                patientDetailsList.add(new PatientDetails(patient));
+            }
+        }
+        return patientDetailsList;
     }
 }
