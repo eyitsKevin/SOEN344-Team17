@@ -1,10 +1,10 @@
 <mat-nav-list class="sidebar">
   <a mat-list-item routerLink="/{{authenticated}}" *ngIf="this.authenticated=='doctor'"> This week </a>
-  <a mat-list-item routerLink="/{{authenticated}}/availabilities" *ngIf="this.authenticated=='doctor'">
+  <a mat-list-item routerLink="/{{authenticated}}/availabilities" *ngIf="this.authenticated==='doctor'">
     Your
     availabilities </a>
 
-  <mat-accordion *ngIf="this.authenticated=='patient'">
+  <mat-accordion *ngIf="this.authenticated==='patient'">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <p class="dropdown" mat-list-item> Book </p>
