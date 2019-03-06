@@ -1,26 +1,27 @@
-<div class="sidenav">
-  <div class="option">
+<mat-nav-list class="sidebar">
+  <a mat-list-item routerLink="/{{authenticated}}" *ngIf="this.authenticated=='doctor'"> This week </a>
+  <a mat-list-item routerLink="/{{authenticated}}/availabilities" *ngIf="this.authenticated=='doctor'">
+    Your
+    availabilities </a>
 
-    <!-- Doctor -->
-    <div routerLink="/{{authenticated}}" *ngIf="this.authenticated=='doctor'">
-      <p> This week </p>
-    </div>
-    <div routerLink="/{{authenticated}}/availabilities" *ngIf="this.authenticated=='doctor'">
-      <p> Your availabilities </p>
-    </div>
+  <mat-accordion *ngIf="this.authenticated=='patient'">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <p class="dropdown" mat-list-item> Book </p>
+      </mat-expansion-panel-header>
+      <mat-nav-list class = "dropdown-options">
+        <button mat-button routerLink="/{{authenticated}}/book/walkin">
+          <i class="material-icons">directions_walk</i>
+          Walk-in
+        </button>
+        <button mat-button routerLink="/{{authenticated}}/book/annual">
+          <i class="material-icons">local_hospital</i>
+          Annual Checkup
+        </button>
+      </mat-nav-list>
+    </mat-expansion-panel>
+  </mat-accordion>
 
-    <div (click)="this.logout()" id="logout">
-      <div *ngIf="this.authenticated=='patient'" [matMenuTriggerFor]="menu">
-        <p>Book</p>
-        <mat-menu #menu="matMenu" xPosition="before">
-          <button mat-menu-item routerLink="/{{authenticated}}/book/walkin">Walkin</button>
-          <button mat-menu-item routerLink="/{{authenticated}}/book/annual">Annual</button>
-        </mat-menu>
-      </div>
+  <a mat-list-item (click)="this.logout()" id="logout"> Logout </a>
 
-
-      <div (click)="this.logout()">
-        <p> Logout </p>
-      </div>
-    </div>
-  </div>
+</mat-nav-list>

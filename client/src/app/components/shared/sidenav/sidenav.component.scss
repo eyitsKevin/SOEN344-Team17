@@ -1,32 +1,48 @@
-.sidenav {
+.sidebar {
     background-color: rgb(255, 255, 255);
     float: left;
     position: absolute;
-    width: 15%;
+    width: 16%;
     border-right: solid rgb(206, 214, 218);
     border-bottom: solid rgb(206, 214, 218);
     height: 100%;
 }
 
-.option div {
-    padding: 10%;
-    padding-bottom: 0;
+mat-nav-list {
+    padding: 0;
+}
+
+.sidebar a {
+    border: none;
+    padding-left: 5px;
     border-bottom: solid rgb(206, 214, 218);
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
 
-.option div:hover {
-    cursor: pointer;
-    color:rgb(120, 128, 132);
+.dropdown {
+    margin: 0;
+    margin-top: 7px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
 }
 
-.option div:focus {
-    color:rgb(120, 128, 132);
-    outline: none;
+.dropdown-options {
+    margin: 0;
 }
 
-#logout {
-    float: bottom;
+.dropdown-options a { 
+    border: none;
+    font-size: 13px;
+}
+
+#logout, .dropdown-options a {
     font-weight: normal;
+}
+
+mat-accordion, mat-expansion-panel {
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
 }
