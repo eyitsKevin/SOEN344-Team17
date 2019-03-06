@@ -18,7 +18,7 @@ export class NurseBookingComponent implements OnInit {
   myControl = new FormControl();
   options: Patient[];
   isDataLoaded;
-  selected;
+  selected: Patient;
   filteredOptions: Observable<Patient[]>;
 
   ngOnInit() {

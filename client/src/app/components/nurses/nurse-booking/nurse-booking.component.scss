@@ -1,0 +1,19 @@
+.horizontal {
+  padding: 15px;
+}
+
+.example-card {
+  max-width: 400px;
+  margin: auto;
+  transition: all .25s linear;
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.4);
+}
+
+.example-header-image {
+  background-image: url('https://semantic-ui.com/images/avatar/large/steve.jpg');
+  background-size: cover;
+}
+
+.example-card:hover{
+  box-shadow: -1px 10px 29px 0px rgba(0,0,0,0.8);
+}

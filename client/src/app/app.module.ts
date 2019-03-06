@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule,
-  MatSelectModule, MatDialogModule, MatMenuModule, MatAutocompleteModule
+  MatSelectModule, MatDialogModule, MatMenuModule, MatAutocompleteModule, MatCardModule
 } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
@@ -87,6 +87,7 @@ import { NurseBookingComponent } from './components/nurses/nurse-booking/nurse-b
     MatSelectModule,
     NgbModalModule,
     MatAutocompleteModule,
+    MatCardModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
