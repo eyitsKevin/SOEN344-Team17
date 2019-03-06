@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CartDataService } from '../../../../services/cart-data.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
+import {MatDialog} from '@angular/material';
+import { PatientPaymentComponent} from '../../patient-payment/patient-payment.component';
 
+export interface DialogData {
+ 
+}
 @Component({
   selector: 'app-patient-cart',
   templateUrl: './patient-cart.component.html',
@@ -14,10 +19,31 @@ export class PatientCartComponent implements OnInit {
   constructor(private cartDataService: CartDataService,
               private authenticationService: AuthenticationService,
               public snackBar: MatSnackBar,
-              private http: HttpClient) { }
+              public dialog: MatDialog
+              ) { }
+              
   cart = [];
   patient;
   healthcard;
+
+  openDialog(): void {
+    this.authenticationService.user.subscribe(patient => this.patient = patient);
+    const patientWithcart = {
+      patient: this.patient,
+      cart: this.cart
+    };
+    const dialogRef = this.dialog.open(PatientPaymentComponent, {
+       width: '500px',
+      height: '500px',
+      data: patientWithcart
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+
+    });
+  }
+
   ngOnInit() {
     this.cart = this.cartDataService.getAllAppointments();
 
@@ -34,24 +60,9 @@ export class PatientCartComponent implements OnInit {
     this.cartDataService.removeAppointment(index);
   }
 
-  checkout() {
-    this.authenticationService.user.subscribe(patient => this.patient = patient);
-    const patientWithcart = {
-      patient: this.patient,
-      cart: this.cart
-    };
-    this.http.post('/api/availability/cart/checkout', patientWithcart)
-      .subscribe(data => {
-
-        },
-        error => { console.log(error); this.openSnackBar(error.error, 'Close'); }
-      );
-    this.cart = this.cartDataService.deleteAllAppointments();
-  }
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 5000,
     });
   }
-
 }
