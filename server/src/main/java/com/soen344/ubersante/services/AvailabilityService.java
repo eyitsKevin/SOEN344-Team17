@@ -1,13 +1,18 @@
 package com.soen344.ubersante.services;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.soen344.ubersante.dto.AvailabilityDto;
 import com.soen344.ubersante.exceptions.DateNotFoundException;
 import com.soen344.ubersante.exceptions.InvalidAppointmentException;
 import com.soen344.ubersante.models.Availability;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.validation.Valid;
 
 @Service
 public class AvailabilityService {
@@ -34,7 +39,27 @@ public class AvailabilityService {
         return availabilityRepository.findAvailabilitiesByMonth(month, availType);
     }
 
-    public List<Availability> allAvailabilitiesByDoctorPermit(String doctorPermit) {
-        return availabilityRepository.findAllByDoctorPermitNumber(doctorPermit);
+    public List<AvailabilityDto> allAvailabilitiesByDoctorPermit(String doctorPermit) {
+        List<AvailabilityDto> availabilityDtoList = new ArrayList<>();
+        List<Availability> availabilities = availabilityRepository.findAllByDoctorPermitNumber(doctorPermit);
+
+        for (Availability availability : availabilities) {
+            availabilityDtoList.add(convertToAvailabilityDto(availability));
+        }
+
+        return availabilityDtoList;
+    }
+
+    private AvailabilityDto convertToAvailabilityDto(@Valid Availability availability) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        AvailabilityDto dto = new AvailabilityDto();
+        dto.setId(availability.getId());
+        dto.setDoctorPermitNumber(availability.getDoctorPermitNumber());
+        dto.setTitle(availability.getAppointmentType());
+        dto.setDuration(availability.getAppointmentType().getDuration());
+        dto.setStart(availability.getStartTime().format(formatter));
+        dto.setEnd(availability.getEndTime().format(formatter));
+
+        return dto;
     }
 }
