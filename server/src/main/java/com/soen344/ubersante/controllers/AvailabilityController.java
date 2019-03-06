@@ -4,6 +4,7 @@ import com.soen344.ubersante.dto.AvailabilityDto;
 import com.soen344.ubersante.exceptions.AvailabilityOverlapException;
 import com.soen344.ubersante.exceptions.DateNotFoundException;
 import com.soen344.ubersante.exceptions.InvalidAppointmentException;
+import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.services.AvailabilityService;
 import com.soen344.ubersante.validation.ValidPermitNumber;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class AvailabilityController {
 
     @Autowired
     private AvailabilityService availabilityService;
+
+    @Autowired
+    private AvailabilityRepository availabilityRepository;
 
     @RequestMapping(value = "/view/{availabilityType}/{month}", method = RequestMethod.GET)
     public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType) {
@@ -49,5 +53,12 @@ public class AvailabilityController {
         } catch (InvalidAppointmentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteAvailability(@PathVariable("id") long id) {
+        availabilityRepository.deleteById(id);
+
+        return new ResponseEntity<>("Availability has been deleted", HttpStatus.OK);
     }
 }
