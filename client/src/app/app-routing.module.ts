@@ -12,19 +12,21 @@ import { PatientAuthenticationGuard } from './guards/patient-authentication.guar
 import { NurseAuthenticationGuard } from './guards/nurse-authentication.guard';
 import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
 import { PatientCartComponent } from './components/patients/patient-cart/patient-cart/patient-cart.component';
+import {NurseBookingComponent} from "./components/nurses/nurse-booking/nurse-booking.component";
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
-  //will need guards
-  children: [
-    { path: 'patient', canActivate: [PatientAuthenticationGuard], component: PatientComponent},
-    { path: 'patient/book/walkin', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
-    { path: 'patient/book/annual', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
-    { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: DoctorComponent},
-    { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent},
-    { path: 'user-profile', component: UserProfileComponent},
-    { path: 'cart', canActivate: [PatientAuthenticationGuard], component: PatientCartComponent}
-  ]},
+    //will need guards
+    children: [
+      { path: 'patient', canActivate: [PatientAuthenticationGuard], component: PatientComponent},
+      { path: 'patient/book/walkin', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
+      { path: 'patient/book/annual', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
+      { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: DoctorComponent},
+      { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent},
+      { path: 'nurse/book', canActivate: [NurseAuthenticationGuard], component: NurseBookingComponent},
+      { path: 'user-profile', component: UserProfileComponent},
+      { path: 'cart', canActivate: [PatientAuthenticationGuard], component: PatientCartComponent}
+    ]},
   {path: 'login', component: LoginComponent},
   {path: '404', component: NotFoundComponent},
   {path: '**', redirectTo: '/404'}

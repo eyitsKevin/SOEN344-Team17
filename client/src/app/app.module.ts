@@ -6,7 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatSelectModule, MatDialogModule, MatMenuModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule,
+  MatSelectModule, MatDialogModule, MatMenuModule, MatAutocompleteModule
+} from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
 import { DoctorComponent } from './components/doctors/doctor/doctor.component';
@@ -25,7 +27,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { DoctorViewAllComponent } from './components/doctors/doctor-view-all/doctor-view-all.component';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component';
-import { MatSnackBarModule } from "@angular/material";
+import { MatSnackBarModule } from '@angular/material';
 import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -34,6 +36,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { PatientBookingComponent} from './components/patients/patient-booking/patient-booking.component';
 import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
 import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
+import { NurseBookingComponent } from './components/nurses/nurse-booking/nurse-booking.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,8 @@ import {PatientCartComponent} from './components/patients/patient-cart/patient-c
     UserProfileComponent,
     NotFoundComponent,
     PatientBookingComponent,
-    PatientViewAvailabilityComponent
+    PatientViewAvailabilityComponent,
+    NurseBookingComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +86,7 @@ import {PatientCartComponent} from './components/patients/patient-cart/patient-c
     MatBadgeModule,
     MatSelectModule,
     NgbModalModule,
+    MatAutocompleteModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
