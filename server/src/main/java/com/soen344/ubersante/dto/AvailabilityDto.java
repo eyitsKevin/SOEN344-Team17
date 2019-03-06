@@ -38,6 +38,16 @@ public class AvailabilityDto {
         return title;
     }
 
+    public AppointmentType getAppointmentType() {
+        if (this.title.equals("walkin")) {
+            return AppointmentType.WALK_IN;
+        } else if (this.title.equals("checkup")) {
+            return AppointmentType.ANNUAL_CHECKUP;
+        }
+
+        return null;
+    }
+
     public String getStart() {
         return start;
     }

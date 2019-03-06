@@ -1,5 +1,7 @@
 package com.soen344.ubersante.controllers;
 
+import com.soen344.ubersante.dto.AvailabilityDto;
+import com.soen344.ubersante.exceptions.AvailabilityOverlapException;
 import com.soen344.ubersante.exceptions.DateNotFoundException;
 import com.soen344.ubersante.exceptions.InvalidAppointmentException;
 import com.soen344.ubersante.services.AvailabilityService;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
@@ -33,5 +37,17 @@ public class AvailabilityController {
     @RequestMapping("/doctor/{permit}")
     public ResponseEntity getAllDoctorAvailabilities(@ValidPermitNumber @PathVariable String permit) {
         return new ResponseEntity<>(availabilityService.allAvailabilitiesByDoctorPermit(permit), HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity createNewAvailability(@Valid @RequestBody final AvailabilityDto availabilityDto) {
+
+        try {
+            return new ResponseEntity<>(availabilityService.addNewAvailability(availabilityDto), HttpStatus.CREATED);
+        } catch (AvailabilityOverlapException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (InvalidAppointmentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.soen344.ubersante.repositories;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.soen344.ubersante.models.Availability;
@@ -13,5 +14,9 @@ public interface AvailabilityRepository extends CrudRepository<Availability, Lon
     List<Availability> findAvailabilitiesByMonth(String month, String availabilityType);
 
     List<Availability> findAllByDoctorPermitNumber(String permitNumber);
+
+    @Query(value = "SELECT * FROM doctor_availability " +
+            "WHERE start_time >= ?1 AND end_time <= ?2 AND doctor_permit_number = ?3", nativeQuery = true)
+    List<Availability> findAllInDateRangeForDoctor(LocalDateTime startTime, LocalDateTime endTime, String permit);
 
 } 
