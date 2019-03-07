@@ -14,7 +14,7 @@ export interface DialogData {
 export class PatientCancelComponent {
 
   constructor(public dialogRef: MatDialogRef<PatientCancelComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data,
     public snackBar: MatSnackBar,
     private http: HttpClient
     ) {}
@@ -28,6 +28,12 @@ export class PatientCancelComponent {
   }
 
   cancelAppointment(){
+    this.http.post("http://localhost:8080/appointment/cancel", this.data.id)
+        .subscribe(data => {
+          
+        },
+          error => { console.log(error); this.openSnackBar(error.error, "Close"); }
+        );
     this.dialogRef.close();
   }
 
