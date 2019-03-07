@@ -36,7 +36,15 @@ export class PatientComponent implements OnInit {
   getAppointments(){
     this.authenticationService.user.subscribe(user => this.user = user);
     this.http.post("http://localhost:8080/appointment/view", this.user)
-        .subscribe(data => {
+        .subscribe((data: any) => {
+          data.forEach(element => {
+            if (element.appointmentType === 'WALK_IN') {
+              element.appointmentType = "Walk-in";
+            }
+            else if (element.appointmentType === 'ANNUAL_CHECKUP') {
+              element.appointmentType = "Annual checkup"
+            }
+          });
           this.list = data;
         },
           error => { console.log(error); this.openSnackBar(error.error, "Close"); }
