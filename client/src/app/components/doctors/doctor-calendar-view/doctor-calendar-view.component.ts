@@ -1,8 +1,10 @@
 import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { startOfHour, isSameDay, isSameMonth } from 'date-fns';
+import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { HttpClient } from "@angular/common/http";
+import { AuthenticationService } from '../../../services/authentication.service';
 
 const colors: any = {
   red: {
@@ -51,13 +53,18 @@ export class DoctorCalendarViewComponent {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
+  events: CalendarEvent[] = [ 
     
   ];
 
+  user;
+
   activeDayIsOpen: boolean = false;
 
-  constructor(private modal: NgbModal) {}
+  constructor(private modal: NgbModal, private http: HttpClient, private authenticationService: AuthenticationService) {
+    this.authenticationService.user.subscribe(user => this.user = user);
+    this.getAvailabilities();
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -83,16 +90,16 @@ export class DoctorCalendarViewComponent {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
-
   }
 
   addAvailability(availabilityType): void {
     let startTime = new Date();
     startTime.setHours(8, 0, 0);
+    console.log(startTime);
     let newEvent = {
-      title: type[availabilityType].title, //call type - send
-      start: startTime, //send
-      duration: type[availabilityType].duration, //send
+      title: type[availabilityType].title, 
+      start: startTime, 
+      duration: type[availabilityType].duration,
       end: null,
       color: type[availabilityType].color,
       draggable: true
@@ -116,6 +123,26 @@ export class DoctorCalendarViewComponent {
       }
     }
     this.refresh.next(); 
+  }
+
+  getAvailabilities() {
+    this.http.get("http://localhost:8080/availability/doctor/"+this.user.permitNumber).subscribe(x => {
+      console.log(x);
+
+      for(var i in x){
+        console.log(i);
+        let event = {
+          title: x[i]["title"], 
+          start: new Date(x[i]["start"]), 
+          duration: x[i]["duration"],
+          end: new Date(x[i]["end"]),
+          color: type[x[i]["title"]].color,
+          draggable: true
+        };
+        this.events.push(event);
+      }
+      this.refresh.next(); 
+    });
   }
 
 }
