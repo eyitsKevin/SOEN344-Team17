@@ -34,6 +34,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { PatientBookingComponent} from './components/patients/patient-booking/patient-booking.component';
 import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
 import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import {PatientCartComponent} from './components/patients/patient-cart/patient-c
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
-    })
+    }),
+    MatListModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [PatientBookingComponent],

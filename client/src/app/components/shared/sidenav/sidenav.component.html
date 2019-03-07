@@ -1,7 +1,7 @@
 <div class="sidenav">
   <div class="option">
     <div routerLink="/{{authenticated}}">
-      <p> View... </p>
+      <p> View Bookings </p>
     </div>
     <div *ngIf="this.authenticated=='patient'" [matMenuTriggerFor]="menu">
       <p>Book</p>

@@ -1,127 +1,62 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit } from '@angular/core';
 import {MatDialogModule, MatDialog} from '@angular/material/dialog';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours
-} from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView
-} from 'angular-calendar';
 import { PatientBookingComponent } from '../patient-booking/patient-booking.component';
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
+import { CartDataService } from '../../../services/cart-data.service';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
   styleUrls: ['./patient.component.scss']
 })
-export class PatientComponent {
+export class PatientComponent implements OnInit {
 
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  constructor( 
+    private cartDataService: CartDataService,
+    private authenticationService: AuthenticationService,
+    public dialog: MatDialog, 
+    public snackBar: MatSnackBar,
+    private router: Router, 
+    private http: HttpClient) {}
 
-  view: CalendarView = CalendarView.Month;
+    list = []
+    user;
+    healthcard;
 
-  CalendarView = CalendarView;
+  ngOnInit() {
+    this.list = this.cartDataService.getAllAppointments();
 
-  viewDate: Date = new Date();
-
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    }
-  ];
-
-  refresh: Subject<any> = new Subject();
-
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      title: 'Example event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    }
-  ];
-  activeDayIsOpen = true;
-
-  constructor(private modal: NgbModal, public dialog: MatDialog) {}
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      this.viewDate = date;
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
+    for(let i = 0; i<this.list.length; i++){
+      const fullDate =  this.list[i].startTime.split("T");
+      const fullDate2 =  this.list[i].endTime.split("T");
+      this.list[i].day = fullDate[0];
+      this.list[i].start = fullDate[1];
     }
   }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
-    event.start = newStart;
-    event.end = newEnd;
-    this.handleEvent('Dropped or resized', event);
-    this.refresh.next();
+  getAppointments(){
+    this.authenticationService.user.subscribe(user => this.user = user);
+    this.healthcard = this.user.healthCard;
+    const userWithList = {
+      user: this.healthcard,
+      list: this.list
+    }
+    this.http.post("http://localhost:8080/appointment/view", userWithList)
+        .subscribe(data => {
+          
+        },
+          error => { console.log(error); this.openSnackBar(error.error, "Close"); }
+        );
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    const dialogRef = this.dialog.open(PatientBookingComponent, {
-      width: '500px',
-      height: '500px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000,
     });
   }
 }
