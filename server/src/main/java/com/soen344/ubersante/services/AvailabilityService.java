@@ -58,9 +58,8 @@ public class AvailabilityService {
     @Transactional
     public AvailabilityDto addNewAvailability(AvailabilityDto availabilityDto)
             throws AvailabilityOverlapException, InvalidAvailabilityException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), formatter);
-        LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), formatter);
+        LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), DateTimeFormatter.RFC_1123_DATE_TIME);
+        LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), DateTimeFormatter.RFC_1123_DATE_TIME);
         String doctorPermit = availabilityDto.getDoctorPermitNumber();
 
         if (!availabilityRepository.findAllInDateRangeForDoctor(start, end, doctorPermit).isEmpty()) {
@@ -91,10 +90,9 @@ public class AvailabilityService {
 
         Availability availability = availabilityData.get();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String doctorPermit = availabilityDto.getDoctorPermitNumber();
-        LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), formatter);
-        LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), formatter);
+        LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), DateTimeFormatter.RFC_1123_DATE_TIME);
+        LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), DateTimeFormatter.RFC_1123_DATE_TIME);
 
         List<Availability> availabilityOverlap = availabilityRepository.findAllInDateRangeForDoctor(start, end, doctorPermit);
         availabilityOverlap.remove(availability);
