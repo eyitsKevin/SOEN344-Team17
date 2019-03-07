@@ -15,7 +15,7 @@ public interface AvailabilityRepository extends CrudRepository<Availability, Lon
     List<Availability> findAllByDoctorPermitNumber(String permitNumber);
 
     @Query(value = "SELECT * FROM doctor_availability " +
-            "WHERE start_time >= ?1 AND end_time <= ?2 AND doctor_permit_number = ?3", nativeQuery = true)
+            "WHERE end_time > ?1 AND start_time < ?2 AND doctor_permit_number = ?3", nativeQuery = true)
     List<Availability> findAllInDateRangeForDoctor(LocalDateTime startTime, LocalDateTime endTime, String permit);
 
 } 
