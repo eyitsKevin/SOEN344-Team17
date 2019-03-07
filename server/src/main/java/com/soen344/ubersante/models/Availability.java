@@ -35,6 +35,10 @@ public class Availability {
     @ValidScheduleTime
     private LocalDateTime endTime;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "appointment_id")
+    private Appointment appointment;
+
     public Availability() {
 
     }
@@ -79,6 +83,32 @@ public class Availability {
         this.endTime = endTime;
     }
 
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Availability)) return false;
+        Availability that = (Availability) o;
+        return getId() == that.getId() &&
+                Objects.equals(getDoctorPermitNumber(), that.getDoctorPermitNumber()) &&
+                getAppointmentType() == that.getAppointmentType() &&
+                Objects.equals(getStartTime(), that.getStartTime()) &&
+                Objects.equals(getEndTime(), that.getEndTime()) &&
+                Objects.equals(getAppointment(), that.getAppointment());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, doctorPermitNumber, appointmentType, startTime, endTime);
+    }
+
     @Override
     public String toString() {
         return "Availability{" +
@@ -87,23 +117,7 @@ public class Availability {
                 ", appointmentType=" + appointmentType +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
+                ", appointment=" + appointment +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Availability)) return false;
-        Availability that = (Availability) o;
-        return id == that.id &&
-                Objects.equals(doctorPermitNumber, that.doctorPermitNumber) &&
-                appointmentType == that.appointmentType &&
-                Objects.equals(startTime, that.startTime) &&
-                Objects.equals(endTime, that.endTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, doctorPermitNumber, appointmentType, startTime, endTime);
     }
 }

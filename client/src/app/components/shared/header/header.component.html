@@ -9,6 +9,7 @@
       </div>
       <div class="mdc-layout-grid__cell">
        <i class="material-icons" routerLink="/user-profile"> person_pin </i>
+       <i *ngIf="this.authenticated==='patient'" class="material-icons" matBadge="{{this.cartDataService.list.length}}" routerLink="/cart" >shopping_cart</i>
       </div>
     </div>
   </div>

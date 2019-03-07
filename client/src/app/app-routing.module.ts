@@ -12,6 +12,7 @@ import { PatientAuthenticationGuard } from './guards/patient-authentication.guar
 import { NurseAuthenticationGuard } from './guards/nurse-authentication.guard';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component'
 import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
+import { PatientCartComponent } from './components/patients/patient-cart/patient-cart/patient-cart.component';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
@@ -23,7 +24,8 @@ const routes: Routes = [
     { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: ThisWeekComponent},
     { path: 'doctor/availabilities', component: DoctorCalendarViewComponent },
     { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent},
-    { path: 'user-profile', component: UserProfileComponent}
+    { path: 'user-profile', component: UserProfileComponent},
+    { path: 'cart', canActivate: [PatientAuthenticationGuard], component: PatientCartComponent}
   ]},
   {path: 'login', component: LoginComponent},
   {path: '404', component: NotFoundComponent},

@@ -1,0 +1,25 @@
+example-month-picker .mat-calendar-period-button {
+    pointer-events: none;
+  }
+  
+  .example-month-picker .mat-calendar-arrow {
+    display: none;
+  }
+  
+.form{
+  display: inline-block;
+}
+
+.date{
+  text-align: left;
+}
+
+.month{
+  width: 100px;
+  display:inline-block;
+}
+
+.year{
+  width: 100px;
+  display:inline-block;
+}
