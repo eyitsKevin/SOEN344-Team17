@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { HttpClient } from "@angular/common/http";
 import { AuthenticationService } from '../../../services/authentication.service';
+import { MatSnackBar } from "@angular/material";
 
 const colors: any = {
   red: {
@@ -53,7 +54,7 @@ export class DoctorCalendarViewComponent {
 
   activeDayIsOpen: boolean = false;
 
-  constructor(private modal: NgbModal, private http: HttpClient, private authenticationService: AuthenticationService) {
+  constructor(private modal: NgbModal, private http: HttpClient, private authenticationService: AuthenticationService, public snackBar: MatSnackBar) {
     this.authenticationService.user.subscribe(user => this.user = user);
     this.getAvailabilities();
   }
@@ -104,25 +105,48 @@ export class DoctorCalendarViewComponent {
     event.end = new Date(event.start.getTime() + ((event.duration) * 60000));
     if (action == "add") {
       this.postAvailability(event);
-      this.events.push(event);
     }
-    this.updateAvailability(event);
+    else {
+      this.updateAvailability(event);
+    }
     this.refresh.next();
   }
 
   postAvailability(event) {
     var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: new Date(event.end).toUTCString() };
-    console.log(eventDTO);
-    this.http.post("http://localhost:8080/availability/create", eventDTO).subscribe();
+
+    this.http.post("http://localhost:8080/availability/create", eventDTO).subscribe(data => {
+      event.id = data['id'];
+      this.events.push(event);
+      this.refresh.next();
+    },
+      error => { this.openSnackBar(error.error, "Close"); });
   }
 
   updateAvailability(event) {
-
+    var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: new Date(event.end).toUTCString() };
+    this.http.put("http://localhost:8080/availability/modify", eventDTO).subscribe(data => {
+      for (var i in this.events) {
+        if (this.events[i]['id'] === data['id']) {
+          this.events[i]['start'] = this.convertTime(data['start']);
+          this.events[i]['end'] = this.convertTime(data['end']);
+        }
+      }
+    },
+      error => { this.openSnackBar(error.error, "Close"); });
+    this.refresh.next();
   }
 
-  remove(eventStart) {
+  removeAvailability(id) {
+    this.http.delete("http://localhost:8080/availability/delete/" + id).subscribe(data => {
+    },
+      error => { this.openSnackBar(error.error, "Close"); });
+  }
+
+  remove(id) {
+    this.removeAvailability(id);
     for (var i = 0; i < this.events.length; i++) {
-      if (this.events[i].start == eventStart) {
+      if (this.events[i].id == id) {
         this.events.splice(i, 1);
       }
     }
@@ -135,9 +159,9 @@ export class DoctorCalendarViewComponent {
         let event = {
           id: data[i]["id"],
           title: data[i]["title"],
-          start: new Date(data[i]["start"]),
+          start: this.convertTime(data[i]["start"]),
           duration: data[i]["duration"],
-          end: new Date(data[i]["end"]),
+          end: this.convertTime(data[i]["end"]),
           color: type[data[i]["title"]].color,
           draggable: true
         };
@@ -145,6 +169,18 @@ export class DoctorCalendarViewComponent {
       }
       this.refresh.next();
     });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000,
+    });
+  }
+
+  convertTime(time) {
+    let newTime = new Date(time);
+    newTime.setHours(newTime.getHours() - 5);
+    return newTime;
   }
 
 }
