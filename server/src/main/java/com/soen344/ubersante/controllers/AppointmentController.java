@@ -5,7 +5,13 @@ import com.soen344.ubersante.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+
+import com.soen344.ubersante.dto.AppointmentDetails;
+import com.soen344.ubersante.exceptions.InvalidPasswordException;
+
+import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
@@ -18,5 +24,11 @@ public class AppointmentController {
     @RequestMapping(value = "/view", method = RequestMethod.POST)
     public ResponseEntity getAllAppointmentFromPatient(@RequestBody PatientDetails patientDetails) {
         return new ResponseEntity<>(appointmentService.getAppointmentDetails(appointmentService.findAppointmentForPatient(patientDetails)), HttpStatus.OK);
+    } 
+
+    @PostMapping("/cancel")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void cancelAppointmentPatient(@Valid @RequestBody long id) {
+        appointmentService.cancelAppointmentforPatient(id);
     }
 }

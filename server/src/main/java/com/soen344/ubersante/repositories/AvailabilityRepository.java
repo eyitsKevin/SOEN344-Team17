@@ -4,12 +4,19 @@ import java.util.List;
 
 import com.soen344.ubersante.models.Availability;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface AvailabilityRepository extends CrudRepository<Availability, Long> {
 
     @Query(value = "SELECT * FROM us_db.doctor_availability WHERE MONTH(start_time) = ?1 AND appointment_type = ?2", nativeQuery = true)
     List<Availability> findAvailabilitiesByMonth(String month, String availabilityType); 
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE us_db.doctor_availability SET appointment_id = NULL WHERE appointment_id = ?1", nativeQuery = true)
+    void updateAvailabilitiesByAppointmentId(long id);
 
 } 

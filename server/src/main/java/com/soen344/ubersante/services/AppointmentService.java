@@ -6,6 +6,7 @@ import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Patient;
 import com.soen344.ubersante.repositories.AppointmentRepository;
 import com.soen344.ubersante.repositories.PatientRepository;
+import com.soen344.ubersante.repositories.AvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,10 @@ public class AppointmentService {
     AppointmentRepository appointmentRepository;
 
     @Autowired
+    AvailabilityRepository availabilityRepository;
+
+    @Autowired
     PatientRepository patientRepository;
-
-
 
     public List<Appointment> findAppointmentForPatient(PatientDetails patientDetails) {
         Patient patient = patientRepository.findByHealthCard(patientDetails.getHealthCard());
@@ -32,6 +34,7 @@ public class AppointmentService {
         List<AppointmentDetails> detailList = new ArrayList<>();
         for (Appointment appointment: appointmentList) {
             AppointmentDetails appointmentDetails = new AppointmentDetails (
+                    appointment.getId(),
                     appointment.getPatient(),
                     appointment.getDoctor(),
                     appointment.getCreatedBy(),
@@ -44,4 +47,10 @@ public class AppointmentService {
         }
         return detailList;
     }
+
+    public void cancelAppointmentforPatient(long id) {
+        appointmentRepository.deleteAppointmentById(id);
+        availabilityRepository.updateAvailabilitiesByAppointmentId(id);
+    }
+
 }
