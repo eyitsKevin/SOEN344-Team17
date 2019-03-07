@@ -1,6 +1,8 @@
 package com.soen344.ubersante.services;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -61,8 +63,8 @@ public class AvailabilityService {
     }
 
     public boolean availabilityToAppointment(Patient patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException {
-        Date date = new Date();
-        Timestamp ts = new Timestamp(date.getTime());
+        LocalDateTime ldt = LocalDateTime.now();
+        Timestamp ts = Timestamp.valueOf(ldt);
 
         if (patientRepository.findByHealthCard(patient.getHealthCard()) == null) {
             throw new PatientNotFoundException("Patient not found in " + this);
