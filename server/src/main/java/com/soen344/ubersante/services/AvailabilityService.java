@@ -5,7 +5,6 @@ import com.soen344.ubersante.dto.PatientDetails;
 import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Availability;
-import com.soen344.ubersante.models.Patient;
 import com.soen344.ubersante.repositories.AppointmentRepository;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.repositories.DoctorRepository;
