@@ -1,6 +1,7 @@
 package com.soen344.ubersante.controllers;
 
 import com.soen344.ubersante.dto.AvailabilityDto;
+import com.soen344.ubersante.dto.Response;
 import com.soen344.ubersante.exceptions.AvailabilityDoesNotExistException;
 import com.soen344.ubersante.exceptions.AvailabilityOverlapException;
 import com.soen344.ubersante.exceptions.DateNotFoundException;
@@ -51,9 +52,9 @@ public class AvailabilityController {
         try {
             return new ResponseEntity<>(availabilityService.addNewAvailability(availabilityDto), HttpStatus.CREATED);
         } catch (AvailabilityOverlapException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.CONFLICT);
         } catch (InvalidAppointmentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -62,19 +63,19 @@ public class AvailabilityController {
         try {
             return new ResponseEntity<>(availabilityService.modifyAvailability(availabilityDto), HttpStatus.OK);
         } catch (AvailabilityDoesNotExistException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (AvailabilityOverlapException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.CONFLICT);
         } catch (InvalidAppointmentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteAvailability(@PathVariable("id") long id) {
+    public ResponseEntity deleteAvailability(@PathVariable("id") long id) {
         availabilityRepository.deleteById(id);
 
-        return new ResponseEntity<>("Availability has been deleted", HttpStatus.OK);
+        return new ResponseEntity<>(new Response("Availability has been deleted"), HttpStatus.OK);
     }
 }
