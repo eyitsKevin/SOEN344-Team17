@@ -1,42 +1,33 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours
-} from 'date-fns';
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
+import { startOfHour, isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView
-} from 'angular-calendar';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
 const colors: any = {
   red: {
     primary: '#ad2121',
     secondary: '#FAE3E3'
   },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
   yellow: {
     primary: '#e3bc08',
     secondary: '#FDF1BA'
   }
 };
+
+const type: any = {
+  walkin: {
+    title: "Walk-In",
+    color: colors.yellow,
+    duration: 20
+  },
+  checkup: {
+    title: "Annual Checkup",
+    color: colors.red,
+    duration: 60
+  }
+};
+
 @Component({
   selector: 'app-doctor-calendar-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,29 +49,13 @@ export class DoctorCalendarViewComponent {
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
-
   refresh: Subject<any> = new Subject();
 
   events: CalendarEvent[] = [
     
   ];
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
   constructor(private modal: NgbModal) {}
 
@@ -98,11 +73,7 @@ export class DoctorCalendarViewComponent {
     }
   }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
+  eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
@@ -112,20 +83,40 @@ export class DoctorCalendarViewComponent {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
+
   }
 
-  addEvent(): void {
-    this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: colors.red,
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    });
+  addAvailability(availabilityType): void {
+    let startTime = new Date();
+    startTime.setHours(8, 0, 0);
+    let newEvent = {
+      title: type[availabilityType].title, //call type - send
+      start: startTime, //send
+      duration: type[availabilityType].duration, //send
+      end: null,
+      color: type[availabilityType].color,
+      draggable: true
+    };
+    this.handleEvent("add", newEvent);
     this.refresh.next();
   }
+
+  apply(action, event) {
+    if(action=="add") {
+      this.events.push(event);
+    }
+    event.end = new Date(event.start.getTime() + ((event.duration)*60000));
+    this.refresh.next();
+  }
+
+  remove(eventStart) {
+    for(var i = 0; i < this.events.length; i++){
+      if(this.events[i].start == eventStart){
+        this.events.splice(i, 1); 
+      }
+    }
+    this.refresh.next(); 
+  }
+
 }
+

@@ -1,24 +1,21 @@
 package com.soen344.ubersante.services;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.soen344.ubersante.dto.AvailabilityDetails;
-import com.soen344.ubersante.exceptions.DateNotFoundException;
-import com.soen344.ubersante.exceptions.InvalidAppointmentException;
+import com.soen344.ubersante.dto.PatientDetails;
+import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Availability;
-import com.soen344.ubersante.models.Patient;
 import com.soen344.ubersante.repositories.AppointmentRepository;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.repositories.DoctorRepository;
+import com.soen344.ubersante.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
+
 
 @Service
 public class AvailabilityService {
@@ -31,6 +28,9 @@ public class AvailabilityService {
 
     @Autowired
     DoctorRepository doctorRepository;
+
+    @Autowired
+    PatientRepository patientRepository;
 
     public List<Availability> getAvailabilityByMonth(String month, String availabilityType) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
 
@@ -51,12 +51,30 @@ public class AvailabilityService {
         return availabilityRepository.findAvailabilitiesByMonth(month, availType);
     }
 
-    public boolean availabilityToAppointment(Patient patient, List<AvailabilityDetails> availabilityDetailsCart) {
-        Date date = new Date();
-        Timestamp ts = new Timestamp(date.getTime());
+    public void addAppointmentToTable(AvailabilityDetails availability, Appointment appointment) {
+        availabilityRepository.addAppointmentToAvailability(availability.getId() ,appointment.getId());
+    }
+
+    public boolean availabilityToAppointment(PatientDetails patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException {
+        LocalDateTime ldt = LocalDateTime.now();
+        Timestamp ts = Timestamp.valueOf(ldt);
+
+        if (patientRepository.findByHealthCard(patient.getHealthCard()) == null) {
+            throw new PatientNotFoundException("Patient not found in " + this);
+        }
+
+        if (availabilityDetailsCart.size() <= 0) {
+            throw new EmptyCartException("Nothing in the cart");
+        }
+
         for (AvailabilityDetails details : availabilityDetailsCart) {
+
+            if (doctorRepository.findByPermitNumber(details.getDoctorPermitNumber()) == null) {
+                throw new DoctorNotFoundException("Doctor not found in " + this);
+            }
+
             Appointment appointment = new Appointment(
-                    patient,
+                    patientRepository.findByHealthCard(patient.getHealthCard()),
                     doctorRepository.findByPermitNumber(details.getDoctorPermitNumber()),
                     patient.getFirstName() + " " + patient.getLastName(),
                     details.getAppointmentType(),
@@ -64,6 +82,7 @@ public class AvailabilityService {
                     LocalDateTime.parse(details.getEndTime()),
                     ts);
             appointmentRepository.save(appointment);
+            addAppointmentToTable(details, appointment);
         }
         return true;
     }

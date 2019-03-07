@@ -17,13 +17,13 @@ import java.util.List;
 public class AppointmentService {
 
     @Autowired
-    AppointmentRepository appointmentRepository;
+    private AppointmentRepository appointmentRepository;
 
     @Autowired
-    AvailabilityRepository availabilityRepository;
+    private AvailabilityRepository availabilityRepository;
 
     @Autowired
-    PatientRepository patientRepository;
+    private PatientRepository patientRepository;
 
     public List<Appointment> findAppointmentForPatient(PatientDetails patientDetails) {
         Patient patient = patientRepository.findByHealthCard(patientDetails.getHealthCard());
@@ -42,7 +42,7 @@ public class AppointmentService {
                     appointment.getDate().toLocalDate().toString(),
                     appointment.getTime().toLocalTime().toString(),
                     appointment.getCreatedAt().toString()
-                    );
+            );
             detailList.add(appointmentDetails);
         }
         return detailList;

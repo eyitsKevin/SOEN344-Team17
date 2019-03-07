@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CartDataService } from '../../../../services/cart-data.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
-import { HttpClient } from "@angular/common/http";
-import { MatSnackBar } from "@angular/material";
-import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
+import { MatSnackBar } from '@angular/material';
+import {MatDialog} from '@angular/material';
+import { PatientPaymentComponent} from '../../patient-payment/patient-payment.component';
 
 @Component({
   selector: 'app-patient-cart',
@@ -13,47 +13,50 @@ import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
 export class PatientCartComponent implements OnInit {
 
   constructor(private cartDataService: CartDataService,
-    private authenticationService: AuthenticationService,
-    public snackBar: MatSnackBar,
-    private http: HttpClient) { }
-list = []
-user;
-healthcard;
-  ngOnInit() {
-    this.list = this.cartDataService.getAllAppointments();
+              private authenticationService: AuthenticationService,
+              public snackBar: MatSnackBar,
+              public dialog: MatDialog
+              ) { }
+  cart = [];
+  patient;
 
-    for(let i = 0; i<this.list.length; i++){
-     const fullDate =  this.list[i].startTime.split("T");
-     const fullDate2 =  this.list[i].endTime.split("T");
-      this.list[i].day = fullDate[0];
-      this.list[i].start = fullDate[1];
-      this.list[i].end = fullDate2[1];
+  openDialog(): void {
+    this.authenticationService.user.subscribe(patient => this.patient = patient);
+    const patientWithcart = {
+      patient: this.patient,
+      cart: this.cart
+    };
+    const dialogRef = this.dialog.open(PatientPaymentComponent, {
+       width: '500px',
+      height: '500px',
+      data: patientWithcart
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+
+    });
+  }
+
+  ngOnInit() {
+    this.cart = this.cartDataService.getAllAppointments();
+
+    for (let i = 0; i < this.cart.length; i++) {
+      const fullDate =  this.cart[i].startTime.split('T');
+      const fullDate2 =  this.cart[i].endTime.split('T');
+      this.cart[i].day = fullDate[0];
+      this.cart[i].start = fullDate[1];
+      this.cart[i].end = fullDate2[1];
     }
   }
 
-  remove(index){
+  remove(index) {
     this.cartDataService.removeAppointment(index);
   }
 
-  checkout(){
-    this.authenticationService.user.subscribe(user => this.user = user);
-    this.healthcard = this.user.healthCard;
-    const userWithList = {
-      user: this.healthcard,
-      list: this.list
-    }
-    this.http.post("http://localhost:8080/availability/cart/checkout", userWithList)
-        .subscribe(data => {
-          
-        },
-          error => { console.log(error); this.openSnackBar(error.error, "Close"); }
-        );
-    this.list = this.cartDataService.deleteAllAppointments();
-  }
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 5000,
     });
   }
-
 }
