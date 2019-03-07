@@ -1,15 +1,15 @@
 <div>
-<h2>Cart</h2>
-<ul>
-  <li *ngFor="let cart of cart; let i = index">
-    <div>
+  <h2>Cart</h2>
+  <ul>
+    <li *ngFor="let cart of cart; let i = index">
+      <div>
     <span class="badge">Appointment from {{cart.start}} to {{cart.end}} on {{cart.day}}
-    </span> 
-    <button mat-button (click)="remove(index)">Remove</button>
-  </div>
-  </li>
-</ul>
-<ng-template #other_content>Cart is empty</ng-template>
+    </span>
+        <button mat-button (click)="remove(i)">Remove</button>
+      </div>
+    </li>
+  </ul>
+  <ng-template #other_content>Cart is empty</ng-template>
 </div>
-<button *ngIf="this.cart.length>=1;else other_content" mat-button (click)="checkout()">Checkout</button>
+<button *ngIf="this.cart.length>=1;else other_content" mat-button (click)="openDialog()">Checkout</button>
 

@@ -1,14 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CartDataService } from '../../../../services/cart-data.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
-import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 import {MatDialog} from '@angular/material';
 import { PatientPaymentComponent} from '../../patient-payment/patient-payment.component';
 
-export interface DialogData {
- 
-}
 @Component({
   selector: 'app-patient-cart',
   templateUrl: './patient-cart.component.html',
@@ -21,10 +17,8 @@ export class PatientCartComponent implements OnInit {
               public snackBar: MatSnackBar,
               public dialog: MatDialog
               ) { }
-              
   cart = [];
   patient;
-  healthcard;
 
   openDialog(): void {
     this.authenticationService.user.subscribe(patient => this.patient = patient);
