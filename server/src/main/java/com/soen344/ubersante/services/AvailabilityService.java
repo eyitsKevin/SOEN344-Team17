@@ -1,18 +1,7 @@
 package com.soen344.ubersante.services;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-
 import com.soen344.ubersante.dto.AvailabilityDetails;
-import com.soen344.ubersante.exceptions.DateNotFoundException;
-import com.soen344.ubersante.exceptions.DoctorNotFoundException;
-import com.soen344.ubersante.exceptions.InvalidAppointmentException;
-import com.soen344.ubersante.exceptions.PatientNotFoundException;
-import com.soen344.ubersante.exceptions.EmptyCartException;
+import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Availability;
 import com.soen344.ubersante.models.Patient;
@@ -22,6 +11,10 @@ import com.soen344.ubersante.repositories.DoctorRepository;
 import com.soen344.ubersante.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Service
