@@ -1,24 +1,25 @@
 <div onload="getAppointments()">  
   <h3>Bookings</h3>
-  <ul>
-    <li *ngFor="let list of list; let i = index">
-     <!-- <mat-list role="list">
-          <mat-list-item role="listitem">Booking 1</mat-list-item>
-          <mat-list-item role="listitem">Booking 2</mat-list-item>
-          </mat-list> -->    
-      <div>
-      <mat-card>
+
+    <div>
+      <mat-card *ngFor="let list of list; let i = index">
           <mat-list role="list">
             <mat-list-item role="listitem">
               <p mat-line>
-                <span>Booking from {{list.start}} to {{list.end}} on {{list.day}}</span>
+                <span>{{list.appointmentType}} Appointment: </span>
+              </p>
+              <button mat-button style="float: right;">Cancel</button>
+              <button mat-button style="float: right;">Update</button>
+              <p mat-line>
+                <span>Booking is on {{list.date}} at {{list.time}} with Dr. {{list.doctorDetails.lastName}}</span>
               </p>
             </mat-list-item>
+
           </mat-list>
       </mat-card>
-      </div>
-    </li>
-  </ul>
+    </div>
+
+
   <ng-template #other_content>There are no bookings</ng-template>
 </div>
 

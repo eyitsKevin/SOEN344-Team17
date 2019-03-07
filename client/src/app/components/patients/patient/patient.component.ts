@@ -24,31 +24,19 @@ export class PatientComponent implements OnInit {
     private router: Router, 
     private http: HttpClient) {}
 
-    list = []
+    list;
     user;
     healthcard;
 
   ngOnInit() {
-    this.list = this.cartDataService.getAllAppointments();
-
-    for(let i = 0; i<this.list.length; i++){
-      const fullDate =  this.list[i].startTime.split("T");
-      const fullDate2 =  this.list[i].endTime.split("T");
-      this.list[i].day = fullDate[0];
-      this.list[i].start = fullDate[1];
-    }
+    this.getAppointments()
   }
 
   getAppointments(){
     this.authenticationService.user.subscribe(user => this.user = user);
-    this.healthcard = this.user.healthCard;
-    const userWithList = {
-      user: this.healthcard,
-      list: this.list
-    }
-    this.http.post("http://localhost:8080/appointment/view", userWithList)
+    this.http.post("http://localhost:8080/appointment/view", this.user)
         .subscribe(data => {
-          
+          this.list = data;
         },
           error => { console.log(error); this.openSnackBar(error.error, "Close"); }
         );

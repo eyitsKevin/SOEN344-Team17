@@ -35,6 +35,7 @@ import { PatientBookingComponent} from './components/patients/patient-booking/pa
 import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
 import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
 import {MatListModule} from '@angular/material/list';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import {MatListModule} from '@angular/material/list';
       provide: DateAdapter,
       useFactory: adapterFactory
     }),
-    MatListModule
+    MatListModule,
+    MatCardModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [PatientBookingComponent],
