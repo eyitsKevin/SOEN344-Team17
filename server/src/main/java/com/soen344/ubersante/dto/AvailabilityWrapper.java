@@ -1,7 +1,5 @@
 package com.soen344.ubersante.dto;
 
-import com.soen344.ubersante.models.Patient;
-
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +11,7 @@ import java.util.Objects;
 public class AvailabilityWrapper {
 
     @NotEmpty
-    private Patient patient;
+    private PatientDetails patient;
 
     @NotEmpty
     private List<AvailabilityDetails> cart;
@@ -60,7 +58,7 @@ public class AvailabilityWrapper {
         }
     }
 
-    public Patient getPatient() {
+    public PatientDetails getPatient() {
         return patient;
     }
 

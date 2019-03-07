@@ -1,6 +1,7 @@
 package com.soen344.ubersante.services;
 
 import com.soen344.ubersante.dto.AvailabilityDetails;
+import com.soen344.ubersante.dto.PatientDetails;
 import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Availability;
@@ -55,7 +56,7 @@ public class AvailabilityService {
         availabilityRepository.addAppointmentToAvailability(availability.getId() ,appointment.getId());
     }
 
-    public boolean availabilityToAppointment(Patient patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException {
+    public boolean availabilityToAppointment(PatientDetails patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException {
         LocalDateTime ldt = LocalDateTime.now();
         Timestamp ts = Timestamp.valueOf(ldt);
 
