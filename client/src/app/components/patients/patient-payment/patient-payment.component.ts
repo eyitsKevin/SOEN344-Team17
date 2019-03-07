@@ -8,6 +8,7 @@ import { CartDataService } from '../../../services/cart-data.service';
 
 export interface DialogData {
     cart;
+    payment;
 }
 
 @Component({
@@ -38,10 +39,9 @@ export class PatientPaymentComponent implements OnInit{
 
     onSubmit(){
       if(this.payment.valid){
+        this.data.payment = this.payment
         const info = {
-          price: this.price,
           data: this.data,
-          ...this.payment.value
         }
         this.http.post('/api/availability/cart/checkout', info)
       .subscribe(data => {
