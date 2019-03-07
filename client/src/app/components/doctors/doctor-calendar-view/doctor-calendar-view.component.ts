@@ -41,22 +41,14 @@ export class DoctorCalendarViewComponent {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
-
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
-
   modalData: {
     action: string;
     event: CalendarEvent;
   };
-
   refresh: Subject<any> = new Subject();
-
-  events: CalendarEvent[] = [ 
-    
-  ];
-
+  events: CalendarEvent[] = [];
   user;
 
   activeDayIsOpen: boolean = false;
@@ -95,10 +87,10 @@ export class DoctorCalendarViewComponent {
   addAvailability(availabilityType): void {
     let startTime = new Date();
     startTime.setHours(8, 0, 0);
-    console.log(startTime);
     let newEvent = {
-      title: type[availabilityType].title, 
-      start: startTime, 
+      id: null,
+      title: availabilityType,
+      start: startTime,
       duration: type[availabilityType].duration,
       end: null,
       color: type[availabilityType].color,
@@ -109,39 +101,49 @@ export class DoctorCalendarViewComponent {
   }
 
   apply(action, event) {
-    if(action=="add") {
+    event.end = new Date(event.start.getTime() + ((event.duration) * 60000));
+    if (action == "add") {
+      this.postAvailability(event);
       this.events.push(event);
     }
-    event.end = new Date(event.start.getTime() + ((event.duration)*60000));
+    this.updateAvailability(event);
     this.refresh.next();
   }
 
+  postAvailability(event) {
+    var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: new Date(event.end).toUTCString() };
+    console.log(eventDTO);
+    this.http.post("http://localhost:8080/availability/create", eventDTO).subscribe();
+  }
+
+  updateAvailability(event) {
+
+  }
+
   remove(eventStart) {
-    for(var i = 0; i < this.events.length; i++){
-      if(this.events[i].start == eventStart){
-        this.events.splice(i, 1); 
+    for (var i = 0; i < this.events.length; i++) {
+      if (this.events[i].start == eventStart) {
+        this.events.splice(i, 1);
       }
     }
-    this.refresh.next(); 
+    this.refresh.next();
   }
 
   getAvailabilities() {
-    this.http.get("http://localhost:8080/availability/doctor/"+this.user.permitNumber).subscribe(x => {
-      console.log(x);
-
-      for(var i in x){
-        console.log(i);
+    this.http.get("http://localhost:8080/availability/doctor/" + this.user.permitNumber).subscribe(data => {
+      for (var i in data) {
         let event = {
-          title: x[i]["title"], 
-          start: new Date(x[i]["start"]), 
-          duration: x[i]["duration"],
-          end: new Date(x[i]["end"]),
-          color: type[x[i]["title"]].color,
+          id: data[i]["id"],
+          title: data[i]["title"],
+          start: new Date(data[i]["start"]),
+          duration: data[i]["duration"],
+          end: new Date(data[i]["end"]),
+          color: type[data[i]["title"]].color,
           draggable: true
         };
         this.events.push(event);
       }
-      this.refresh.next(); 
+      this.refresh.next();
     });
   }
 
