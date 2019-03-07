@@ -44,11 +44,11 @@ const colors: any = {
 };
 
 @Component({
-    selector: 'patient-view-availability',
+    selector: 'app-patient-view-availability',
     templateUrl: 'patient-view-availability.component.html',
     styleUrls: ['patient-view-availability.component.scss']
 })
-export class PatientViewAvailabilityComponent implements OnInit{
+export class PatientViewAvailabilityComponent implements OnInit {
     @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
@@ -83,26 +83,27 @@ export class PatientViewAvailabilityComponent implements OnInit{
   }
 
 
-  addAppointmentToCalendar(x) {
-    const title = x.startTime.match(/(T........)/)[0].slice(1, 6);
+  addAppointmentToCalendar(appointment) {
+    const title = appointment.startTime.match(/(T........)/)[0].slice(1, 6);
     const newEvent = {
       title: title,
-      start: new Date(x.startTime),
+      start: new Date(appointment.startTime),
       duration: 20,
-      color: colors.red
-    }
+      color: colors.red,
+      data: appointment
+    };
     this.events.push(newEvent);
     this.refresh.next();
   }
 
-  getNewAvailabilities(){
-    if(this.router.url.includes('walkin')) {
+  getNewAvailabilities() {
+    if (this.router.url.includes('walkin')) {
       this.http
       .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
       .subscribe((result: Array<Object>) => {
         result.map(availability => this.addAppointmentToCalendar(availability));
       });
-    } else if(this.router.url.includes('annual')) {
+    } else if (this.router.url.includes('annual')) {
       this.http
       .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
       .subscribe((result: Array<Object>) => {
@@ -136,10 +137,11 @@ export class PatientViewAvailabilityComponent implements OnInit{
     this.refresh.next();
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
+  handleEvent(action: string, event): void {
     const dialogRef = this.dialog.open(PatientBookingComponent, {
       width: '500px',
-      height: '500px'
+      height: '500px',
+      data: event.data
     });
 
     dialogRef.afterClosed().subscribe(result => {

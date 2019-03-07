@@ -28,9 +28,12 @@ import { UserProfileComponent } from './components/shared/user-profile/user-prof
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import {MatBadgeModule} from '@angular/material/badge';
+import { PatientBookingComponent} from './components/patients/patient-booking/patient-booking.component';
+import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
+import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
+import {PatientPaymentComponent} from './components/patients/patient-payment/patient-payment.component';
 import { ThisWeekComponent } from './components/doctors/this-week/this-week.component';
-import { PatientBookingComponent } from './components/patients/patient-booking/patient-booking.component';
-import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import { PatientViewAvailabilityComponent } from './components/patients/patient-
     PatientComponent,
     LoginComponent,
     NurseComponent,
+    PatientCartComponent,
     RegistrationComponent,
     SiteComponent,
     LoggedInDirective,
@@ -51,7 +55,8 @@ import { PatientViewAvailabilityComponent } from './components/patients/patient-
     NotFoundComponent,
     ThisWeekComponent,
     PatientBookingComponent,
-    PatientViewAvailabilityComponent
+    PatientViewAvailabilityComponent,
+    PatientPaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +81,7 @@ import { PatientViewAvailabilityComponent } from './components/patients/patient-
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatBadgeModule,
     MatSelectModule,
     NgbModalModule,
     CalendarModule.forRoot({
@@ -84,7 +90,7 @@ import { PatientViewAvailabilityComponent } from './components/patients/patient-
     })
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent],
+  entryComponents: [PatientBookingComponent, PatientPaymentComponent],
   exports: [DoctorCalendarViewComponent],
   providers: [MatDatepickerModule]
 })
