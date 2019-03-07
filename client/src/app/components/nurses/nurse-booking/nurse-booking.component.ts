@@ -20,6 +20,7 @@ export class NurseBookingComponent implements OnInit {
   isDataLoaded;
   selected: Patient;
   filteredOptions: Observable<Patient[]>;
+  eventText;
 
   ngOnInit() {
     this.fetchAllPatient().subscribe( x => {
@@ -52,6 +53,13 @@ export class NurseBookingComponent implements OnInit {
 
   getSelection(patient: Patient): void {
     this.selected = patient;
+  }
+
+  onSwipe(evt) {
+    const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? 'right' : 'left') : '';
+    const y = Math.abs(evt.deltaY) > 40 ? (evt.deltaY > 0 ? 'down' : 'up') : '';
+    console.log('hello');
+    this.eventText += `${x} ${y}<br/>`;
   }
 
 }
