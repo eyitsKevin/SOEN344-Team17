@@ -7,9 +7,9 @@ import { Router } from '@angular/router';
 import { CartDataService } from '../../../services/cart-data.service';
 
 export interface DialogData {
-    cart;
-    payment;
-    price;
+  cart;
+  payment;
+  price;
 }
 
 @Component({
@@ -21,6 +21,7 @@ export class PatientPaymentComponent implements OnInit{
 
   payment: FormGroup;
   price;
+
   constructor( public dialogRef: MatDialogRef<PatientPaymentComponent>,
                @Inject(MAT_DIALOG_DATA) public data: DialogData,
                private formBuilder: FormBuilder,
@@ -34,19 +35,16 @@ export class PatientPaymentComponent implements OnInit{
       ccNumber: ['', [Validators.required, Validators.pattern('[0-9]{16}')]],
       cvv: ['', [Validators.required, Validators.pattern('[0-9]{3}')]],
       exprMonth: ['', Validators.required],
-      exprYear: [, Validators.required]
+      exprYear: ['', Validators.required],
+      price: this.data.cart.length * 20,
     });
   }
 
   onSubmit() {
     if (this.payment.valid) {
-      this.data.payment = this.payment,
-      this.data.price = this.price
-      const info = {
-        data: this.data,
-      };
-      this.http.post('/api/availability/cart/checkout', info)
-        .subscribe(data => {
+      this.data.payment = this.payment.value;
+      this.http.post('/api/availability/cart/checkout', this.data)
+        .subscribe(() => {
             this.router.navigate(['patient']);
           },
         );
