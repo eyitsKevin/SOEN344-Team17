@@ -8,6 +8,7 @@ import { AuthenticationService } from '../../../services/authentication.service'
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from "@angular/material";
+import { PatientCancelComponent } from '../patient-cancel/patient-cancel.component'
 
 @Component({
   selector: 'app-patient',
@@ -45,6 +46,17 @@ export class PatientComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 5000,
+    });
+  }
+
+  cancelBooking(appointment): void {
+    const dialogRef = this.dialog.open(PatientCancelComponent, {
+      width: '500px',
+      data: appointment
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
 }

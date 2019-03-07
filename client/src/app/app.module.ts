@@ -36,6 +36,7 @@ import {PatientViewAvailabilityComponent} from './components/patients/patient-vi
 import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
+import {PatientCancelComponent} from './components/patients/patient-cancel/patient-cancel.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {MatCardModule} from '@angular/material/card';
     UserProfileComponent,
     NotFoundComponent,
     PatientBookingComponent,
-    PatientViewAvailabilityComponent
+    PatientViewAvailabilityComponent,
+    PatientCancelComponent
   ],
   imports: [
     BrowserModule,
@@ -92,7 +94,7 @@ import {MatCardModule} from '@angular/material/card';
     MatCardModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent],
+  entryComponents: [PatientBookingComponent, PatientCancelComponent],
   exports: [DoctorCalendarViewComponent],
   providers: [MatDatepickerModule]
 })
