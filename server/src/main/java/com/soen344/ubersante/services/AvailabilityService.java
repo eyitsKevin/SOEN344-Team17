@@ -4,13 +4,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.soen344.ubersante.dto.AvailabilityDto;
-import com.soen344.ubersante.exceptions.AvailabilityOverlapException;
-import com.soen344.ubersante.exceptions.DateNotFoundException;
-import com.soen344.ubersante.exceptions.InvalidAppointmentException;
-import com.soen344.ubersante.exceptions.InvalidAvailabilityException;
+import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.models.Availability;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,12 +59,9 @@ public class AvailabilityService {
     public AvailabilityDto addNewAvailability(AvailabilityDto availabilityDto)
             throws AvailabilityOverlapException, InvalidAvailabilityException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        validatorFactory.close();
-        String doctorPermit = availabilityDto.getDoctorPermitNumber();
         LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), formatter);
         LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), formatter);
+        String doctorPermit = availabilityDto.getDoctorPermitNumber();
 
         if (!availabilityRepository.findAllInDateRangeForDoctor(start, end, doctorPermit).isEmpty()) {
             throw new AvailabilityOverlapException("There exists an availability overlap conflict");
@@ -74,13 +69,45 @@ public class AvailabilityService {
 
         final Availability availability = new Availability();
         availability.setAppointmentType(availabilityDto.getAppointmentType());
+        availability.setStartTime(start);
+        availability.setEndTime(end);
         availability.setDoctorPermitNumber(doctorPermit);
+
+        if (!validAvailability(availability)) {
+            throw new InvalidAvailabilityException("Invalid availability, failed backend validation");
+        }
+
+        return convertToAvailabilityDto(availabilityRepository.save(availability));
+    }
+
+    @Transactional
+    public AvailabilityDto modifyAvailability(AvailabilityDto availabilityDto)
+            throws AvailabilityOverlapException, InvalidAvailabilityException {
+        Optional<Availability> availabilityData = availabilityRepository.findById(availabilityDto.getId());
+
+        if (!availabilityData.isPresent()) {
+            throw new AvailabilityDoesNotExistException("Availability does not exist");
+        }
+
+        Availability availability = availabilityData.get();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String doctorPermit = availabilityDto.getDoctorPermitNumber();
+        LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), formatter);
+        LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), formatter);
+
+        List<Availability> availabilityOverlap = availabilityRepository.findAllInDateRangeForDoctor(start, end, doctorPermit);
+        availabilityOverlap.remove(availability);
+
+        if (!availabilityOverlap.isEmpty()) {
+            throw new AvailabilityOverlapException("There exists an availability overlap conflict");
+        }
+
+        availability.setAppointmentType(availabilityDto.getAppointmentType());
         availability.setStartTime(start);
         availability.setEndTime(end);
 
-        Set<ConstraintViolation<Availability>> violations = validator.validate(availability);
-
-        if (!violations.isEmpty()) {
+        if (!validAvailability(availability)) {
             throw new InvalidAvailabilityException("Invalid availability, failed backend validation");
         }
 
@@ -98,5 +125,15 @@ public class AvailabilityService {
         dto.setEnd(availability.getEndTime().format(formatter));
 
         return dto;
+    }
+
+    private Boolean validAvailability(Availability availability) {
+        validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        validatorFactory.close();
+
+        Set<ConstraintViolation<Availability>> violations = validator.validate(availability);
+
+        return violations.isEmpty();
     }
 }
