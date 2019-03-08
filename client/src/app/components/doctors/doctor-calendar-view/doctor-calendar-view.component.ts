@@ -154,7 +154,7 @@ export class DoctorCalendarViewComponent {
   remove(id) {
     this.removeAvailability(id);
     for (var i = 0; i < this.events.length; i++) {
-      if (this.events[i].id == id) {
+      if (this.events[i].id === id) {
         this.events.splice(i, 1);
       }
     }
