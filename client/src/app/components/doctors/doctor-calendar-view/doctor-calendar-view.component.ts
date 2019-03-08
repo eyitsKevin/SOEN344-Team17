@@ -102,7 +102,6 @@ export class DoctorCalendarViewComponent {
   }
 
   apply(action, event) {
-    event.end = new Date(event.start.getTime() + ((event.duration) * 60000));
     if (action == "add") {
       this.postAvailability(event);
     }
@@ -113,8 +112,8 @@ export class DoctorCalendarViewComponent {
   }
 
   postAvailability(event) {
+    event.end = new Date(event.start.getTime() + ((event.duration) * 60000));
     var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: new Date(event.end).toUTCString() };
-
     this.http.post("http://localhost:8080/availability/create", eventDTO).subscribe(data => {
       event.id = data['id'];
       this.events.push(event);
@@ -124,16 +123,25 @@ export class DoctorCalendarViewComponent {
   }
 
   updateAvailability(event) {
-    var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: new Date(event.end).toUTCString() };
+    let newEnd = new Date(event.start.getTime() + ((event.duration) * 60000));
+    var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: newEnd.toUTCString() };
     this.http.put("http://localhost:8080/availability/modify", eventDTO).subscribe(data => {
+      console.log(data);
       for (var i in this.events) {
         if (this.events[i]['id'] === data['id']) {
-          this.events[i]['start'] = this.convertTime(data['start']);
           this.events[i]['end'] = this.convertTime(data['end']);
+          this.refresh.next();
         }
       }
     },
-      error => { this.openSnackBar(error.error, "Close"); });
+      error => { this.openSnackBar(error.error, "Close"); 
+      for (var i in this.events) {
+        if (this.events[i]['id'] === event.id) {
+          this.events[i]['start'] = new Date(this.events[i]['end'].getTime() - ((this.events[i]['duration']) * 60000));
+          this.refresh.next();
+        }
+      }
+    });
     this.refresh.next();
   }
 
@@ -163,7 +171,7 @@ export class DoctorCalendarViewComponent {
           duration: data[i]["duration"],
           end: this.convertTime(data[i]["end"]),
           color: type[data[i]["title"]].color,
-          draggable: true
+          draggable: false
         };
         this.events.push(event);
       }
