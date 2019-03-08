@@ -42,4 +42,10 @@ export class PatientCancelComponent {
       duration: 5000,
     });
   }
+  
+  convertTime(time) {
+    let newTime = new Date(time);
+    newTime.setHours(newTime.getHours() - 5);
+    return newTime;
+    }
 }

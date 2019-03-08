@@ -67,4 +67,10 @@ export class PatientComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+  
+  convertTime(time) {
+    let newTime = new Date(time);
+    newTime.setHours(newTime.getHours() - 5);
+    return newTime;
+    }
 }

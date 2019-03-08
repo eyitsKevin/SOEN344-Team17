@@ -11,7 +11,7 @@
               <button mat-button style="float: right;" (click)="cancelBooking(list)">Cancel</button>
               <button mat-button style="float: right;">Update</button>
               <p mat-line>
-                <span>Booking is on {{list.date}} at {{list.time}} with Dr. {{list.doctorDetails.lastName}}</span>
+                <span>Booking is on {{list.date}} at {{this.convertTime((list.date + " "  + list.time))}} with Dr. {{list.doctorDetails.lastName}}</span>
               </p>
             </mat-list-item>
 

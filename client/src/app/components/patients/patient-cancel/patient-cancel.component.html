@@ -2,7 +2,7 @@
 <div mat-dialog-content>
 
   <p>Appointment Details: </p>
-  <p>{{this.data.appointmentType}} appointment on {{this.data.date}} at {{this.data.time}}</p>
+  <p>{{this.data.appointmentType}} appointment on {{this.data.date}} at {{this.convertTime((this.data.date + " "  + this.data.time))}}</p>
   <p>Are you sure you want to cancel this appointment with Dr. {{this.data.doctorDetails.lastName}}?</p>
 
 </div>
