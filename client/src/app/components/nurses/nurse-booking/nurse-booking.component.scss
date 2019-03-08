@@ -17,3 +17,8 @@
 .example-card:hover{
   box-shadow: -1px 10px 29px 0px rgba(0,0,0,0.8);
 }
+
+.example-button-row button,
+.example-button-row a {
+  margin-left: 15px;
+}

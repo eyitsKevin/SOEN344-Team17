@@ -4,15 +4,52 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {Patient} from '../../../models/patient';
+import {animate, group, state, style, transition, trigger} from '@angular/animations';
+import {MatBottomSheet} from '@angular/material';
+import {PatientViewAvailabilityComponent} from '../../patients/patient-view-availability/patient-view-availability.component';
 
 @Component({
   selector: 'app-nurse-booking',
   templateUrl: './nurse-booking.component.html',
-  styleUrls: ['./nurse-booking.component.scss']
+  styleUrls: ['./nurse-booking.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({
+        'max-height': '500px', 'opacity': '1', 'visibility': 'visible'
+      })),
+      state('out', style({
+        'max-height': '0px', 'opacity': '0', 'visibility': 'hidden'
+      })),
+      transition('in => out', [group([
+          animate('400ms ease-in-out', style({
+            'opacity': '0'
+          })),
+          animate('600ms ease-in-out', style({
+            'max-height': '0px'
+          })),
+          animate('700ms ease-in-out', style({
+            'visibility': 'hidden'
+          }))
+        ]
+      )]),
+      transition('out => in', [group([
+          animate('1ms ease-in-out', style({
+            'visibility': 'visible'
+          })),
+          animate('600ms ease-in-out', style({
+            'max-height': '500px'
+          })),
+          animate('800ms ease-in-out', style({
+            'opacity': '1'
+          }))
+        ]
+      )])
+    ]),
+  ]
 })
 export class NurseBookingComponent implements OnInit {
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private bottomSheet: MatBottomSheet) {
   }
 
   myControl = new FormControl();
@@ -21,6 +58,20 @@ export class NurseBookingComponent implements OnInit {
   selected: Patient;
   filteredOptions: Observable<Patient[]>;
   eventText;
+  currentState = 'in';
+  bookingSelection = false;
+
+
+  openBottomSheet(): void {
+    this.bottomSheet.open(PatientViewAvailabilityComponent, {
+      panelClass: 'mat-bottom-sheet-container-custom',
+      data: { patient: this.selected, booking: this.bookingSelection}});
+  }
+
+  closeBottomSheet(): void {
+    this.bottomSheet.dismiss();
+  }
+
 
   ngOnInit() {
     this.fetchAllPatient().subscribe( x => {
@@ -52,7 +103,12 @@ export class NurseBookingComponent implements OnInit {
   }
 
   getSelection(patient: Patient): void {
+    this.changeState();
     this.selected = patient;
+  }
+
+  changeState() {
+    this.currentState = this.currentState === 'in' ? 'out' : 'in';
   }
 
   onSwipe(evt) {

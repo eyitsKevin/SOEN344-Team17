@@ -10,7 +10,7 @@
     </mat-form-field>
   </form>
 
-  <mat-card class="example-card" *ngIf="selected" (swipe)="onSwipe($event)">
+  <mat-card class="example-card" *ngIf="selected" [@slideInOut] (swipe)="onSwipe($event)">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
       <mat-card-title> {{selected.firstName}}</mat-card-title>
@@ -27,6 +27,19 @@
       <span>Birth Date: {{selected.birthday}} </span>
     </pre>
     </mat-card-content>
+    <div class="example-button-row">
+      <section class="example-section">
+        <mat-slide-toggle
+          class="example-margin"
+          [(ngModel)]="bookingSelection">
+          <span *ngIf="bookingSelection;then content else content2"></span>
+          <ng-template #content> Annual </ng-template>
+          <ng-template #content2> Walk-in </ng-template>
+        </mat-slide-toggle>
+      </section>
+      <button mat-raised-button color="primary" (click)="openBottomSheet()">Book an appointment</button>
+      <button mat-raised-button color="primary">View appointments</button>
+    </div>
   </mat-card>
 
 
