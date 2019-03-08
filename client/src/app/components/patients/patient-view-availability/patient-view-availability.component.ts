@@ -140,12 +140,11 @@ export class PatientViewAvailabilityComponent implements OnInit {
   handleEvent(action: string, event): void {
     const dialogRef = this.dialog.open(PatientBookingComponent, {
       width: '500px',
-      height: '500px',
+      height: '250px',
       data: event.data
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 }
