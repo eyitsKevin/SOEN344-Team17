@@ -7,7 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule,
-  MatSelectModule, MatDialogModule, MatMenuModule, MatAutocompleteModule, MatCardModule
+  MatSelectModule, MatDialogModule, MatMenuModule, MatAutocompleteModule, MatCardModule, MatBottomSheetModule, MatSlideToggleModule,
+  MatListModule
 } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
@@ -37,6 +38,7 @@ import { PatientBookingComponent} from './components/patients/patient-booking/pa
 import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
 import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
 import { NurseBookingComponent } from './components/nurses/nurse-booking/nurse-booking.component';
+import { NursePatientBookingComponent } from './components/nurses/nurse-patient-booking/nurse-patient-booking.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,8 @@ import { NurseBookingComponent } from './components/nurses/nurse-booking/nurse-b
     NotFoundComponent,
     PatientBookingComponent,
     PatientViewAvailabilityComponent,
-    NurseBookingComponent
+    NurseBookingComponent,
+    NursePatientBookingComponent
   ],
   imports: [
     BrowserModule,
@@ -88,14 +91,17 @@ import { NurseBookingComponent } from './components/nurses/nurse-booking/nurse-b
     NgbModalModule,
     MatAutocompleteModule,
     MatCardModule,
+    MatBottomSheetModule,
+    MatSlideToggleModule,
+    MatListModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
     })
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent],
-  exports: [DoctorCalendarViewComponent],
-  providers: [MatDatepickerModule]
+  entryComponents: [PatientBookingComponent, NursePatientBookingComponent],
+  exports: [DoctorCalendarViewComponent, NurseBookingComponent],
+  providers: [MatDatepickerModule, NursePatientBookingComponent, NurseBookingComponent]
 })
 export class AppModule { }

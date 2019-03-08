@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef,
-  OnInit
+  OnInit, Inject
 } from '@angular/core';
 import {MatDialogModule, MatDialog} from '@angular/material/dialog';
 import {
@@ -28,6 +28,9 @@ import { PatientBookingComponent } from '../patient-booking/patient-booking.comp
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import {MAT_BOTTOM_SHEET_DATA} from "@angular/material";
+import {NursePatientBookingComponent} from "../../nurses/nurse-patient-booking/nurse-patient-booking.component";
+import {AuthenticationService} from "../../../services/authentication.service";
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -44,12 +47,12 @@ const colors: any = {
 };
 
 @Component({
-    selector: 'patient-view-availability',
-    templateUrl: 'patient-view-availability.component.html',
-    styleUrls: ['patient-view-availability.component.scss']
+  selector: 'app-patient-view-availability',
+  templateUrl: 'patient-view-availability.component.html',
+  styleUrls: ['patient-view-availability.component.scss']
 })
 export class PatientViewAvailabilityComponent implements OnInit{
-    @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
 
@@ -75,10 +78,12 @@ export class PatientViewAvailabilityComponent implements OnInit{
 
   events: CalendarEvent[] = [];
   activeDayIsOpen = true;
+  authenticated;
 
-  constructor(private modal: NgbModal, public dialog: MatDialog, private router: Router, private http: HttpClient) {}
+  constructor(private modal: NgbModal, public dialog: MatDialog, private router: Router, private http: HttpClient, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any, private authenticationService: AuthenticationService) {}
 
   ngOnInit() {
+    this.authenticationService.authenticated.subscribe(authenticated => this.authenticated = authenticated);
     this.getNewAvailabilities();
   }
 
@@ -96,19 +101,19 @@ export class PatientViewAvailabilityComponent implements OnInit{
     this.refresh.next();
   }
 
-  getNewAvailabilities(){
-    if(this.router.url.includes('walkin')) {
+  getNewAvailabilities() {
+    if (this.router.url.includes('walkin') || !this.data.booking) {
       this.http
-      .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
-      .subscribe((result: Array<Object>) => {
-        result.map(availability => this.addAppointmentToCalendar(availability));
-      });
-    } else if(this.router.url.includes('annual')) {
+        .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
+        .subscribe((result: Array<Object>) => {
+          result.map(availability => this.addAppointmentToCalendar(availability));
+        });
+    } else if (this.router.url.includes('annual') || this.data.booking) {
       this.http
-      .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
-      .subscribe((result: Array<Object>) => {
-        result.map(availability => this.addAppointmentToCalendar(availability));
-      });
+        .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
+        .subscribe((result: Array<Object>) => {
+          result.map(availability => this.addAppointmentToCalendar(availability));
+        });
     }
   }
 
@@ -121,16 +126,16 @@ export class PatientViewAvailabilityComponent implements OnInit{
       ) {
         this.activeDayIsOpen = true;
       } else {
-       this.activeDayIsOpen = true;
+        this.activeDayIsOpen = true;
       }
     }
   }
 
   eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
+                      event,
+                      newStart,
+                      newEnd
+                    }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
@@ -138,14 +143,28 @@ export class PatientViewAvailabilityComponent implements OnInit{
   }
 
   handleEvent(action: string, event): void {
-    const dialogRef = this.dialog.open(PatientBookingComponent, {
-      width: '500px',
-      height: '500px',
-      data: event.data
-    });
+    if (this.authenticated === 'patient') {
+      const dialogRef = this.dialog.open(PatientBookingComponent, {
+        width: '500px',
+        height: '500px',
+        data: event.data
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
+      dialogRef.afterClosed().subscribe(() => {
+        console.log('The dialog was closed');
+      });
+    } else if (this.authenticated === 'nurse') {
+      const nurseDialog = this.dialog.open(NursePatientBookingComponent, {
+        width: '500px',
+        height: '500px',
+        data: {
+          cart: event.data,
+          patient: this.data.patient
+        }
+      });
+
+      nurseDialog.afterClosed().subscribe(() => {
+        console.log('The dialog was closed');
+      });
+    }}
 }
