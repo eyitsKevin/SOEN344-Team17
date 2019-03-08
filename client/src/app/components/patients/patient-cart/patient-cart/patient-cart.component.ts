@@ -31,14 +31,10 @@ export class PatientCartComponent implements OnInit {
       height: '500px',
       data: patientWithcart
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-
-    });
   }
 
   ngOnInit() {
+
     this.cart = this.cartDataService.getAllAppointments();
 
 

@@ -7,7 +7,11 @@ import { Injectable } from '@angular/core';
 
 export class CartDataService {
   list = [];
-  constructor() { }
+  constructor() { 
+    if(this.list.length==0){
+      this.list = JSON.parse(localStorage.getItem("cart"));
+    }
+  }
 
   addAppointment(appointment) {
     let exists = false;
@@ -23,6 +27,9 @@ export class CartDataService {
         this.list.push(appointment);
       }
     }
+
+    localStorage.setItem("cart", JSON.stringify(this.list));
+
   }
 
   getAllAppointments() {
@@ -31,9 +38,11 @@ export class CartDataService {
 
   deleteAllAppointments() {
     this.list = [];
+    localStorage.removeItem("cart");
   }
 
   removeAppointment(number) {
     this.list.splice(number, 1);
+    localStorage.setItem("cart", JSON.stringify(this.list));
   }
 }
