@@ -45,8 +45,6 @@ export class PatientCartComponent implements OnInit {
       this.cart[i].start = fullDate[1];
       this.cart[i].end = fullDate2[1];
     }
-
-    console.log(this.cart);
   }
 
   remove(index) {
