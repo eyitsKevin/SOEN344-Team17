@@ -30,7 +30,6 @@ export class PatientCancelComponent {
   cancelAppointment(){
     this.http.post("http://localhost:8080/appointment/cancel", this.data.id)
         .subscribe(data => {
-          
         },
           error => { console.log(error); this.openSnackBar(error.error, "Close"); }
         );
