@@ -102,7 +102,7 @@ export class DoctorCalendarViewComponent {
   }
 
   apply(action, event) {
-    if (action == "add") {
+    if (action === "add") {
       this.postAvailability(event);
     }
     else {
