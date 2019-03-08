@@ -1,20 +1,13 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   ViewChild,
   TemplateRef,
   OnInit
 } from '@angular/core';
-import {MatDialogModule, MatDialog} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
   isSameDay,
   isSameMonth,
-  addHours
 } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +20,7 @@ import {
 import { PatientBookingComponent } from '../patient-booking/patient-booking.component';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -102,12 +95,20 @@ export class PatientViewAvailabilityComponent implements OnInit {
       .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
       .subscribe((result: Array<Object>) => {
         result.map(availability => this.addAppointmentToCalendar(availability));
-      });
+        result.forEach((element: any) => {
+          if (element.appointmentType === 'WALK_IN') {
+            element.appointmentType = 'Walk-in';
+          }});
+        });
     } else if (this.router.url.includes('annual')) {
       this.http
       .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
       .subscribe((result: Array<Object>) => {
         result.map(availability => this.addAppointmentToCalendar(availability));
+        result.forEach((element: any) => {
+          if (element.appointmentType === 'ANNUAL_CHECKUP') {
+            element.appointmentType = 'Annual Checkup';
+          }});
       });
     }
   }
