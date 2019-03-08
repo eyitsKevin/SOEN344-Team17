@@ -41,6 +41,7 @@ export class PatientCartComponent implements OnInit {
   ngOnInit() {
     this.cart = this.cartDataService.getAllAppointments();
 
+
     for (let i = 0; i < this.cart.length; i++) {
       const fullDate =  this.cart[i].startTime.split('T');
       const fullDate2 =  this.cart[i].endTime.split('T');
@@ -48,6 +49,8 @@ export class PatientCartComponent implements OnInit {
       this.cart[i].start = fullDate[1];
       this.cart[i].end = fullDate2[1];
     }
+
+    console.log(this.cart);
   }
 
   remove(index) {
