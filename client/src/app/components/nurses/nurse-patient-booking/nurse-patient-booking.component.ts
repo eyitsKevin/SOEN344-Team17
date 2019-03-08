@@ -10,9 +10,6 @@ import {NurseBookingComponent} from '../nurse-booking/nurse-booking.component';
 })
 export class NursePatientBookingComponent implements OnInit {
 
-  @ViewChild(NurseBookingComponent) alert: NurseBookingComponent;
-
-
   constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, private snackBar: MatSnackBar, public dialogRef: MatDialogRef<NursePatientBookingComponent>, private bottomSheet: NurseBookingComponent) {}
 
   patientCart;
