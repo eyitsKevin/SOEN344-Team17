@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Update Appointment</h1>
+<div mat-dialog-content>
+
+  <p>Appointment Details: </p>
+  <p>{{this.data.appointmentType}} appointment on {{this.data.date}} at {{this.data.startTime}}</p>
+  <p>Are you sure you want to update to this appointment?</p>
+
+</div>
+<button mat-button (click)="close()">No</button>
+<button mat-button (click)="cancelAppointment()">Yes</button>

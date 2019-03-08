@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 import { PatientCancelComponent } from '../patient-cancel/patient-cancel.component'
+import { PatientUpdateComponent } from '../patient-update/patient-update.component';
 
 @Component({
   selector: 'app-patient',
@@ -27,7 +28,7 @@ export class PatientComponent implements OnInit {
     healthcard;
 
   ngOnInit() {
-    this.getAppointments()
+    this.getAppointments();
   }
 
   getAppointments() {
@@ -58,7 +59,14 @@ export class PatientComponent implements OnInit {
       width: '500px',
       data: appointment
     });
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
 
+  updateBooking(appointment): void {
+    const dialogRef = this.dialog.open(PatientUpdateComponent, {
+      data: appointment
+    });
     dialogRef.afterClosed().subscribe(result => {
     });
   }
