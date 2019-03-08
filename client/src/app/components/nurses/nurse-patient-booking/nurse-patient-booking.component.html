@@ -1,0 +1,22 @@
+<div>
+  <mat-list>
+    <h3 mat-subheader>Patient Infos</h3>
+    <mat-list-item>
+      <mat-icon mat-list-icon>person</mat-icon>
+      <h4 mat-line> {{data.patient.firstName}}  {{data.patient.lastName}} </h4>
+      <p mat-line> Health Card : {{data.patient.healthCard}} </p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <h3 mat-subheader>Appointment Infos</h3>
+    <mat-list-item role="listitem">
+      <mat-icon mat-list-icon>date_range</mat-icon>
+      <h4 mat-line>  {{data.cart.appointmentType.toLocaleString().toLocaleLowerCase().replace("_"," ")}} </h4>
+      <p mat-line> {{data.cart.doctorPermitNumber}} </p>
+      <p mat-line> From: {{data.cart.endTime | date:'dd.MM.yy HH:mm'}} </p>
+      <p mat-line> To: {{data.cart.startTime | date:'dd.MM.yy HH:mm'}} </p>
+    </mat-list-item>
+  </mat-list>
+  <diV mat-dialog-actions align="end">
+    <button mat-raised-button (click)="bookAppointment()">Book</button>
+  </diV>
+</div>
