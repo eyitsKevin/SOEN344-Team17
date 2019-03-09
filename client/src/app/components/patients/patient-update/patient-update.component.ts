@@ -142,7 +142,7 @@ export class PatientUpdateComponent implements OnInit {
       const dialogRef = this.dialog.open(PatientUpdateConfirmationComponent, {
         width: '500px',
         height: '300px',
-        data: event.data
+        data: {'new': event.data, 'old': this.data.id}
       });
 
       dialogRef.afterClosed().subscribe(result => {
