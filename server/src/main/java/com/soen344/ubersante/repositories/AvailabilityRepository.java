@@ -1,12 +1,13 @@
 package com.soen344.ubersante.repositories;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import com.soen344.ubersante.models.Availability;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 public interface AvailabilityRepository extends CrudRepository<Availability, Long> {
 
@@ -17,5 +18,11 @@ public interface AvailabilityRepository extends CrudRepository<Availability, Lon
     @Modifying
     @Query(value = "UPDATE doctor_availability a SET a.appointment_id = ?2 WHERE a.id = ?1", nativeQuery = true)
     void addAppointmentToAvailability(Long availabilityId, Long appointmentId);
+
+    List<Availability> findAllByDoctorPermitNumber(String permitNumber);
+
+    @Query(value = "SELECT * FROM doctor_availability " +
+            "WHERE end_time > ?1 AND start_time < ?2 AND doctor_permit_number = ?3", nativeQuery = true)
+    List<Availability> findAllInDateRangeForDoctor(LocalDateTime startTime, LocalDateTime endTime, String permit);
 
 }

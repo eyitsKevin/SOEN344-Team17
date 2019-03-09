@@ -1,8 +1,16 @@
 package com.soen344.ubersante.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import com.soen344.ubersante.dto.AvailabilityDto;
+import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.dto.AvailabilityDetails;
 import com.soen344.ubersante.dto.PatientDetails;
-import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Availability;
 import com.soen344.ubersante.repositories.AppointmentRepository;
@@ -12,13 +20,15 @@ import com.soen344.ubersante.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
+import javax.transaction.Transactional;
+import javax.validation.*;
 
+import java.sql.Timestamp;
 
 @Service
 public class AvailabilityService {
+
+    private static ValidatorFactory validatorFactory;
 
     @Autowired
     AvailabilityRepository availabilityRepository;
@@ -85,5 +95,96 @@ public class AvailabilityService {
             addAppointmentToTable(details, appointment);
         }
         return true;
+    }
+
+    public List<AvailabilityDto> allAvailabilitiesByDoctorPermit(String doctorPermit) {
+        List<AvailabilityDto> availabilityDtoList = new ArrayList<>();
+        List<Availability> availabilities = availabilityRepository.findAllByDoctorPermitNumber(doctorPermit);
+
+        for (Availability availability : availabilities) {
+            availabilityDtoList.add(convertToAvailabilityDto(availability));
+        }
+
+        return availabilityDtoList;
+    }
+
+    @Transactional
+    public AvailabilityDto addNewAvailability(AvailabilityDto availabilityDto)
+            throws AvailabilityOverlapException, InvalidAvailabilityException {
+        LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), DateTimeFormatter.RFC_1123_DATE_TIME);
+        LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), DateTimeFormatter.RFC_1123_DATE_TIME);
+        String doctorPermit = availabilityDto.getDoctorPermitNumber();
+
+        if (!availabilityRepository.findAllInDateRangeForDoctor(start, end, doctorPermit).isEmpty()) {
+            throw new AvailabilityOverlapException("There exists an availability overlap conflict");
+        }
+
+        final Availability availability = new Availability();
+        availability.setAppointmentType(availabilityDto.getAppointmentType());
+        availability.setStartTime(start);
+        availability.setEndTime(end);
+        availability.setDoctorPermitNumber(doctorPermit);
+
+        if (!validAvailability(availability)) {
+            throw new InvalidAvailabilityException("Invalid availability, failed backend validation");
+        }
+
+        return convertToAvailabilityDto(availabilityRepository.save(availability));
+    }
+
+    @Transactional
+    public AvailabilityDto modifyAvailability(AvailabilityDto availabilityDto)
+            throws AvailabilityOverlapException, InvalidAvailabilityException {
+        Optional<Availability> availabilityData = availabilityRepository.findById(availabilityDto.getId());
+
+        if (!availabilityData.isPresent()) {
+            throw new AvailabilityDoesNotExistException("Availability does not exist");
+        }
+
+        Availability availability = availabilityData.get();
+
+        String doctorPermit = availabilityDto.getDoctorPermitNumber();
+        LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), DateTimeFormatter.RFC_1123_DATE_TIME);
+        LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), DateTimeFormatter.RFC_1123_DATE_TIME);
+
+        List<Availability> availabilityOverlap = availabilityRepository.findAllInDateRangeForDoctor(start, end, doctorPermit);
+        availabilityOverlap.remove(availability);
+
+        if (!availabilityOverlap.isEmpty()) {
+            throw new AvailabilityOverlapException("There exists an availability overlap conflict");
+        }
+
+        availability.setAppointmentType(availabilityDto.getAppointmentType());
+        availability.setStartTime(start);
+        availability.setEndTime(end);
+
+        if (!validAvailability(availability)) {
+            throw new InvalidAvailabilityException("Invalid availability, failed backend validation");
+        }
+
+        return convertToAvailabilityDto(availabilityRepository.save(availability));
+    }
+
+    private AvailabilityDto convertToAvailabilityDto(@Valid Availability availability) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        AvailabilityDto dto = new AvailabilityDto();
+        dto.setId(availability.getId());
+        dto.setDoctorPermitNumber(availability.getDoctorPermitNumber());
+        dto.setTitle(availability.getAppointmentType());
+        dto.setDuration(availability.getAppointmentType().getDuration());
+        dto.setStart(availability.getStartTime().format(formatter));
+        dto.setEnd(availability.getEndTime().format(formatter));
+
+        return dto;
+    }
+
+    private Boolean validAvailability(Availability availability) {
+        validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        validatorFactory.close();
+
+        Set<ConstraintViolation<Availability>> violations = validator.validate(availability);
+
+        return violations.isEmpty();
     }
 }
