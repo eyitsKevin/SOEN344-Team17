@@ -40,6 +40,7 @@ import { NursePatientBookingComponent } from './components/nurses/nurse-patient-
 import {ThisWeekComponent} from './components/doctors/this-week/this-week.component';
 import {PatientPaymentComponent} from './components/patients/patient-payment/patient-payment.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -102,8 +103,8 @@ import {PatientPaymentComponent} from './components/patients/patient-payment/pat
     })
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent],
-  exports: [DoctorCalendarViewComponent],
+  entryComponents: [PatientBookingComponent, NursePatientBookingComponent],
+  exports: [DoctorCalendarViewComponent, NursePatientBookingComponent],
   providers: [MatDatepickerModule, NurseBookingComponent]
 })
 export class AppModule { }

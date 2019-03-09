@@ -21,10 +21,9 @@
       </mat-nav-list>
     </mat-expansion-panel>
   </mat-accordion>
-  <div *ngIf="this.authenticated=='nurse'" routerLink="/{{authenticated}}/book">
-    <p>Book for a patient</p>
-  </div>
+  <a mat-list-item *ngIf="this.authenticated=='nurse'" routerLink="/{{authenticated}}/book">
+    Book for a patient
+  </a>
   <a mat-list-item (click)="this.logout()" id="logout"> Logout </a>
 
 </mat-nav-list>
->>>>>>> master
