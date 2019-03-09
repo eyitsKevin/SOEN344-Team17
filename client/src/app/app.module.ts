@@ -8,11 +8,10 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule,
   MatSelectModule, MatDialogModule, MatMenuModule, MatAutocompleteModule, MatCardModule, MatBottomSheetModule, MatSlideToggleModule,
-  MatListModule
+  MatListModule, MatExpansionModule
 } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
-import { DoctorComponent } from './components/doctors/doctor/doctor.component';
 import { PatientComponent } from './components/patients/patient/patient.component';
 import { LoginComponent } from './components/login-registration/login/login.component';
 import { NurseComponent } from './components/nurses/nurse/nurse.component';
@@ -26,7 +25,6 @@ import { NurseLoginComponent } from './components/login-registration/login/nurse
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { DoctorViewAllComponent } from './components/doctors/doctor-view-all/doctor-view-all.component';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component';
 import { MatSnackBarModule } from '@angular/material';
 import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
@@ -39,14 +37,14 @@ import {PatientViewAvailabilityComponent} from './components/patients/patient-vi
 import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
 import { NurseBookingComponent } from './components/nurses/nurse-booking/nurse-booking.component';
 import { NursePatientBookingComponent } from './components/nurses/nurse-patient-booking/nurse-patient-booking.component';
+import {ThisWeekComponent} from './components/doctors/this-week/this-week.component';
+import {PatientPaymentComponent} from './components/patients/patient-payment/patient-payment.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DoctorViewAllComponent,
     SidenavComponent,
-    DoctorComponent,
     PatientComponent,
     LoginComponent,
     NurseComponent,
@@ -60,10 +58,12 @@ import { NursePatientBookingComponent } from './components/nurses/nurse-patient-
     DoctorCalendarViewComponent,
     UserProfileComponent,
     NotFoundComponent,
+    ThisWeekComponent,
     PatientBookingComponent,
     PatientViewAvailabilityComponent,
     NurseBookingComponent,
-    NursePatientBookingComponent
+    NursePatientBookingComponent,
+    PatientPaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -81,8 +81,10 @@ import { NursePatientBookingComponent } from './components/nurses/nurse-patient-
     MatButtonToggleModule,
     MatToolbarModule,
     MatDialogModule,
+    MatListModule,
     MatSidenavModule,
     MatIconModule,
+    MatExpansionModule,
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -100,8 +102,8 @@ import { NursePatientBookingComponent } from './components/nurses/nurse-patient-
     })
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent, NursePatientBookingComponent],
-  exports: [DoctorCalendarViewComponent, NurseBookingComponent],
-  providers: [MatDatepickerModule, NursePatientBookingComponent, NurseBookingComponent]
+  entryComponents: [PatientBookingComponent],
+  exports: [DoctorCalendarViewComponent],
+  providers: [MatDatepickerModule, NurseBookingComponent]
 })
 export class AppModule { }

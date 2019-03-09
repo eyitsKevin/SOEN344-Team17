@@ -1,0 +1,66 @@
+<div><span>Total price is ${{this.price}}</span> </div>
+<br>
+<form [formGroup]="payment" (ngSubmit)="onSubmit()" class = "form">
+<mat-form-field>
+  <input matInput formControlName="ccNumber" placeholder="Enter credit card number">
+  <mat-error *ngIf="payment.get('ccNumber').hasError('pattern')">
+      Invalid credit card #
+    </mat-error>
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput formControlName="cvv" placeholder="CVV">
+  <mat-error *ngIf="payment.get('cvv').hasError('pattern')">
+      Invalid CVV
+    </mat-error>
+</mat-form-field>
+<br>
+<span>Expiration date</span> 
+<div class = "date">
+  <div class = "month">
+      <mat-form-field class = "month" >
+          <select  placeholder="Month" formControlName="exprMonth" matNativeControl required>
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+          </select>
+        </mat-form-field>
+  </div>
+
+  <div class = "year">
+ <mat-form-field class = "year">
+      <select  placeholder="Year" formControlName="exprYear" matNativeControl required>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+        <option value="2029">2029</option>
+        <option value="2030">2030</option>
+        <option value="2031">2031</option>
+        <option value="2032">2032</option>
+        <option value="2033">2033</option>
+        <option value="2034">2034</option>
+      </select>
+    </mat-form-field>
+    </div>
+
+  </div>
+
+<button mat-raised-button  type="submit">Confirm appointment(s)</button>
+<button mat-raised-button (click)="cancel()" mat-button> Cancel </button>
+</form>

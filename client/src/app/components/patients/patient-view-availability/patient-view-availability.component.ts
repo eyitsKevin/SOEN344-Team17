@@ -27,10 +27,9 @@ import {
 import { PatientBookingComponent } from '../patient-booking/patient-booking.component';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import {MAT_BOTTOM_SHEET_DATA} from "@angular/material";
-import {NursePatientBookingComponent} from "../../nurses/nurse-patient-booking/nurse-patient-booking.component";
-import {AuthenticationService} from "../../../services/authentication.service";
+import {MAT_BOTTOM_SHEET_DATA} from '@angular/material';
+import {NursePatientBookingComponent} from '../../nurses/nurse-patient-booking/nurse-patient-booking.component';
+import {AuthenticationService} from '../../../services/authentication.service';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -88,15 +87,15 @@ export class PatientViewAvailabilityComponent implements OnInit{
   }
 
 
-  addAppointmentToCalendar(x) {
-    const title = x.startTime.match(/(T........)/)[0].slice(1, 6);
+  addAppointmentToCalendar(appointment) {
+    const title = appointment.startTime.match(/(T........)/)[0].slice(1, 6);
     const newEvent = {
       title: title,
-      start: new Date(x.startTime),
+      start: new Date(appointment.startTime),
       duration: 20,
       color: colors.red,
-      data: x
-    }
+      data: appointment
+    };
     this.events.push(newEvent);
     this.refresh.next();
   }

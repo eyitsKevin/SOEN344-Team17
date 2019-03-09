@@ -1,9 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { CartDataService } from '../../../services/cart-data.service';
-export interface DialogData {
-
-}
+export interface DialogData {}
 
 @Component({
   selector: 'app-patient-booking',
@@ -11,12 +9,21 @@ export interface DialogData {
   styleUrls: ['./patient-booking.component.css']
 })
 export class PatientBookingComponent {
+  day;
+  start;
+  end;
 
   constructor(
     public dialogRef: MatDialogRef<PatientBookingComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private cartDataService: CartDataService) {
-  }
+
+      const fullDate =  data['startTime'].split('T');
+      const fullDate2 =  data['endTime'].split('T');
+      this.day = fullDate[0];
+      this.start = fullDate[1];
+      this.end = fullDate2[1];
+    }
 
   bookAppointment() {
     this.cartDataService.addAppointment(this.data);

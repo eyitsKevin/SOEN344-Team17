@@ -21,8 +21,6 @@ public class AppointmentService {
     @Autowired
     private PatientRepository patientRepository;
 
-
-
     public List<Appointment> findAppointmentForPatient(PatientDetails patientDetails) {
         Patient patient = patientRepository.findByHealthCard(patientDetails.getHealthCard());
         return appointmentRepository.findAppointmentByPatientId(patient.getId());
@@ -39,7 +37,7 @@ public class AppointmentService {
                     appointment.getDate().toLocalDate().toString(),
                     appointment.getTime().toLocalTime().toString(),
                     appointment.getCreatedAt().toString()
-                    );
+            );
             detailList.add(appointmentDetails);
         }
         return detailList;

@@ -1,41 +1,50 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
+
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class CartDataService {
-  list = []
-constructor() { }
-
-addAppointment(appointment){
-// if(this.list.includes(appointment.id)){
-
-// }
-// else this.list.push(appointment)
-if(this.list.length == 0){
-  this.list.push(appointment)
-}
-else
-for(var i=0; i<this.list.length; i++){
-    if(this.list[i].id == appointment.id ){
-      
+  list = [];
+  
+  constructor() { 
+    this.list = [];
+    if(this.list.length==0){
+      console.log(localStorage.getItem("cart"));
+      this.list = JSON.parse(localStorage.getItem("cart"));
     }
-    else this.list.push(appointment)
   }
-}
 
-getAllAppointments(){
-  return this.list;
-}
+  addAppointment(appointment) {
+    let exists = false;
+    if (this.list.length === 0) {
+      this.list.push(appointment);
+    } else {
+      for (let i = 0; i < this.list.length; i++) {
+        if (this.list[i].id === appointment.id ) {
+          exists = true;
+        }
+      }
+      if (exists === false) {
+        this.list.push(appointment);
+      }
+    }
 
-deleteAllAppointments(){
-  return this.list = [];
-}
+    localStorage.setItem("cart", JSON.stringify(this.list));
+  }
 
-removeAppointment(number){
-  this.list.splice(number,1);
-}
+  getAllAppointments() {
+    return this.list;
+  }
+
+  deleteAllAppointments() {
+    this.list = [];
+    localStorage.removeItem("cart");
+  }
+
+  removeAppointment(number) {
+    this.list.splice(number, 1);
+    localStorage.setItem("cart", JSON.stringify(this.list));
+  }
 }
