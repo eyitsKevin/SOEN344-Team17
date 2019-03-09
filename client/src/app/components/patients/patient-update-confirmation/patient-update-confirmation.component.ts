@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../../services/authentication.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -13,23 +14,30 @@ export class PatientUpdateConfirmationComponent {
     day;
     start;
     end;
+    user;
 
     constructor(
       private http: HttpClient,
       public dialogRef: MatDialogRef<PatientUpdateConfirmationComponent>,
-      @Inject(MAT_DIALOG_DATA) public data) {
-        this.data.new.startTime = this.data.new.startTime.replace('T', ' ');
-      }
+      @Inject(MAT_DIALOG_DATA) public data,
+      private authenticationService: AuthenticationService
+      ) {}
 
       updateAppointment() {
-      this.http.post('http://localhost:8080/appointment/update', this.data.old, this.data.id)
+      this.authenticationService.user.subscribe(user => this.user = user);
+      const patientAppointment = {
+        appointmentId: this.data.old,
+        patient: this.user,
+        cart: [this.data[0]]
+      };
+      this.http.post('http://localhost:8080/appointment/update', patientAppointment)
       .subscribe(data => {
+        window.location.reload();
       },
         error => { console.log(error); }
       );
       this.dialogRef.close();
     }
-
     close() {
       this.dialogRef.close();
     }
