@@ -32,6 +32,8 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { PatientBookingComponent} from './components/patients/patient-booking/patient-booking.component';
 import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
 import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
+import {MatCardModule} from '@angular/material/card';
+import {PatientCancelComponent} from './components/patients/patient-cancel/patient-cancel.component';
 import {PatientPaymentComponent} from './components/patients/patient-payment/patient-payment.component';
 import { ThisWeekComponent } from './components/doctors/this-week/this-week.component';
 
@@ -56,6 +58,7 @@ import { ThisWeekComponent } from './components/doctors/this-week/this-week.comp
     ThisWeekComponent,
     PatientBookingComponent,
     PatientViewAvailabilityComponent,
+    PatientCancelComponent,
     PatientPaymentComponent
   ],
   imports: [
@@ -87,10 +90,12 @@ import { ThisWeekComponent } from './components/doctors/this-week/this-week.comp
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
-    })
+    }),
+    MatListModule,
+    MatCardModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent, PatientPaymentComponent],
+  entryComponents: [PatientBookingComponent, PatientPaymentComponent, PatientCancelComponent],
   exports: [DoctorCalendarViewComponent],
   providers: [MatDatepickerModule]
 })
