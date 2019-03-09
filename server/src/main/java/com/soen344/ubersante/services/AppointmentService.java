@@ -1,7 +1,6 @@
 package com.soen344.ubersante.services;
 
 import com.soen344.ubersante.dto.AppointmentDetails;
-import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.dto.PatientDetails;
 import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Patient;

@@ -5,7 +5,6 @@ import com.soen344.ubersante.dto.UpdateAppointmentWrapper;
 import com.soen344.ubersante.exceptions.DoctorNotFoundException;
 import com.soen344.ubersante.exceptions.EmptyCartException;
 import com.soen344.ubersante.exceptions.PatientNotFoundException;
-import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.services.AppointmentService;
 import com.soen344.ubersante.services.AvailabilityService;
 
