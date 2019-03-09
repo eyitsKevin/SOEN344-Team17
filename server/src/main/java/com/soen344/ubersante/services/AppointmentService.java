@@ -1,6 +1,7 @@
 package com.soen344.ubersante.services;
 
 import com.soen344.ubersante.dto.AppointmentDetails;
+import com.soen344.ubersante.dto.AvailabilityDetails;
 import com.soen344.ubersante.dto.PatientDetails;
 import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Patient;
@@ -53,4 +54,9 @@ public class AppointmentService {
         availabilityRepository.updateAvailabilitiesByAppointmentId(id);
     }
 
+    public void updateAppointmentForPatient(long idToBeDeleted, long idToBeAdded) {
+        appointmentRepository.deleteAppointmentById(idToBeDeleted);
+        availabilityRepository.updateAvailabilitiesByAppointmentId(idToBeDeleted);
+        //availabilityRepository.addAppointmentToAvailability();
+    }
 }

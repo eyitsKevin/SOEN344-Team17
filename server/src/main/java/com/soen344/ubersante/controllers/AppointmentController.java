@@ -25,4 +25,10 @@ public class AppointmentController {
     public void cancelAppointmentPatient(@RequestBody long id) {
         appointmentService.cancelAppointmentforPatient(id);
     }
+
+    @PostMapping("/update")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateAppointmentPatient(@RequestBody long idToBeDeleted, @RequestBody long idToBeAdded) {
+        appointmentService.updateAppointmentForPatient(idToBeDeleted, idToBeAdded);
+    }
 }
