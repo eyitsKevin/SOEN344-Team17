@@ -43,7 +43,7 @@ export class RegistrationComponent implements OnInit {
     };
     this.http.post("http://localhost:8080/patients/registration", patient)
       .subscribe(data => {
-        //this.openSnackBar(data[0], "Close");
+        this.openSnackBar(data["message"], "Close");
         this.router.navigate(['']);
       },
       error => { this.openSnackBar(error.error, "Close"); }
