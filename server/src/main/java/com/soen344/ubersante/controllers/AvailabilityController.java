@@ -44,7 +44,7 @@ public class AvailabilityController {
     }
 
     @RequestMapping(value = "/cart/checkout", method = RequestMethod.POST)
-    public ResponseEntity checkoutAvailabilityCart(@RequestBody AvailabilityWrapper details) {
+    public ResponseEntity checkoutAvailabilityCart(@Valid @RequestBody final AvailabilityWrapper details) {
         try {
             return new ResponseEntity<>(availabilityService.availabilityToAppointment(details.getPatient(), details.getCart()), HttpStatus.OK);
         } catch (EmptyCartException e) {
