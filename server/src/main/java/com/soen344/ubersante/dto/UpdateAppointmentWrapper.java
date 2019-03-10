@@ -4,10 +4,6 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Wrapper class for Availability from checkout
- * to backend
- */
 public class UpdateAppointmentWrapper {
 
     @NotEmpty
