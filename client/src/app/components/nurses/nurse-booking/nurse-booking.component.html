@@ -2,10 +2,10 @@
   <form>
     <mat-form-field>
       <input type="text" placeholder="Choose a patient" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto" maxlength="12">
-      <mat-autocomplete #auto="matAutocomplete" >
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.healthCard" (onSelectionChange)='getSelection(option)'>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='getSelection($event.option.value)' >
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
           {{option.healthCard}}
-        </mat-option>
+        </mat-option>`
       </mat-autocomplete>
     </mat-form-field>
   </form>

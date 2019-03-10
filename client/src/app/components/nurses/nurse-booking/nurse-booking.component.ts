@@ -83,6 +83,10 @@ export class NurseBookingComponent implements OnInit {
       this.selected = patient;
   }
 
+  displayFn(val: Patient) {
+    return val ? val.healthCard : val;
+  }
+
   onSwipe(evt) {
     const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? 'right' : 'left') : '';
     const y = Math.abs(evt.deltaY) > 40 ? (evt.deltaY > 0 ? 'down' : 'up') : '';
