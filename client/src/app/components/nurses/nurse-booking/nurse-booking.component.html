@@ -2,7 +2,7 @@
   <form>
     <mat-form-field>
       <input type="text" placeholder="Choose a patient" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto" maxlength="12">
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-autocomplete #auto="matAutocomplete" >
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option.healthCard" (onSelectionChange)='getSelection(option)'>
           {{option.healthCard}}
         </mat-option>
@@ -10,14 +10,17 @@
     </mat-form-field>
   </form>
 
-  <mat-card class="example-card" *ngIf="selected" [@slideInOut] (swipe)="onSwipe($event)">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title> {{selected.firstName}}</mat-card-title>
-      <mat-card-subtitle>{{selected.lastName}}</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="https://semantic-ui.com/images/avatar/large/steve.jpg" alt="Photo of a Shiba Inu">
-    <mat-card-content>
+  <div *ngIf="selected">
+    <mat-card class="example-card" *ngFor="let selected of [ selected ]" [@simpleFadeAnimation] (swipe)="onSwipe($event)">
+      <mat-card-header>
+        <div *ngIf="selected.gender=='male'" mat-card-avatar class="example-header-image-male"></div>
+        <div *ngIf="selected.gender!='male'" mat-card-avatar class="example-header-image-female"></div>
+        <mat-card-title> {{selected.firstName}}</mat-card-title>
+        <mat-card-subtitle>{{selected.lastName}}</mat-card-subtitle>
+      </mat-card-header>
+      <img *ngIf="selected.gender=='male'" mat-card-image src="https://semantic-ui.com/images/avatar/large/steve.jpg" alt="Photo of a Shiba Inu">
+      <img *ngIf="selected.gender!='male'" mat-card-image src="https://semantic-ui.com/images/avatar/large/jenny.jpg" alt="Photo of a Shiba Inu">
+      <mat-card-content>
     <pre>
       <span>Health Card # : {{selected.healthCard}} </span>
       <span>Gender : {{selected.gender}} </span>
@@ -26,21 +29,22 @@
       <span>Phone: {{selected.phone}} </span>
       <span>Birth Date: {{selected.birthday}} </span>
     </pre>
-    </mat-card-content>
-    <div class="example-button-row">
-      <section class="example-section">
-        <mat-slide-toggle
-          class="example-margin"
-          [(ngModel)]="bookingSelection">
-          <span *ngIf="bookingSelection;then content else content2"></span>
-          <ng-template #content> Annual </ng-template>
-          <ng-template #content2> Walk-in </ng-template>
-        </mat-slide-toggle>
-      </section>
-      <button mat-raised-button color="primary" (click)="openBottomSheet()">Book an appointment</button>
-      <button mat-raised-button color="primary">View appointments</button>
-    </div>
-  </mat-card>
+      </mat-card-content>
+      <div class="example-button-row">
+        <section class="example-section">
+          <mat-slide-toggle
+            class="example-margin"
+            [(ngModel)]="bookingSelection">
+            <span *ngIf="bookingSelection;then content else content2"></span>
+            <ng-template #content> Annual </ng-template>
+            <ng-template #content2> Walk-in </ng-template>
+          </mat-slide-toggle>
+        </section>
+        <button mat-raised-button color="primary" (click)="openBottomSheet()">Book an appointment</button>
+        <button mat-raised-button color="primary">View appointments</button>
+      </div>
+    </mat-card>
+  </div>
 
 
 
