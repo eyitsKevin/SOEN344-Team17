@@ -13,6 +13,9 @@ import java.util.Objects;
 public class AppointmentDetails {
 
     @NotEmpty
+    private long id;
+
+    @NotEmpty
     private PatientDetails patientDetails;
 
     @NotEmpty
@@ -33,7 +36,8 @@ public class AppointmentDetails {
     @NotEmpty
     private String createdAt;
 
-    public AppointmentDetails(@NotEmpty Patient patient, @NotEmpty Doctor doctor, @NotEmpty String createdBy, @NotEmpty AppointmentType appointmentType, @NotEmpty String date, @NotEmpty String time, @NotEmpty String createdAt) {
+    public AppointmentDetails(@NotEmpty long id, @NotEmpty Patient patient, @NotEmpty Doctor doctor, @NotEmpty String createdBy, @NotEmpty AppointmentType appointmentType, @NotEmpty String date, @NotEmpty String time, @NotEmpty String createdAt) {
+        this.id = id;
         this.patientDetails = new PatientDetails(patient);
         this.doctorDetails = new DoctorDetails(doctor);
         this.createdBy = createdBy;
@@ -41,6 +45,14 @@ public class AppointmentDetails {
         this.date = date;
         this.time = time;
         this.createdAt = createdAt;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public PatientDetails getPatientDetails() {

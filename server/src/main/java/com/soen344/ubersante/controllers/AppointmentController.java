@@ -18,5 +18,11 @@ public class AppointmentController {
     @RequestMapping(value = "/view", method = RequestMethod.POST)
     public ResponseEntity getAllAppointmentFromPatient(@RequestBody PatientDetails patientDetails) {
         return new ResponseEntity<>(appointmentService.getAppointmentDetails(appointmentService.findAppointmentForPatient(patientDetails)), HttpStatus.OK);
+    } 
+
+    @PostMapping("/cancel")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void cancelAppointmentPatient(@RequestBody long id) {
+        appointmentService.cancelAppointmentforPatient(id);
     }
 }

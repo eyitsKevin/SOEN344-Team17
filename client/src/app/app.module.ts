@@ -38,6 +38,7 @@ import {PatientCartComponent} from './components/patients/patient-cart/patient-c
 import { NurseBookingComponent } from './components/nurses/nurse-booking/nurse-booking.component';
 import { NursePatientBookingComponent } from './components/nurses/nurse-patient-booking/nurse-patient-booking.component';
 import {ThisWeekComponent} from './components/doctors/this-week/this-week.component';
+import {PatientCancelComponent} from './components/patients/patient-cancel/patient-cancel.component';
 import {PatientPaymentComponent} from './components/patients/patient-payment/patient-payment.component';
 
 
@@ -64,6 +65,7 @@ import {PatientPaymentComponent} from './components/patients/patient-payment/pat
     PatientViewAvailabilityComponent,
     NurseBookingComponent,
     NursePatientBookingComponent,
+    PatientCancelComponent,
     PatientPaymentComponent
   ],
   imports: [
@@ -100,10 +102,12 @@ import {PatientPaymentComponent} from './components/patients/patient-payment/pat
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
-    })
+    }),
+    MatListModule,
+    MatCardModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent, NursePatientBookingComponent],
+  entryComponents: [PatientBookingComponent, PatientPaymentComponent, PatientCancelComponent, NursePatientBookingComponent],
   exports: [DoctorCalendarViewComponent, NursePatientBookingComponent],
   providers: [MatDatepickerModule, NurseBookingComponent]
 })

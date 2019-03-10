@@ -5,6 +5,9 @@
     availabilities </a>
 
   <mat-accordion *ngIf="this.authenticated==='patient'">
+
+      <a mat-list-item routerLink="/{{authenticated}}"> View Bookings </a>
+
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <p class="dropdown" mat-list-item> Book </p>
