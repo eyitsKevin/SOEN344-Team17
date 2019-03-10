@@ -1,6 +1,9 @@
 package com.soen344.ubersante.services;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.soen344.ubersante.dto.AvailabilityDto;
+import com.soen344.ubersante.enums.AppointmentType;
 import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.dto.AvailabilityDetails;
 import com.soen344.ubersante.dto.PatientDetails;
@@ -17,6 +21,7 @@ import com.soen344.ubersante.repositories.AppointmentRepository;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.repositories.DoctorRepository;
 import com.soen344.ubersante.repositories.PatientRepository;
+import com.soen344.ubersante.validation.ValidCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,6 +80,10 @@ public class AvailabilityService {
 
         if (availabilityDetailsCart.size() <= 0) {
             throw new EmptyCartException("Nothing in the cart");
+        }
+
+        if (annualCheckupOverlap(availabilityDetailsCart, patientRepository.findByHealthCard(patient.getHealthCard()).getId())) {
+            throw new AnnualCheckupOverlapException("Annual checkups must be scheduled 1 year apart");
         }
 
         for (AvailabilityDetails details : availabilityDetailsCart) {
@@ -186,5 +195,35 @@ public class AvailabilityService {
         Set<ConstraintViolation<Availability>> violations = validator.validate(availability);
 
         return violations.isEmpty();
+    }
+
+    private boolean annualCheckupOverlap(@ValidCart List<AvailabilityDetails> cart, long patientId) {
+        List<Appointment> annualAppointments = appointmentRepository.findAllAnnualBookingsForPatient(patientId);
+        List<LocalDateTime> annualDates = new ArrayList<>();
+
+        for (AvailabilityDetails details : cart) {
+            if (details.getAppointmentType() == AppointmentType.ANNUAL_CHECKUP) {
+                annualDates.add(LocalDateTime.parse(details.getStartTime()));
+            }
+        }
+
+        for (Appointment appointment : annualAppointments) {
+            LocalDateTime time = LocalDateTime.of(appointment.getDate().toLocalDate(), appointment.getTime().toLocalTime());
+
+            for (LocalDateTime cartTime : annualDates) {
+                if (withinOneYear(time, cartTime)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean withinOneYear(LocalDateTime t1, LocalDateTime t2) {
+        Duration duration = Duration.between(t1, t2).abs();
+        Duration oneYear = Duration.ofDays(365);
+
+        return duration.compareTo(oneYear) < 0;
     }
 }

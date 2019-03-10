@@ -30,7 +30,7 @@ public class AvailabilityController {
     @Autowired
     private AvailabilityRepository availabilityRepository;
 
-    @RequestMapping(value = "/view/{availabilityType}/{month}", method = RequestMethod.GET)
+    @RequestMapping(value = "/view/{availabilityType}/{month}")
     public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType) {
         try {
             return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType), HttpStatus.OK);
@@ -43,11 +43,11 @@ public class AvailabilityController {
         }
     }
 
-    @RequestMapping(value = "/cart/checkout", method = RequestMethod.POST)
+    @PostMapping(value = "/cart/checkout")
     public ResponseEntity checkoutAvailabilityCart(@Valid @RequestBody final AvailabilityWrapper details) {
         try {
             return new ResponseEntity<>(availabilityService.availabilityToAppointment(details.getPatient(), details.getCart()), HttpStatus.OK);
-        } catch (EmptyCartException e) {
+        } catch (EmptyCartException | AnnualCheckupOverlapException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (DoctorNotFoundException | PatientNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
