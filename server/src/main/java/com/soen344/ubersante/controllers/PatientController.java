@@ -2,6 +2,8 @@ package com.soen344.ubersante.controllers;
 
 import com.soen344.ubersante.dto.PatientLoginForm;
 import com.soen344.ubersante.dto.PatientRegistrationForm;
+import com.soen344.ubersante.dto.Response;
+import com.soen344.ubersante.exceptions.IllegalBirthdayException;
 import com.soen344.ubersante.exceptions.InvalidPasswordException;
 import com.soen344.ubersante.exceptions.PatientAlreadyExistsException;
 import com.soen344.ubersante.exceptions.PatientNotFoundException;
@@ -29,9 +31,11 @@ public class PatientController {
         } catch (PatientAlreadyExistsException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (IllegalBirthdayException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>("Patient Successfully Registered", HttpStatus.CREATED);
+        return new ResponseEntity<>(new Response("Patient Successfully Registered"), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
