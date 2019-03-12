@@ -128,7 +128,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0
       ) {
-        this.activeDayIsOpen = true;
+        this.activeDayIsOpen = false;
       } else {
         this.activeDayIsOpen = true;
       }
