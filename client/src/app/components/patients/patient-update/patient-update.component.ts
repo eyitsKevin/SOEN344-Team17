@@ -146,6 +146,7 @@ export class PatientUpdateComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
+        this.dialogRef.close(result);
       });
     }
 }

@@ -23,11 +23,10 @@ export class PatientCancelComponent {
   cancelAppointment() {
     this.http.post('http://localhost:8080/appointment/cancel', this.data.id)
         .subscribe(data => {
-          window.location.reload();
+          this.dialogRef.close(this.data.id);
         },
           error => { console.log(error); this.openSnackBar(error.error, 'Close'); }
         );
-    this.dialogRef.close();
   }
 
   openSnackBar(message: string, action: string) {

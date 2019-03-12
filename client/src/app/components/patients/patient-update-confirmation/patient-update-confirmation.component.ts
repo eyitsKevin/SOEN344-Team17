@@ -32,11 +32,10 @@ export class PatientUpdateConfirmationComponent {
       };
       this.http.post('http://localhost:8080/appointment/update', patientAppointment)
       .subscribe(data => {
-        window.location.reload();
+        this.dialogRef.close(patientAppointment);
       },
         error => { console.log(error); }
       );
-      this.dialogRef.close();
     }
     close() {
       this.dialogRef.close();
