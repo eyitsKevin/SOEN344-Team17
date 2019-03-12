@@ -20,13 +20,10 @@ import {
 import { PatientBookingComponent } from '../patient-booking/patient-booking.component';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-<<<<<<< HEAD
 import {MAT_BOTTOM_SHEET_DATA} from '@angular/material';
 import {NursePatientBookingComponent} from '../../nurses/nurse-patient-booking/nurse-patient-booking.component';
 import {AuthenticationService} from '../../../services/authentication.service';
-=======
 
->>>>>>> master
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -76,7 +73,12 @@ export class PatientViewAvailabilityComponent implements OnInit{
   activeDayIsOpen = true;
   authenticated;
 
-  constructor(private modal: NgbModal, public dialog: MatDialog, private router: Router, private http: HttpClient, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any, private authenticationService: AuthenticationService) {}
+  constructor(private modal: NgbModal,
+              public dialog: MatDialog,
+              private router: Router,
+              private http: HttpClient,
+              @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+              private authenticationService: AuthenticationService) {}
 
   ngOnInit() {
     this.authenticationService.authenticated.subscribe(authenticated => this.authenticated = authenticated);

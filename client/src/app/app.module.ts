@@ -6,9 +6,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatInputModule, MatButtonToggleModule, MatToolbarModule, MatSidenavModule, MatIconModule,
-  MatSelectModule, MatDialogModule, MatMenuModule, MatAutocompleteModule, MatCardModule, MatBottomSheetModule, MatSlideToggleModule,
-  MatListModule, MatExpansionModule
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatInputModule,
+  MatButtonToggleModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatSelectModule,
+  MatDialogModule,
+  MatMenuModule,
+  MatAutocompleteModule,
+  MatCardModule,
+  MatBottomSheetModule,
+  MatSlideToggleModule,
+  MatListModule,
+  MatExpansionModule,
+  MAT_DIALOG_DATA, MAT_BOTTOM_SHEET_DATA
 } from '@angular/material';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidenavComponent } from './components/shared/sidenav/sidenav.component';
@@ -69,7 +84,7 @@ import {PatientUpdateConfirmationComponent} from './components/patients/patient-
     PatientCancelComponent,
     PatientPaymentComponent,
     PatientUpdateComponent,
-    PatientUpdateConfirmationComponent
+    PatientUpdateConfirmationComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,10 +125,18 @@ import {PatientUpdateConfirmationComponent} from './components/patients/patient-
     MatCardModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent, PatientPaymentComponent,
-    PatientCancelComponent, NursePatientBookingComponent, PatientUpdateComponent, PatientUpdateConfirmationComponent],
+  entryComponents: [
+    PatientBookingComponent,
+    PatientPaymentComponent,
+    PatientCancelComponent,
+    NursePatientBookingComponent,
+    PatientUpdateComponent,
+    PatientUpdateConfirmationComponent,
+    NurseBookingComponent,
+    PatientViewAvailabilityComponent
+  ],
   exports: [DoctorCalendarViewComponent, NursePatientBookingComponent],
-  providers: [MatDatepickerModule, NurseBookingComponent]
-
+  providers: [MatDatepickerModule, NurseBookingComponent, PatientViewAvailabilityComponent,
+    {provide: MAT_BOTTOM_SHEET_DATA, useValue: {}}]
 })
 export class AppModule { }
