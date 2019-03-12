@@ -1,0 +1,18 @@
+<div>
+  <h2>Your Next 10 Appointments</h2>
+
+  <span *ngIf="this.appointments.length==0">No future appointments</span>
+
+  <table *ngIf="this.appointments.length>0">
+    <tr>
+      <th>Appointment Type</th>
+      <th>Day</th>
+      <th>Time</th>
+    </tr>
+    <tr *ngFor="let appointment of appointments; let i = index">
+      <td> {{appointment.appointmentType}} </td>
+      <td> {{appointment.day}} </td>
+      <td> {{appointment.start}} to {{appointment.end}} </td>
+    </tr>
+  </table>
+</div>
