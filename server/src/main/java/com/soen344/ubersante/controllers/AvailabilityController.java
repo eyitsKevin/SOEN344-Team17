@@ -66,7 +66,7 @@ public class AvailabilityController {
             return new ResponseEntity<>(availabilityService.addNewAvailability(availabilityDto), HttpStatus.CREATED);
         } catch (AvailabilityOverlapException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        } catch (InvalidAppointmentException e) {
+        } catch (InvalidAvailabilityException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
