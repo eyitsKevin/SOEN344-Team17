@@ -43,6 +43,14 @@ export class PatientPaymentComponent implements OnInit{
   onSubmit() {
     if (this.payment.valid) {
       this.data.payment = this.payment.value;
+      this.data.cart.forEach(element => {
+        if (element.appointmentType === 'Annual Checkup') {
+          element.appointmentType = 'ANNUAL_CHECKUP';
+      }
+      if (element.appointmentType === 'Walk-in') {
+        element.appointmentType = 'WALK_IN';
+      }
+      });
       this.http.post('/api/availability/cart/checkout', this.data)
         .subscribe(() => {
             this.router.navigate(['patient']);

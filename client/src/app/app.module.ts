@@ -23,7 +23,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component';
-import { MatSnackBarModule } from "@angular/material";
+import { MatSnackBarModule } from '@angular/material';
 import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -36,6 +36,8 @@ import {MatCardModule} from '@angular/material/card';
 import {PatientCancelComponent} from './components/patients/patient-cancel/patient-cancel.component';
 import {PatientPaymentComponent} from './components/patients/patient-payment/patient-payment.component';
 import { ThisWeekComponent } from './components/doctors/this-week/this-week.component';
+import { PatientUpdateComponent } from './components/patients/patient-update/patient-update.component';
+import {PatientUpdateConfirmationComponent} from './components/patients/patient-update-confirmation/patient-update-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { ThisWeekComponent } from './components/doctors/this-week/this-week.comp
     PatientBookingComponent,
     PatientViewAvailabilityComponent,
     PatientCancelComponent,
-    PatientPaymentComponent
+    PatientPaymentComponent,
+    PatientUpdateComponent,
+    PatientUpdateConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +99,8 @@ import { ThisWeekComponent } from './components/doctors/this-week/this-week.comp
     MatCardModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent, PatientPaymentComponent, PatientCancelComponent],
+  entryComponents: [PatientBookingComponent, PatientPaymentComponent, PatientCancelComponent, 
+    PatientUpdateComponent, PatientUpdateConfirmationComponent],
   exports: [DoctorCalendarViewComponent],
   providers: [MatDatepickerModule]
 })
