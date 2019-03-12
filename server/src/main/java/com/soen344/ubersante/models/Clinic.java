@@ -5,6 +5,7 @@ import com.soen344.ubersante.validation.ValidClinicHours;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
@@ -49,6 +50,14 @@ public class Clinic {
 
     public ClinicHours getClinicHours() {
         return clinicHours;
+    }
+
+    public LocalTime openTime() {
+        return clinicHours.getOpen();
+    }
+
+    public LocalTime closeTime() {
+        return clinicHours.getClose();
     }
 
     public void setId(long id) {
