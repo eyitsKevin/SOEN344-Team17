@@ -5,7 +5,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SiteComponent } from './components/shared/site/site.component';
 import { PatientComponent } from './components/patients/patient/patient.component';
 import { NurseComponent } from './components/nurses/nurse/nurse.component';
-import { ThisWeekComponent } from './components/doctors/this-week/this-week.component';
+import { UpcomingAppointmentsComponent } from './components/doctors/upcoming-appointments/upcoming-appointments.component';
 import { UserProfileComponent } from './components/shared/user-profile/user-profile.component';
 import { DoctorAuthenticationGuard } from './guards/doctor-authentication.guard';
 import { PatientAuthenticationGuard } from './guards/patient-authentication.guard';
@@ -21,7 +21,7 @@ const routes: Routes = [
     { path: 'patient', canActivate: [PatientAuthenticationGuard], component: PatientComponent},
     { path: 'patient/book/walkin', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
     { path: 'patient/book/annual', canActivate: [PatientAuthenticationGuard], component: PatientViewAvailabilityComponent},
-    { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: ThisWeekComponent},
+    { path: 'doctor', canActivate: [DoctorAuthenticationGuard], component: UpcomingAppointmentsComponent},
     { path: 'doctor/availabilities', component: DoctorCalendarViewComponent },
     { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent},
     { path: 'user-profile', component: UserProfileComponent},
