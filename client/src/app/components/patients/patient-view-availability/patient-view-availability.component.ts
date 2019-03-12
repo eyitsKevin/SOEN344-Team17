@@ -100,18 +100,6 @@ export class PatientViewAvailabilityComponent implements OnInit{
   getNewAvailabilities() {
     if (this.router.url.includes('walkin') || !this.data.booking) {
       this.http
-<<<<<<< HEAD
-        .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
-        .subscribe((result: Array<Object>) => {
-          result.map(availability => this.addAppointmentToCalendar(availability));
-        });
-    } else if (this.router.url.includes('annual') || this.data.booking) {
-      this.http
-        .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
-        .subscribe((result: Array<Object>) => {
-          result.map(availability => this.addAppointmentToCalendar(availability));
-        });
-=======
       .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
       .subscribe((result: Array<Object>) => {
         result.map(availability => this.addAppointmentToCalendar(availability));
@@ -120,7 +108,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
             element.appointmentType = 'Walk-in';
           }});
         });
-    } else if (this.router.url.includes('annual')) {
+    } else if (this.router.url.includes('annual') || this.data.booking) {
       this.http
       .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
       .subscribe((result: Array<Object>) => {
@@ -130,7 +118,6 @@ export class PatientViewAvailabilityComponent implements OnInit{
             element.appointmentType = 'Annual Checkup';
           }});
       });
->>>>>>> master
     }
   }
 
