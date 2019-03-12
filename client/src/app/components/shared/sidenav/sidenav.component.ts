@@ -23,6 +23,7 @@ export class SidenavComponent implements OnInit {
     this.authenticationService.changeAuthentication(null);
     this.authenticationService.changeUser(null);
     this.cart.list = [];
+    localStorage.clear();
     localStorage.setItem("cart", "[]");
     this.router.navigate(['/login']);
   }
