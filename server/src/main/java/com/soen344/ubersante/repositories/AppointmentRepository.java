@@ -1,6 +1,7 @@
 package com.soen344.ubersante.repositories;
 
 import com.soen344.ubersante.models.Appointment;
+import com.soen344.ubersante.models.Doctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -32,5 +33,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Query(value = "SELECT * FROM us_db.appointment WHERE patient_id = ?1 AND appointment_type = 1", nativeQuery = true)
     List<Appointment> findAllAnnualBookingsForPatient(long id);
+
+    List<Appointment> findAllByDoctor(Doctor doctor);
 
 }
