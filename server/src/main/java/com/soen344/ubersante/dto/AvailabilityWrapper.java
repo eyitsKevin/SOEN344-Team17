@@ -1,6 +1,8 @@
 package com.soen344.ubersante.dto;
 
-import javax.validation.constraints.NotEmpty;
+import com.soen344.ubersante.validation.ValidCart;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,13 +12,13 @@ import java.util.Objects;
  */
 public class AvailabilityWrapper {
 
-    @NotEmpty
+    @NotNull
     private PatientDetails patient;
 
-    @NotEmpty
+    @ValidCart
     private List<AvailabilityDetails> cart;
 
-    @NotEmpty
+    @NotNull
     private Payment payment;
 
 
