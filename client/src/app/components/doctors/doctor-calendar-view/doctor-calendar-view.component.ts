@@ -134,12 +134,7 @@ export class DoctorCalendarViewComponent {
       }
     },
       error => { this.openSnackBar(error.error, "Close"); 
-      for (var i in this.events) {
-        if (this.events[i]['id'] === event.id) {
-          this.events[i]['start'] = new Date(this.events[i]['end'].getTime() - ((this.events[i]['duration']) * 60000));
           window.location.reload();
-        }
-      }
     });
     this.refresh.next();
   }
