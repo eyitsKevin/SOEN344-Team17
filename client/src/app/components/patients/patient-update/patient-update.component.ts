@@ -91,13 +91,22 @@ export class PatientUpdateComponent implements OnInit {
         start: new Date(appointment.startTime),
         duration: 20,
         color: colors.red,
-        data: appointment
+        data: appointment,
       };
       this.events.push(newEvent);
       this.refresh.next();
     }
 
     getNewAvailabilities() {
+      const newEvent = {
+        title: 'Current appointment time ' + this.data.time,
+        start: new Date(this.data.date + 'T'  + this.data.time),
+        duration: 20,
+        color: colors.blue,
+        data: this.data
+      };
+      this.events.push(newEvent);
+      this.refresh.next();
       if (this.data.appointmentType.includes('Walk-in')) {
         this.http
         .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
@@ -142,7 +151,7 @@ export class PatientUpdateComponent implements OnInit {
       const dialogRef = this.dialog.open(PatientUpdateConfirmationComponent, {
         width: '500px',
         height: '300px',
-        data: {'0': event.data, 'old': this.data.id}
+        data: {'0': event.data, 'old': this.data}
       });
 
       dialogRef.afterClosed().subscribe(result => {

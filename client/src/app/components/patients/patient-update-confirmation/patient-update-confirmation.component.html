@@ -3,7 +3,7 @@
 
   <p>Appointment Details: </p>
   <p>{{this.data[0].appointmentType}} appointment on {{this.data[0].date}} at {{this.data[0].startTime}}</p>
-  <p>Are you sure you want to update to this appointment?</p>
+  <p>Are you sure you want to update from {{this.data.old.date}} at {{this.data.old.time}} to this appointment?</p>
 
 </div>
 <button mat-button (click)="close()">No</button>
