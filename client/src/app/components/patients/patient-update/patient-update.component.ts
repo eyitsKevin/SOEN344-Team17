@@ -112,12 +112,20 @@ export class PatientUpdateComponent implements OnInit {
         .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
         .subscribe((result: Array<Object>) => {
           result.map(availability => this.addAppointmentToCalendar(availability));
+          result.forEach((element: any) => {
+            if (element.appointmentType === 'WALK_IN') {
+              element.appointmentType = 'Walk-in';
+            }});
         });
       } else if (this.data.appointmentType.includes('Annual checkup')) {
         this.http
         .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
         .subscribe((result: Array<Object>) => {
           result.map(availability => this.addAppointmentToCalendar(availability));
+          result.forEach((element: any) => {
+            if (element.appointmentType === 'ANNUAL_CHECKUP') {
+              element.appointmentType = 'Annual Checkup';
+            }});
         });
       }
     }
@@ -150,7 +158,6 @@ export class PatientUpdateComponent implements OnInit {
     handleEvent(action: string, event): void {
       const dialogRef = this.dialog.open(PatientUpdateConfirmationComponent, {
         width: '500px',
-        height: '300px',
         data: {'0': event.data, 'old': this.data}
       });
 
