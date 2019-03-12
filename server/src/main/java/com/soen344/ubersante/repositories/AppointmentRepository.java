@@ -30,4 +30,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query(value = "DELETE FROM us_db.appointment WHERE id = ?1", nativeQuery = true)
     void deleteAppointmentById(Long patient_id);
 
+    @Query(value = "SELECT * FROM us_db.appointment WHERE patient_id = ?1 AND appointment_type = 1", nativeQuery = true)
+    List<Appointment> findAllAnnualBookingsForPatient(long id);
+
 }
