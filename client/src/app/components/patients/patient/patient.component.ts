@@ -78,6 +78,11 @@ export class PatientComponent implements OnInit {
           element.id !== result.appointmentId
         );
         const time = result.cart[0].startTime.split('T');
+        if (result.cart[0].appointmentType === 'WALK_IN') {
+          result.cart[0].appointmentType = 'Walk-in';
+        } else if (result.cart[0].appointmentType === 'ANNUAL_CHECKUP') {
+          result.cart[0].appointmentType = 'Annual checkup';
+        }
         result.cart[0].time = time[1];
         result.cart[0].date = time[0];
         this.list.push(result.cart[0]);
