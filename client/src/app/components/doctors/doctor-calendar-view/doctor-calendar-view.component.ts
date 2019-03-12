@@ -126,7 +126,6 @@ export class DoctorCalendarViewComponent {
     let newEnd = new Date(event.start.getTime() + ((event.duration) * 60000));
     var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: newEnd.toUTCString() };
     this.http.put("http://localhost:8080/availability/modify", eventDTO).subscribe(data => {
-      console.log(data);
       for (var i in this.events) {
         if (this.events[i]['id'] === data['id']) {
           this.events[i]['end'] = this.convertTime(data['end']);
@@ -135,12 +134,7 @@ export class DoctorCalendarViewComponent {
       }
     },
       error => { this.openSnackBar(error.error, "Close"); 
-      for (var i in this.events) {
-        if (this.events[i]['id'] === event.id) {
-          this.events[i]['start'] = new Date(this.events[i]['end'].getTime() - ((this.events[i]['duration']) * 60000));
-          this.refresh.next();
-        }
-      }
+          window.location.reload();
     });
     this.refresh.next();
   }
@@ -171,7 +165,7 @@ export class DoctorCalendarViewComponent {
           duration: data[i]["duration"],
           end: this.convertTime(data[i]["end"]),
           color: type[data[i]["title"]].color,
-          draggable: false
+          draggable: true
         };
         this.events.push(event);
       }
@@ -187,7 +181,7 @@ export class DoctorCalendarViewComponent {
 
   convertTime(time) {
     let newTime = new Date(time);
-    newTime.setHours(newTime.getHours() - 5);
+    newTime.setHours(newTime.getHours() - 4);
     return newTime;
   }
 
