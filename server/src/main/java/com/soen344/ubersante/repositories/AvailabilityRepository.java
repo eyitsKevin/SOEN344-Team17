@@ -27,7 +27,7 @@ public interface AvailabilityRepository extends JpaRepository<Availability, Long
     @Modifying
     @Query(value = "UPDATE us_db.doctor_availability SET appointment_id = NULL WHERE appointment_id = ?1", nativeQuery = true)
     void updateAvailabilitiesByAppointmentId(long id);
-
+ 
     List<Availability> findAllByDoctorPermitNumber(String permitNumber);
 
     @Query(value = "SELECT * FROM doctor_availability " +

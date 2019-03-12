@@ -52,5 +52,4 @@ public class AppointmentService {
         appointmentRepository.deleteAppointmentById(id);
         availabilityRepository.updateAvailabilitiesByAppointmentId(id);
     }
-
 }

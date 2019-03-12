@@ -1,5 +1,5 @@
 <div onload="getAppointments()">  
-  <h3>Bookings</h3>
+  <h3>Your Future Appointments</h3>
 
     <div>
       <mat-card *ngFor="let list of list; let i = index">
@@ -9,9 +9,9 @@
                 <span>{{list.appointmentType}} Appointment: </span>
               </p>
               <button mat-button style="float: right;" (click)="cancelBooking(list)">Cancel</button>
-              <button mat-button style="float: right;">Update</button>
+              <button mat-button style="float: right;" (click)="updateBooking(list)">Update</button>
               <p mat-line>
-                <span>Booking is on {{list.date}} at {{this.convertTime((list.date + " "  + list.time))}} with Dr. {{list.doctorDetails.lastName}}</span>
+                <span>Booking is on {{list.date}} at {{this.convertTime((list.date + " "  + list.time))}}</span>
               </p>
             </mat-list-item>
 

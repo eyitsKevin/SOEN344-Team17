@@ -1,10 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { MatSnackBar } from "@angular/material";
-export interface DialogData {
-
-}
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-patient-cancel',
@@ -19,22 +16,17 @@ export class PatientCancelComponent {
     private http: HttpClient
     ) {}
 
-  ngOnInit() {
-    console.log(this.data);
-  }
-
-  close(){
+  close() {
     this.dialogRef.close();
   }
 
-  cancelAppointment(){
-    this.http.post("http://localhost:8080/appointment/cancel", this.data.id)
+  cancelAppointment() {
+    this.http.post('http://localhost:8080/appointment/cancel', this.data.id)
         .subscribe(data => {
-          
+          this.dialogRef.close(this.data.id);
         },
-          error => { console.log(error); this.openSnackBar(error.error, "Close"); }
+          error => { console.log(error); this.openSnackBar(error.error, 'Close'); }
         );
-    this.dialogRef.close();
   }
 
   openSnackBar(message: string, action: string) {
@@ -42,7 +34,7 @@ export class PatientCancelComponent {
       duration: 5000,
     });
   }
-  
+
   convertTime(time) {
     let newTime = new Date(time);
     newTime.setHours(newTime.getHours() - 5);

@@ -3,6 +3,7 @@ package com.soen344.ubersante.services;
 import com.soen344.ubersante.dto.PatientDetails;
 import com.soen344.ubersante.dto.PatientLoginForm;
 import com.soen344.ubersante.dto.PatientRegistrationForm;
+import com.soen344.ubersante.exceptions.IllegalBirthdayException;
 import com.soen344.ubersante.exceptions.InvalidPasswordException;
 import com.soen344.ubersante.exceptions.PatientAlreadyExistsException;
 import com.soen344.ubersante.exceptions.PatientNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 @Service
 public class PatientService implements IPatientService {
@@ -33,12 +35,19 @@ public class PatientService implements IPatientService {
             throw new PatientAlreadyExistsException("An account with that health card already exists: " + patientRegistrationForm.getHealthCard());
         }
 
+        LocalDate birthday = LocalDate.parse(patientRegistrationForm.getBirthday().substring(0, 10));
+
+        if (underAge(birthday)) {
+            throw new IllegalBirthdayException("Patient cannot be under 18 years of age");
+        }
+
+
         final Patient patient = new Patient();
 
         patient.setHealthCard(patientRegistrationForm.getHealthCard());
         patient.setFirstName(patientRegistrationForm.getFirstName());
         patient.setLastName(patientRegistrationForm.getLastName());
-        patient.setBirthday(patientRegistrationForm.getBirthday());
+        patient.setBirthday(birthday.toString());
         patient.setGender(patientRegistrationForm.getGender());
         patient.setPhone(patientRegistrationForm.getPhone());
         patient.setEmail(patientRegistrationForm.getEmail());
@@ -67,22 +76,14 @@ public class PatientService implements IPatientService {
 
     private boolean emailExists(String email) {
         Patient patient = patientRepository.findByEmail(email);
+        return patient != null;
 
-        if (patient != null) {
-            return true;
-        }
-
-        return false;
     }
 
     private boolean healthCardExists(String healthCard) {
         Patient patient = patientRepository.findByHealthCard(healthCard);
+        return patient != null;
 
-        if (patient != null) {
-            return true;
-        }
-
-        return false;
     }
 
     public List<PatientDetails> findAll() throws PatientNotFoundException {
@@ -95,5 +96,12 @@ public class PatientService implements IPatientService {
             }
         }
         return patientDetailsList;
+    }
+
+
+    private boolean underAge(LocalDate birthday) {
+        LocalDate legalAgeBirthday = LocalDate.now().minusYears(18);
+
+       return birthday.isAfter(legalAgeBirthday);
     }
 }
