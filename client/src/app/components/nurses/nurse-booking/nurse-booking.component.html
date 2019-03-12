@@ -10,7 +10,7 @@
     </mat-form-field>
   </form>
 
-  <div *ngIf="selected">
+  <div *ngIf="selected" class="container">
     <mat-card class="example-card" *ngFor="let selected of [ selected ]" [@simpleFadeAnimation] (swipe)="onSwipe($event)">
       <mat-card-header>
         <div *ngIf="selected.gender=='male'" mat-card-avatar class="example-header-image-male"></div>
@@ -43,6 +43,19 @@
         <button mat-raised-button color="primary" (click)="openBottomSheet()">Book an appointment</button>
         <button mat-raised-button color="primary">View appointments</button>
       </div>
+    </mat-card>
+    <mat-card class="example-card-info" *ngFor="let selected of [ selected ]" [@simpleFadeAnimation] (swipe)="onSwipe($event)">
+      <mat-card-header>
+        <div *ngIf="selected.gender=='male'" mat-card-avatar class="example-header-image-male"></div>
+        <div *ngIf="selected.gender!='male'" mat-card-avatar class="example-header-image-female"></div>
+        <mat-card-title> {{selected.firstName}}</mat-card-title>
+        <mat-card-subtitle>{{selected.lastName}}</mat-card-subtitle>
+      </mat-card-header>
+      <img *ngIf="selected.gender=='male'" mat-card-image src="https://semantic-ui.com/images/avatar/large/steve.jpg" alt="Photo of a Shiba Inu">
+      <img *ngIf="selected.gender!='male'" mat-card-image src="https://semantic-ui.com/images/avatar/large/jenny.jpg" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+<app-patient></app-patient>
+      </mat-card-content>
     </mat-card>
   </div>
 

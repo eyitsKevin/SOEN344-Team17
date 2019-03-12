@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 import { PatientCancelComponent } from '../patient-cancel/patient-cancel.component'
 import { PatientUpdateComponent } from '../patient-update/patient-update.component';
+import {UserDataService} from "../../../services/user-data.service";
 
 @Component({
   selector: 'app-patient',
@@ -21,18 +22,25 @@ export class PatientComponent implements OnInit {
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private router: Router,
-    private http: HttpClient) {}
+    private http: HttpClient,
+    private userDataService: UserDataService) {}
 
     list;
     user;
-    healthcard;
+    authenticated;
 
   ngOnInit() {
+    this.authenticationService.authenticated.subscribe(value => this.authenticated = value);
     this.getAppointments();
   }
 
   getAppointments() {
-    this.authenticationService.user.subscribe(user => this.user = user);
+    if (this.authenticated === 'nurse') {
+      this.userDataService.patient.subscribe(user => this.user = user);
+    } else {
+      this.authenticationService.user.subscribe(user => this.user = user);
+    }
+
     this.http.post('http://localhost:8080/appointment/view', this.user)
         .subscribe((data: any) => {
           data.forEach(element => {

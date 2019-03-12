@@ -11,6 +11,7 @@ import {Patient} from '../../../models/patient';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatBottomSheet} from '@angular/material';
 import {PatientViewAvailabilityComponent} from '../../patients/patient-view-availability/patient-view-availability.component';
+import {UserDataService} from '../../../services/user-data.service';
 
 @Component({
   selector: 'app-nurse-booking',
@@ -41,7 +42,8 @@ export class NurseBookingComponent implements OnInit {
   bookingSelection = false;
 
   constructor(private http: HttpClient,
-              private bottomSheet: MatBottomSheet) {
+              private bottomSheet: MatBottomSheet,
+              private userDataService: UserDataService) {
   }
 
   openBottomSheet(): void {
@@ -66,6 +68,7 @@ export class NurseBookingComponent implements OnInit {
           );
       }
     );
+    this.userDataService.patient.subscribe(message => this.selected = message);
   }
 
   fetchAllPatient(): Observable<Patient[]> {
@@ -74,13 +77,14 @@ export class NurseBookingComponent implements OnInit {
 
   private _filter(value: any): Patient[] {
     if (value !== undefined) {
-      const filterValue = value.toLowerCase();
+      const filterValue = value.healthCard.toLowerCase();
       return this.options.filter(option => option.healthCard.toLowerCase().indexOf(filterValue) === 0);
     }
   }
 
   getSelection(patient: Patient): void {
-      this.selected = patient;
+    this.selected = patient;
+    this.userDataService.sendMessage(this.selected);
   }
 
   displayFn(val: Patient) {
