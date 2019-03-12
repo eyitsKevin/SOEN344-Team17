@@ -16,12 +16,17 @@ export class NursePatientBookingComponent implements OnInit {
               private snackBar: MatSnackBar,
               public dialogRef: MatDialogRef<NursePatientBookingComponent>,
               private bottomSheet: NurseBookingComponent,
-              ) {}
+  ) {}
 
   patientCart;
 
   ngOnInit() {
     const cart = [];
+    if (this.data.cart.appointmentType === 'Walk-in') {
+      this.data.cart.appointmentType =  'WALK_IN';
+    } else if (this.data.cart.appointmentType === 'Annual Checkup') {
+      this.data.cart.appointmentType = 'ANNUAL_CHECKUP';
+    }
     cart.push(this.data.cart);
     this.patientCart = {
       patient: this.data.patient,

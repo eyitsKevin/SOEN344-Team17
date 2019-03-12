@@ -27,6 +27,15 @@ import {UserDataService} from '../../../services/user-data.service';
         ]),
         transition(':leave',
           animate(600, style({opacity: 0})))
+      ]),
+      trigger('slideInOut', [
+        transition(':enter', [
+          style({transform: 'translateX(100%)', opacity: 1}),
+          animate('500ms ease-in', style({transform: 'translateX(0%)'}))
+        ]),
+        transition(':leave', [
+          animate('500ms ease-in', style({transform: 'translateX(100%)', opacity: 0}))
+        ])
       ])
     ]
   ]
@@ -40,6 +49,7 @@ export class NurseBookingComponent implements OnInit {
   filteredOptions: Observable<Patient[]>;
   eventText;
   bookingSelection = false;
+  isToggled: boolean;
 
   constructor(private http: HttpClient,
               private bottomSheet: MatBottomSheet,
@@ -84,6 +94,7 @@ export class NurseBookingComponent implements OnInit {
 
   getSelection(patient: Patient): void {
     this.selected = patient;
+    this.isToggled = false;
     this.userDataService.sendMessage(this.selected);
   }
 
