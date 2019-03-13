@@ -90,6 +90,10 @@ public class AvailabilityService {
                 throw new DoctorNotFoundException("Doctor not found in " + this);
             }
 
+            if (noRoomsAvailable(details)) {
+                throw new InvalidAppointmentException("No rooms available between " + details.getStartTime() + " and " + details.getEndTime());
+            }
+
             Appointment appointment = new Appointment(
                     patientRepository.findByHealthCard(patient.getHealthCard()),
                     doctorRepository.findByPermitNumber(details.getDoctorPermitNumber()),
@@ -223,5 +227,17 @@ public class AvailabilityService {
         Duration oneYear = Duration.ofDays(365);
 
         return duration.compareTo(oneYear) < 0;
+    }
+
+    private boolean noRoomsAvailable(AvailabilityDetails potentialAppointment) {
+        // TEMPORARY HARD CODE UNTIL RELEASE 2
+        int roomCapacity = 5;
+
+        LocalDateTime start = LocalDateTime.parse(potentialAppointment.getStartTime());
+        LocalDateTime end = LocalDateTime.parse(potentialAppointment.getEndTime());
+
+        List<Appointment> appointments = appointmentRepository.findAllAppointmentsBetween(start, end);
+
+        return appointments.size() >= roomCapacity;
     }
 }
