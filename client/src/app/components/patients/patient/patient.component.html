@@ -12,8 +12,8 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
       
-        <mat-card *ngFor="let list of list; let i = index">
-            <mat-list role="list">
+        <mat-card *ngFor="let list of futureList; let i = index">
+            <mat-list role="futureList">
               <mat-list-item role="listitem">
                 <p mat-line>
                   <span>{{list.appointmentType}} Appointment: </span>
@@ -22,9 +22,10 @@
                 <button mat-button style="float: right;" (click)="updateBooking(list)">Update</button>
                 <p mat-line>
                   <span>Booking is on {{this.convertTime((list.date + " "  + list.time))}}</span>
+
+                  {{this.compareTime((list.date + " "  + list.time))}}
                 </p>
               </mat-list-item>
-
             </mat-list>
         </mat-card>
       
@@ -39,6 +40,20 @@
             Your past appointments
           </mat-panel-description>
         </mat-expansion-panel-header>
+
+        <mat-card *ngFor="let list of pastList; let i = index">
+            <mat-list role="pastList">
+              <mat-list-item role="listitem">
+                <p mat-line>
+                  <span>{{list.appointmentType}} Appointment: </span>
+                </p>
+                <p mat-line>
+                  <span>Booking was on {{this.convertTime((list.date + " "  + list.time))}}</span>
+                </p>
+              </mat-list-item>
+            </mat-list>
+        </mat-card>
+
     </mat-expansion-panel>
   </mat-accordion>
 
