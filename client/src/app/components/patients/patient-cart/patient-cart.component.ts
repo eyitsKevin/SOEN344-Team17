@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CartDataService } from '../../../../services/cart-data.service';
-import { AuthenticationService } from '../../../../services/authentication.service';
+import { CartDataService } from '../../../services/cart-data.service';
+import { AuthenticationService } from '../../../services/authentication.service';
 import { MatSnackBar } from '@angular/material';
 import { MatDialog } from '@angular/material';
-import { PatientPaymentComponent } from '../../patient-payment/patient-payment.component';
+import { PatientPaymentComponent } from '../patient-payment/patient-payment.component';
 
 @Component({
   selector: 'app-patient-cart',
