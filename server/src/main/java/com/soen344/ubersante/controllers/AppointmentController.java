@@ -9,6 +9,7 @@ import com.soen344.ubersante.exceptions.PatientNotFoundException;
 import com.soen344.ubersante.services.AppointmentService;
 import com.soen344.ubersante.services.AvailabilityService;
 
+import com.soen344.ubersante.validation.ValidPermitNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,10 @@ public class AppointmentController {
         } catch (DoctorNotFoundException | PatientNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping("/doctor/{permit}")
+    public ResponseEntity getAllAppointmentsForDoctor(@ValidPermitNumber @PathVariable String permit) {
+        return new ResponseEntity<>(appointmentService.getAppointmentDetailsForDoctor(permit), HttpStatus.OK);
     }
 }

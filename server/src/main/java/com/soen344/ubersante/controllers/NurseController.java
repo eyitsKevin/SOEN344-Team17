@@ -37,12 +37,11 @@ public class NurseController {
         }
     }
 
-    @RequestMapping(value = "/patients", method = RequestMethod.GET)
+    @RequestMapping(value = "/patients")
     public ResponseEntity getAllPatient() {
         try {
             return new ResponseEntity<>(patientService.findAll(), HttpStatus.OK);
         } catch (PatientNotFoundException e) {
-            e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }

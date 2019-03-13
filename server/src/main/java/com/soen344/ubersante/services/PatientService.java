@@ -88,10 +88,12 @@ public class PatientService implements IPatientService {
 
     public List<PatientDetails> findAll() throws PatientNotFoundException {
         List<PatientDetails> patientDetailsList = new ArrayList<>();
-        if (patientRepository.findAll() == null) {
+        List<Patient> patientList = patientRepository.findAll();
+
+        if (patientList == null) {
             return new ArrayList<>();
         } else {
-            for (Patient patient : patientRepository.findAll()) {
+            for (Patient patient : patientList) {
                 patientDetailsList.add(new PatientDetails(patient));
             }
         }
