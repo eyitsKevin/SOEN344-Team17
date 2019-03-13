@@ -1,8 +1,6 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit } from '@angular/core';
-import {MatDialogModule, MatDialog} from '@angular/material/dialog';
-import { CartDataService } from '../../../services/cart-data.service';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../services/authentication.service';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 import { PatientCancelComponent } from '../patient-cancel/patient-cancel.component'
@@ -16,19 +14,15 @@ import { PatientUpdateComponent } from '../patient-update/patient-update.compone
 export class PatientComponent implements OnInit {
 
   constructor(
-    private cartDataService: CartDataService,
     private authenticationService: AuthenticationService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private router: Router,
     private http: HttpClient) {}
 
     step = 0;
-    list;
     pastList = [];
     futureList = [];
     user;
-    healthcard;
 
   ngOnInit() {
     this.getAppointments();
