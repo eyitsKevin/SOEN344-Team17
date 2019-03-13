@@ -1,0 +1,9 @@
+.center {
+    text-align: center;
+  }
+
+#show_info {
+  background-color: orangered;
+  padding: 5px;
+  font-weight: bold;
+}
