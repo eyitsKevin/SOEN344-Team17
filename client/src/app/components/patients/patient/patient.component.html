@@ -1,24 +1,46 @@
 <div onload="getAppointments()">  
-  <h3>Your Future Appointments</h3>
+  <h3>Your Appointments</h3>
 
-    <div>
-      <mat-card *ngFor="let list of list; let i = index">
-          <mat-list role="list">
-            <mat-list-item role="listitem">
-              <p mat-line>
-                <span>{{list.appointmentType}} Appointment: </span>
-              </p>
-              <button mat-button style="float: right;" (click)="cancelBooking(list)">Cancel</button>
-              <button mat-button style="float: right;" (click)="updateBooking(list)">Update</button>
-              <p mat-line>
-                <span>Booking is on {{this.convertTime((list.date + " "  + list.time))}}</span>
-              </p>
-            </mat-list-item>
+  <mat-accordion class="headers-align" multi="false">
+    <mat-expansion-panel [expanded]="step === 0">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Upcoming Appointments
+          </mat-panel-title>
+          <mat-panel-description>
+            Your future appointments
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      
+        <mat-card *ngFor="let list of list; let i = index">
+            <mat-list role="list">
+              <mat-list-item role="listitem">
+                <p mat-line>
+                  <span>{{list.appointmentType}} Appointment: </span>
+                </p>
+                <button mat-button style="float: right;" (click)="cancelBooking(list)">Cancel</button>
+                <button mat-button style="float: right;" (click)="updateBooking(list)">Update</button>
+                <p mat-line>
+                  <span>Booking is on {{this.convertTime((list.date + " "  + list.time))}}</span>
+                </p>
+              </mat-list-item>
 
-          </mat-list>
-      </mat-card>
-    </div>
+            </mat-list>
+        </mat-card>
+      
+    </mat-expansion-panel>
 
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Previous Appointments
+          </mat-panel-title>
+          <mat-panel-description>
+            Your past appointments
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </mat-accordion>
 
   <ng-template #other_content>There are no bookings</ng-template>
 </div>

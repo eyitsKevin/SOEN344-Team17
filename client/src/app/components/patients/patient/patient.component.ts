@@ -23,6 +23,7 @@ export class PatientComponent implements OnInit {
     private router: Router,
     private http: HttpClient) {}
 
+    step = 0;
     list;
     user;
     healthcard;
