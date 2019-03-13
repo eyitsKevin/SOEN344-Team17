@@ -47,7 +47,7 @@ public class AvailabilityController {
     public ResponseEntity checkoutAvailabilityCart(@RequestBody final AvailabilityWrapper details) {
         try {
             return new ResponseEntity<>(availabilityService.availabilityToAppointment(details.getPatient(), details.getCart()), HttpStatus.OK);
-        } catch (EmptyCartException | AnnualCheckupOverlapException | InvalidAppointmentException e) {
+        } catch (EmptyCartException | AnnualCheckupOverlapException | InvalidAppointmentException | AvailabilityDoesNotExistException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (DoctorNotFoundException | PatientNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

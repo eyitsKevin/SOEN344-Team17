@@ -12,8 +12,8 @@ import { PatientAuthenticationGuard } from './guards/patient-authentication.guar
 import { NurseAuthenticationGuard } from './guards/nurse-authentication.guard';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component';
 import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
-import { PatientCartComponent } from './components/patients/patient-cart/patient-cart/patient-cart.component';
 import {NurseBookingComponent} from './components/nurses/nurse-booking/nurse-booking.component';
+import { PatientCartComponent } from './components/patients/patient-cart/patient-cart.component';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
