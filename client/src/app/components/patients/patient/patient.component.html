@@ -22,8 +22,6 @@
                 <button mat-button style="float: right;" (click)="updateBooking(list)">Update</button>
                 <p mat-line>
                   <span>Booking is on {{this.convertTime((list.date + " "  + list.time))}}</span>
-
-                  {{this.compareTime((list.date + " "  + list.time))}}
                 </p>
               </mat-list-item>
             </mat-list>
@@ -41,7 +39,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <mat-card *ngFor="let list of pastList; let i = index">
+        <mat-card *ngFor="let list of pastList; let i = index" class="disabled">
             <mat-list role="pastList">
               <mat-list-item role="listitem">
                 <p mat-line>

@@ -4,9 +4,9 @@
   <!-- Use this format to show data: {{this.data[0].date}}  -->
     <p>Appointment Details: {{this.data[0].appointmentType}} appointment</p>
     <p>Update your current appointment from </p>
-    <p class="center"> {{this.data.old.date}} at {{this.data.old.time}}</p>
+    <p class="center" id="show_old_info"> {{this.data.old.date}} at {{this.data.old.time}}</p>
     <p>to the following appointment</p>
-    <p class="center">{{this.data[0].startTime}}</p>
+    <p class="center" id="show_new_info">{{this.data[0].startTime}}</p>
 
 </div>
 <div class="center">
