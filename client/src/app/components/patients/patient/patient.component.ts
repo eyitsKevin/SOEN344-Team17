@@ -23,7 +23,10 @@ export class PatientComponent implements OnInit {
     private router: Router,
     private http: HttpClient) {}
 
+    step = 0;
     list;
+    pastList = [];
+    futureList = [];
     user;
     healthcard;
 
@@ -41,11 +44,23 @@ export class PatientComponent implements OnInit {
             } else if (element.appointmentType === 'ANNUAL_CHECKUP') {
               element.appointmentType = 'Annual checkup';
             }
+            if (this.compareTime(element.date + 'T' + element.time)) {
+              this.pastList.push(element);
+            } else {
+              this.futureList.push(element);
+            }
           });
-          this.list = data;
         },
           error => { console.log(error); this.openSnackBar(error.error, 'Close'); }
         );
+  }
+
+  compareTime(time) {
+    let newTime = new Date(time);
+    newTime.setHours(newTime.getHours() - 5);
+    let currentTime = new Date();
+    // true = appointment was in the past, false = appointment is in the future
+    return currentTime > newTime;
   }
 
   openSnackBar(message: string, action: string) {
@@ -93,6 +108,8 @@ export class PatientComponent implements OnInit {
   convertTime(time) {
     let newTime = new Date(time);
     newTime.setHours(newTime.getHours() - 5);
-    return newTime;
-    }
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    let formattedTime = newTime.toLocaleDateString('en-US', options);
+    return formattedTime;
+  }
 }
