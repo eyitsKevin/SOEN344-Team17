@@ -55,11 +55,8 @@ export class PatientPaymentComponent implements OnInit {
       this.http.post('/api/availability/cart/checkout', this.data)
         .subscribe(() => {
           this.router.navigate(['patient']);
-        },
-        );
+        }, error => {this.openSnackBar(error.error, "Close")});
       this.data.cart = this.cartDataService.deleteAllAppointments();
-      this.dialogRef.close();
-      //this.router.navigate(['patient']);
     }
   }
 
