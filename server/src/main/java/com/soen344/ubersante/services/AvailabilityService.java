@@ -68,7 +68,7 @@ public class AvailabilityService {
         availabilityRepository.addAppointmentToAvailability(availability.getId() ,appointment.getId());
     }
 
-    public boolean availabilityToAppointment(PatientDetails patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException {
+    public boolean availabilityToAppointment(PatientDetails patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException, AvailabilityDoesNotExistException {
         LocalDateTime ldt = LocalDateTime.now();
         Timestamp ts = Timestamp.valueOf(ldt);
 
@@ -85,6 +85,10 @@ public class AvailabilityService {
         }
 
         for (AvailabilityDetails details : availabilityDetailsCart) {
+
+            if (availabilityRepository.checkIfAvailabilityExist(details.getId()).size() == 0) {
+                throw new AvailabilityDoesNotExistException("Availability not found for " + details.getStartTime());
+            }
 
             if (doctorRepository.findByPermitNumber(details.getDoctorPermitNumber()) == null) {
                 throw new DoctorNotFoundException("Doctor not found in " + this);

@@ -31,7 +31,7 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatBadgeModule } from '@angular/material/badge';
 import { PatientBookingComponent } from './components/patients/patient-booking/patient-booking.component';
 import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
-import { PatientCartComponent } from './components/patients/patient-cart/patient-cart/patient-cart.component';
+import { PatientCartComponent } from './components/patients/patient-cart/patient-cart.component';
 import { MatCardModule } from '@angular/material/card';
 import { PatientCancelComponent } from './components/patients/patient-cancel/patient-cancel.component';
 import { PatientPaymentComponent } from './components/patients/patient-payment/patient-payment.component';

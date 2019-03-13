@@ -1,8 +1,6 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit } from '@angular/core';
-import {MatDialogModule, MatDialog} from '@angular/material/dialog';
-import { CartDataService } from '../../../services/cart-data.service';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../services/authentication.service';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 import { PatientCancelComponent } from '../patient-cancel/patient-cancel.component'
@@ -16,19 +14,15 @@ import { PatientUpdateComponent } from '../patient-update/patient-update.compone
 export class PatientComponent implements OnInit {
 
   constructor(
-    private cartDataService: CartDataService,
     private authenticationService: AuthenticationService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private router: Router,
     private http: HttpClient) {}
 
     step = 0;
-    list;
     pastList = [];
     futureList = [];
     user;
-    healthcard;
 
   ngOnInit() {
     this.getAppointments();
@@ -76,7 +70,7 @@ export class PatientComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.list = this.list.filter(element =>
+        this.futureList = this.futureList.filter(element =>
           element.id !== result
         );
       }
@@ -89,7 +83,7 @@ export class PatientComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.list = this.list.filter(element =>
+        this.futureList = this.futureList.filter(element =>
           element.id !== result.appointmentId
         );
         const time = result.cart[0].startTime.split('T');
@@ -100,7 +94,7 @@ export class PatientComponent implements OnInit {
         }
         result.cart[0].time = time[1];
         result.cart[0].date = time[0];
-        this.list.push(result.cart[0]);
+        this.futureList.push(result.cart[0]);
       }
     });
   }

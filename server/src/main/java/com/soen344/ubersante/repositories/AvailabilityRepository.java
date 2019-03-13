@@ -34,4 +34,7 @@ public interface AvailabilityRepository extends JpaRepository<Availability, Long
             "WHERE end_time > ?1 AND start_time < ?2 AND doctor_permit_number = ?3", nativeQuery = true)
     List<Availability> findAllInDateRangeForDoctor(LocalDateTime startTime, LocalDateTime endTime, String permit);
 
+    @Query(value = "SELECT * FROM us_db.doctor_availability WHERE id = ?1 AND appointment_id IS NULL", nativeQuery = true)
+    List<Availability> checkIfAvailabilityExist(Long id);
+
 }
