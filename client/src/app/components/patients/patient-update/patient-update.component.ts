@@ -98,6 +98,7 @@ export class PatientUpdateComponent implements OnInit {
     }
 
     getNewAvailabilities() {
+
       const newEvent = {
         title: 'Current appointment time ' + this.data.time,
         start: new Date(this.data.date + 'T'  + this.data.time),
@@ -155,7 +156,17 @@ export class PatientUpdateComponent implements OnInit {
       this.refresh.next();
     }
 
+    openSnackBar(message: string, action: string) {
+      this.snackBar.open(message, action, {
+        duration: 5000,
+      });
+    }
+
     handleEvent(action: string, event): void {
+
+      if(event.data.date === this.data.date && event.data.start === this.data.start) {
+        this.openSnackBar('This is your current booked appointment', 'Close');
+      } else {
       const dialogRef = this.dialog.open(PatientUpdateConfirmationComponent, {
         width: '500px',
         data: {'0': event.data, 'old': this.data}
@@ -165,4 +176,5 @@ export class PatientUpdateComponent implements OnInit {
         this.dialogRef.close(result);
       });
     }
+  }
 }
