@@ -28,16 +28,16 @@ import { UserProfileComponent } from './components/shared/user-profile/user-prof
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
-import {MatBadgeModule} from '@angular/material/badge';
-import { PatientBookingComponent} from './components/patients/patient-booking/patient-booking.component';
-import {PatientViewAvailabilityComponent} from './components/patients/patient-view-availability/patient-view-availability.component';
-import {PatientCartComponent} from './components/patients/patient-cart/patient-cart/patient-cart.component';
-import {MatCardModule} from '@angular/material/card';
-import {PatientCancelComponent} from './components/patients/patient-cancel/patient-cancel.component';
-import {PatientPaymentComponent} from './components/patients/patient-payment/patient-payment.component';
-import { ThisWeekComponent } from './components/doctors/this-week/this-week.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { PatientBookingComponent } from './components/patients/patient-booking/patient-booking.component';
+import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
+import { PatientCartComponent } from './components/patients/patient-cart/patient-cart/patient-cart.component';
+import { MatCardModule } from '@angular/material/card';
+import { PatientCancelComponent } from './components/patients/patient-cancel/patient-cancel.component';
+import { PatientPaymentComponent } from './components/patients/patient-payment/patient-payment.component';
+import { UpcomingAppointmentsComponent } from './components/doctors/upcoming-appointments/upcoming-appointments.component';
 import { PatientUpdateComponent } from './components/patients/patient-update/patient-update.component';
-import {PatientUpdateConfirmationComponent} from './components/patients/patient-update-confirmation/patient-update-confirmation.component';
+import { PatientUpdateConfirmationComponent } from './components/patients/patient-update-confirmation/patient-update-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +57,7 @@ import {PatientUpdateConfirmationComponent} from './components/patients/patient-
     DoctorCalendarViewComponent,
     UserProfileComponent,
     NotFoundComponent,
-    ThisWeekComponent,
+    UpcomingAppointmentsComponent,
     PatientBookingComponent,
     PatientViewAvailabilityComponent,
     PatientCancelComponent,
@@ -99,7 +99,7 @@ import {PatientUpdateConfirmationComponent} from './components/patients/patient-
     MatCardModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientBookingComponent, PatientPaymentComponent, PatientCancelComponent, 
+  entryComponents: [PatientBookingComponent, PatientPaymentComponent, PatientCancelComponent,
     PatientUpdateComponent, PatientUpdateConfirmationComponent],
   exports: [DoctorCalendarViewComponent],
   providers: [MatDatepickerModule]

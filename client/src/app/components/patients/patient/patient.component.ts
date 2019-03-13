@@ -45,12 +45,11 @@ export class PatientComponent implements OnInit {
               element.appointmentType = 'Annual checkup';
             }
             if (this.compareTime(element.date + 'T' + element.time)) {
-              this.pastList[data.index] = this.pastList.push(element);
+              this.pastList.push(element);
             } else {
-              this.futureList[data.index] = this.futureList.push(element);
+              this.futureList.push(element);
             }
           });
-          this.list = data;
         },
           error => { console.log(error); this.openSnackBar(error.error, 'Close'); }
         );
