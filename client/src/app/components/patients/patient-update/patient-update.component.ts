@@ -91,24 +91,42 @@ export class PatientUpdateComponent implements OnInit {
         start: new Date(appointment.startTime),
         duration: 20,
         color: colors.red,
-        data: appointment
+        data: appointment,
       };
       this.events.push(newEvent);
       this.refresh.next();
     }
 
     getNewAvailabilities() {
+
+      const newEvent = {
+        title: 'Current appointment time ' + this.data.time,
+        start: new Date(this.data.date + 'T'  + this.data.time),
+        duration: 20,
+        color: colors.blue,
+        data: this.data
+      };
+      this.events.push(newEvent);
+      this.refresh.next();
       if (this.data.appointmentType.includes('Walk-in')) {
         this.http
         .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
         .subscribe((result: Array<Object>) => {
           result.map(availability => this.addAppointmentToCalendar(availability));
+          result.forEach((element: any) => {
+            if (element.appointmentType === 'WALK_IN') {
+              element.appointmentType = 'Walk-in';
+            }});
         });
       } else if (this.data.appointmentType.includes('Annual checkup')) {
         this.http
         .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
         .subscribe((result: Array<Object>) => {
           result.map(availability => this.addAppointmentToCalendar(availability));
+          result.forEach((element: any) => {
+            if (element.appointmentType === 'ANNUAL_CHECKUP') {
+              element.appointmentType = 'Annual Checkup';
+            }});
         });
       }
     }
@@ -138,15 +156,25 @@ export class PatientUpdateComponent implements OnInit {
       this.refresh.next();
     }
 
+    openSnackBar(message: string, action: string) {
+      this.snackBar.open(message, action, {
+        duration: 5000,
+      });
+    }
+
     handleEvent(action: string, event): void {
+
+      if(event.data.date === this.data.date && event.data.start === this.data.start) {
+        this.openSnackBar('This is your current booked appointment', 'Close');
+      } else {
       const dialogRef = this.dialog.open(PatientUpdateConfirmationComponent, {
         width: '500px',
-        height: '300px',
-        data: {'0': event.data, 'old': this.data.id}
+        data: {'0': event.data, 'old': this.data}
       });
 
       dialogRef.afterClosed().subscribe(result => {
         this.dialogRef.close(result);
       });
     }
+  }
 }

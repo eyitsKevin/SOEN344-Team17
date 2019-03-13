@@ -38,6 +38,8 @@ export class PatientCancelComponent {
   convertTime(time) {
     let newTime = new Date(time);
     newTime.setHours(newTime.getHours() - 5);
-    return newTime;
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    let formattedTime = newTime.toLocaleDateString('en-US', options);
+    return formattedTime;
     }
 }
