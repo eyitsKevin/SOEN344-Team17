@@ -29,7 +29,7 @@ export class CartDataService {
     if (!exists) {
       this.list.push(appointment);
       const patientAppointment = {
-        id: this.user,
+        patient: this.user,
         cart: this.list
       };
     this.list.filter(element =>  {if (element.appointmentType === 'Annual Checkup') {
