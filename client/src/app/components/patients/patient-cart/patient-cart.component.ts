@@ -38,17 +38,7 @@ export class PatientCartComponent implements OnInit {
 
 
   ngOnInit() {
-    if(this.cartDataService.getAllAppointments() === null){
-      this.cart = this.cartDataService.getAllAppointments();
-    } else {
-      this.http.post('/api/availability/cart/retrieve', this.patient.id)
-      .subscribe( (data: Array<Object>)=> {
-        data.map(element => this.cart.push(element))
-      }
-      );
-      // this.http.get('/api/availability/cart/checkout')
-      // .pipe(map(data => this.cart.push(data)));
-    }
+    this.cart = this.cartDataService.getAllAppointments();
     for (let i = 0; i < this.cart.length; i++) {
       const fullDate = this.cart[i].startTime.split('T');
       const fullDate2 = this.cart[i].endTime.split('T');
