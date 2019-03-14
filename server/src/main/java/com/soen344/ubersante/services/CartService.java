@@ -20,4 +20,9 @@ public class CartService {
     public List<AvailabilityDetails> retrieveCartAvailability(String healthCard) {
         return patientsCart.get(healthCard);
     }
+
+    public boolean emptyCart(String healthCard) {
+        patientsCart.remove(healthCard);
+        return true;
+    }
 }
