@@ -81,7 +81,12 @@ export class CartDataService {
       patient: this.user,
       cart: this.list
     };
+    if (this.list.length === 0) {
+      this.http.post('/api/availability/cart/empty', this.user.healthCard )
+      .subscribe(() => {});
+    } else {
     this.http.post('/api/availability/cart/save', patientAppointment )
-    .subscribe(() => {})
+    .subscribe(() => {});
+    }
   }
 }
