@@ -10,6 +10,8 @@ import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.services.AvailabilityService;
+import com.soen344.ubersante.services.PaymentAdapter;
+import com.soen344.ubersante.services.PaymentPrototype;
 import com.soen344.ubersante.validation.ValidPermitNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +48,9 @@ public class AvailabilityController {
     @PostMapping(value = "/cart/checkout")
     public ResponseEntity checkoutAvailabilityCart(@RequestBody final AvailabilityWrapper details) {
         try {
+            PaymentPrototype prototype = new PaymentPrototype();
+            PaymentAdapter adapter = new PaymentAdapter(prototype);
+            adapter.processPayment(details.getPayment());
             return new ResponseEntity<>(availabilityService.availabilityToAppointment(details.getPatient(), details.getCart()), HttpStatus.OK);
         } catch (EmptyCartException | AnnualCheckupOverlapException | InvalidAppointmentException | AvailabilityDoesNotExistException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
