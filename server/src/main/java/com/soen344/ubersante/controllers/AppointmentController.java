@@ -4,6 +4,7 @@ import com.soen344.ubersante.dto.PatientDetails;
 import com.soen344.ubersante.dto.UpdateAppointmentWrapper;
 import com.soen344.ubersante.exceptions.DoctorNotFoundException;
 import com.soen344.ubersante.exceptions.EmptyCartException;
+import com.soen344.ubersante.exceptions.NoAppointmentException;
 import com.soen344.ubersante.exceptions.PatientNotFoundException;
 import com.soen344.ubersante.services.AppointmentService;
 import com.soen344.ubersante.services.AvailabilityService;
@@ -27,8 +28,12 @@ public class AppointmentController {
 
     @RequestMapping(value = "/view", method = RequestMethod.POST)
     public ResponseEntity getAllAppointmentFromPatient(@RequestBody PatientDetails patientDetails) {
-        return new ResponseEntity<>(appointmentService.getAppointmentDetails(appointmentService.findAppointmentForPatient(patientDetails)), HttpStatus.OK);
-    } 
+        try {
+            return new ResponseEntity<>(appointmentService.getAppointmentDetails(appointmentService.findAppointmentForPatient(patientDetails)), HttpStatus.OK);
+        } catch (NoAppointmentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping("/cancel")
     @ResponseStatus(value = HttpStatus.OK)
