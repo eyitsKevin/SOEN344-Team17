@@ -1,3 +1,4 @@
+import { CartDataService } from './../../../services/cart-data.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../services/authentication.service';
@@ -17,7 +18,9 @@ export class PatientComponent implements OnInit {
     private authenticationService: AuthenticationService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private http: HttpClient) {}
+    private http: HttpClient,
+    private cartService: CartDataService
+    ) {}
 
     step = 0;
     pastList = [];
@@ -25,6 +28,7 @@ export class PatientComponent implements OnInit {
     user;
 
   ngOnInit() {
+    this.cartService.init();
     this.getAppointments();
   }
 

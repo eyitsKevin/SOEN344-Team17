@@ -12,6 +12,8 @@ export class CartDataService {
   list = [];
   user;
   constructor(private http: HttpClient, private userService: AuthenticationService) {
+  }
+  init() {
     this.userService.user.subscribe(user => this.user = user);
     this.http.post('/api/availability/cart/retrieve', this.user.healthCard )
     .subscribe( (data: Array<Object>)=> {
@@ -19,6 +21,7 @@ export class CartDataService {
     });
     // this.http.post('/api/availability/cart/retrieve', this.user.healthCard)
     // .pipe(map(data => this.list.push(data)));
+
   }
 
 
