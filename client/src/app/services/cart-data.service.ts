@@ -1,3 +1,5 @@
+import { AuthenticationService } from './authentication.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 
@@ -7,31 +9,32 @@ import { Injectable } from '@angular/core';
 
 export class CartDataService {
   list = [];
-  
-  constructor() { 
-    this.list = [];
-    if(this.list.length==0){
-      console.log(localStorage.getItem("cart"));
-      this.list = JSON.parse(localStorage.getItem("cart"));
-    }
+  user;
+  constructor(private http: HttpClient, private userService: AuthenticationService) {
+    this.userService.user.subscribe(user => this.user = user);
+    this.http.post('/api/availability/cart/retrieve', this.user.id )
+    .subscribe( (data: Array<Object>)=> {
+      data.map(element => this.list.push(element));
+    });
   }
+
 
   addAppointment(appointment) {
     let exists = false;
-    if (this.list.length === 0) {
-      this.list.push(appointment);
-    } else {
       for (let i = 0; i < this.list.length; i++) {
         if (this.list[i].id === appointment.id ) {
           exists = true;
         }
-      }
-      if (exists === false) {
-        this.list.push(appointment);
-      }
     }
-
-    localStorage.setItem("cart", JSON.stringify(this.list));
+    if (!exists) {
+      this.list.push(appointment);
+      const patientAppointment = {
+        id: this.user,
+        cart: this.list
+      };
+    this.http.post('/api/availability/cart/save', patientAppointment )
+    .subscribe(() => {});
+  }
   }
 
   getAllAppointments() {
@@ -40,11 +43,9 @@ export class CartDataService {
 
   deleteAllAppointments() {
     this.list = [];
-    localStorage.removeItem("cart");
   }
 
   removeAppointment(number) {
     this.list.splice(number, 1);
-    localStorage.setItem("cart", JSON.stringify(this.list));
   }
 }

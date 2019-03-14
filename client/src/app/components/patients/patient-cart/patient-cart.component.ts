@@ -41,7 +41,7 @@ export class PatientCartComponent implements OnInit {
     if(this.cartDataService.getAllAppointments() === null){
       this.cart = this.cartDataService.getAllAppointments();
     } else {
-      this.http.post('/api/availability/cart/retrieve', )
+      this.http.post('/api/availability/cart/retrieve', this.patient.id)
       .subscribe( (data: Array<Object>)=> {
         data.map(element => this.cart.push(element))
       }
