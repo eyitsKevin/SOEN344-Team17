@@ -22,7 +22,7 @@ public class AvailabilityWrapper {
     private Payment payment;
 
 
-    private class Payment {
+    public class Payment {
         private String ccNumber;
         private String cvv;
         private String exprMonth;
