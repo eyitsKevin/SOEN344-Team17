@@ -46,6 +46,9 @@ public class Appointment {
     @Column(name = "createdAt", nullable = false)
     private Timestamp createdAt;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Clinic clinic;
+
     public Appointment() { }
 
     public Appointment(@NotNull Patient patient, @NotNull Doctor doctor, @NotNull String createdBy, @NotNull AppointmentType appointmentType, @NotNull LocalDateTime date, @NotNull LocalDateTime time, @NotNull Timestamp createdAt) {
@@ -120,6 +123,14 @@ public class Appointment {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 
     @Override

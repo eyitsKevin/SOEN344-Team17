@@ -67,7 +67,7 @@ public class AvailabilityService {
         availabilityRepository.addAppointmentToAvailability(availability.getId() ,appointment.getId());
     }
 
-    public boolean availabilityToAppointment(PatientDetails patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException {
+    public boolean availabilityToAppointment(PatientDetails patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException, AvailabilityDoesNotExistException {
         LocalDateTime ldt = LocalDateTime.now();
         Timestamp ts = Timestamp.valueOf(ldt);
 
@@ -85,8 +85,16 @@ public class AvailabilityService {
 
         for (AvailabilityDetails details : availabilityDetailsCart) {
 
+            if (availabilityRepository.checkIfAvailabilityExist(details.getId()).size() == 0) {
+                throw new AvailabilityDoesNotExistException("Availability not found for " + details.getStartTime());
+            }
+
             if (doctorRepository.findByPermitNumber(details.getDoctorPermitNumber()) == null) {
                 throw new DoctorNotFoundException("Doctor not found in " + this);
+            }
+
+            if (noRoomsAvailable(details)) {
+                throw new InvalidAppointmentException("No rooms available between " + details.getStartTime() + " and " + details.getEndTime());
             }
 
             Appointment appointment = new Appointment(
@@ -245,5 +253,17 @@ public class AvailabilityService {
         }
 
         return false;
+    }
+  
+    private boolean noRoomsAvailable(AvailabilityDetails potentialAppointment) {
+        // TEMPORARY HARD CODE UNTIL RELEASE 2
+        int roomCapacity = 5;
+
+        LocalDateTime start = LocalDateTime.parse(potentialAppointment.getStartTime());
+        LocalDateTime end = LocalDateTime.parse(potentialAppointment.getEndTime());
+
+        List<Appointment> appointments = appointmentRepository.findAllAppointmentsBetween(start, end);
+
+        return appointments.size() >= roomCapacity;
     }
 }

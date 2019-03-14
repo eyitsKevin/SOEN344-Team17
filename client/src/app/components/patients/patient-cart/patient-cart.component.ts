@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { CartDataService } from '../../../../services/cart-data.service';
-import { AuthenticationService } from '../../../../services/authentication.service';
+import { Component, OnInit } from '@angular/core';
+import { CartDataService } from '../../../services/cart-data.service';
+import { AuthenticationService } from '../../../services/authentication.service';
 import { MatSnackBar } from '@angular/material';
-import {MatDialog} from '@angular/material';
-import { PatientPaymentComponent} from '../../patient-payment/patient-payment.component';
+import { MatDialog } from '@angular/material';
+import { PatientPaymentComponent } from '../patient-payment/patient-payment.component';
 
 @Component({
   selector: 'app-patient-cart',
@@ -13,10 +13,10 @@ import { PatientPaymentComponent} from '../../patient-payment/patient-payment.co
 export class PatientCartComponent implements OnInit {
 
   constructor(private cartDataService: CartDataService,
-              private authenticationService: AuthenticationService,
-              public snackBar: MatSnackBar,
-              public dialog: MatDialog
-              ) { }
+    private authenticationService: AuthenticationService,
+    public snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) { }
   cart = [];
   patient;
 
@@ -27,7 +27,7 @@ export class PatientCartComponent implements OnInit {
       cart: this.cart
     };
     const dialogRef = this.dialog.open(PatientPaymentComponent, {
-       width: '500px',
+      width: '500px',
       height: '500px',
       data: patientWithcart
     });
@@ -39,8 +39,8 @@ export class PatientCartComponent implements OnInit {
 
 
     for (let i = 0; i < this.cart.length; i++) {
-      const fullDate =  this.cart[i].startTime.split('T');
-      const fullDate2 =  this.cart[i].endTime.split('T');
+      const fullDate = this.cart[i].startTime.split('T');
+      const fullDate2 = this.cart[i].endTime.split('T');
       this.cart[i].day = fullDate[0];
       this.cart[i].start = fullDate[1];
       this.cart[i].end = fullDate2[1];
