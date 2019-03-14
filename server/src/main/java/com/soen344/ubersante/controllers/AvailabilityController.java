@@ -10,6 +10,7 @@ import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.services.AvailabilityService;
+import com.soen344.ubersante.services.CartService;
 import com.soen344.ubersante.services.IPaymentService;
 import com.soen344.ubersante.services.PaymentAdapter;
 import com.soen344.ubersante.services.PaymentPrototype;
@@ -30,6 +31,9 @@ public class AvailabilityController {
 
     @Autowired
     private AvailabilityService availabilityService;
+
+    @Autowired
+    private CartService cartService;
 
     @Autowired
     private AvailabilityRepository availabilityRepository;
@@ -63,10 +67,8 @@ public class AvailabilityController {
 
     @PostMapping(value = "/cart/save")
     public ResponseEntity saveAvailabilityCart(@Valid @RequestBody final AvailabilityWrapper details) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(cartService.saveAvailability(details.getPatient().getHealthCard(), details.getCart()), HttpStatus.OK);
     }
-
-
 
     @RequestMapping("/doctor/{permit}")
     public ResponseEntity getAllDoctorAvailabilities(@ValidPermitNumber @PathVariable String permit) {
