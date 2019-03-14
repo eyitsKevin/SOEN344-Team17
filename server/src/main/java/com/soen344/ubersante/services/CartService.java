@@ -27,9 +27,10 @@ import java.sql.Timestamp;
 @Service
 public class CartService {
 
-    private HashMap<String, List<Availability>> patientsCart = new HashMap();
+    private HashMap<String, List<AvailabilityDetails>> patientsCart = new HashMap();
 
-    public void saveAvailability(String healthCard, List<Availability> availabilities) {
+    public boolean saveAvailability(String healthCard, List<AvailabilityDetails> availabilities) {
         patientsCart.put(healthCard, availabilities);
+        return true;
     }
 }
