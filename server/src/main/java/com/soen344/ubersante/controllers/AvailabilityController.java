@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -68,6 +69,11 @@ public class AvailabilityController {
     @PostMapping(value = "/cart/save")
     public ResponseEntity saveAvailabilityCart(@Valid @RequestBody final AvailabilityWrapper details) {
         return new ResponseEntity<>(cartService.saveAvailability(details.getPatient().getHealthCard(), details.getCart()), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/cart/retrieve")
+    public ResponseEntity retrieveCart(@Valid @RequestBody final String healthCard) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping("/doctor/{permit}")
