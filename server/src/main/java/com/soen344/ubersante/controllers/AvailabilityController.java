@@ -73,7 +73,7 @@ public class AvailabilityController {
 
     @PostMapping(value = "/cart/retrieve")
     public ResponseEntity retrieveCart(@Valid @RequestBody final String healthCard) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(cartService.retrieveCartAvailability(healthCard), HttpStatus.OK);
     }
 
     @RequestMapping("/doctor/{permit}")

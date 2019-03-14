@@ -33,4 +33,8 @@ public class CartService {
         patientsCart.put(healthCard, availabilities);
         return true;
     }
+
+    public List<AvailabilityDetails> retrieveCartAvailability(String healthCard) {
+        return patientsCart.get(healthCard);
+    }
 }
