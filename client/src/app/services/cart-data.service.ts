@@ -17,8 +17,16 @@ export class CartDataService {
     .subscribe( (data: Array<Object>)=> {
       data.map(element => this.list.push(element));
     });
+  }
+  init() {
+    this.userService.user.subscribe(user => this.user = user);
+    this.http.post('/api/availability/cart/retrieve', this.user.healthCard )
+    .subscribe( (data: Array<Object>)=> {
+      data.map(element => this.list.push(element));
+    });
     // this.http.post('/api/availability/cart/retrieve', this.user.healthCard)
     // .pipe(map(data => this.list.push(data)));
+
   }
 
 
