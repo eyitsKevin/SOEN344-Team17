@@ -61,6 +61,13 @@ public class AvailabilityController {
         }
     }
 
+    @PostMapping(value = "/cart/save")
+    public ResponseEntity saveAvailabilityCart(@Valid @RequestBody final AvailabilityWrapper details) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
     @RequestMapping("/doctor/{permit}")
     public ResponseEntity getAllDoctorAvailabilities(@ValidPermitNumber @PathVariable String permit) {
         return new ResponseEntity<>(availabilityService.allAvailabilitiesByDoctorPermit(permit), HttpStatus.OK);
