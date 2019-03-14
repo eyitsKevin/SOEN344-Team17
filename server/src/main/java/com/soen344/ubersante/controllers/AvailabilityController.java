@@ -11,16 +11,13 @@ import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.services.AvailabilityService;
 import com.soen344.ubersante.services.CartService;
-import com.soen344.ubersante.services.IPaymentService;
 import com.soen344.ubersante.services.PaymentAdapter;
 import com.soen344.ubersante.services.PaymentPrototype;
-import com.soen344.ubersante.services.PaymentSystem;
 import com.soen344.ubersante.validation.ValidPermitNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
