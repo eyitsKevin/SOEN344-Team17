@@ -12,6 +12,11 @@ export class CartDataService {
   list = [];
   user;
   constructor(private http: HttpClient, private userService: AuthenticationService) {
+    this.userService.user.subscribe(user => this.user = user);
+    this.http.post('/api/availability/cart/retrieve', this.user.healthCard )
+    .subscribe( (data: Array<Object>)=> {
+      data.map(element => this.list.push(element));
+    });
   }
   init() {
     this.userService.user.subscribe(user => this.user = user);

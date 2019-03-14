@@ -18,8 +18,7 @@ export class PatientComponent implements OnInit {
     private authenticationService: AuthenticationService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private http: HttpClient,
-    private cartService: CartDataService
+    private http: HttpClient
     ) {}
 
     step = 0;
@@ -28,7 +27,6 @@ export class PatientComponent implements OnInit {
     user;
 
   ngOnInit() {
-    this.cartService.init();
     this.getAppointments();
   }
 
