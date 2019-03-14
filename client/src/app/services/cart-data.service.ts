@@ -32,6 +32,12 @@ export class CartDataService {
         id: this.user,
         cart: this.list
       };
+    this.list.filter(element =>  {if (element.appointmentType === 'Annual Checkup') {
+      element.appointmentType = 'ANNUAL_CHECKUP';
+    }
+    if (element.appointmentType === 'Walk-in') {
+      element.appointmentType = 'WALK_IN';
+    }});
     this.http.post('/api/availability/cart/save', patientAppointment )
     .subscribe(() => {});
   }
