@@ -4,7 +4,7 @@ import com.soen344.ubersante.dto.AvailabilityWrapper.Payment;
 
 public class PaymentAdapter implements IPaymentService {
 
-    PaymentPrototype system;
+    public PaymentPrototype system;
 
     public PaymentAdapter(PaymentPrototype system){
         this.system = system;
