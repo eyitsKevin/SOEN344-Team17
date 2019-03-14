@@ -1,0 +1,40 @@
+.horizontal {
+  padding: 15px;
+}
+
+.example-card {
+  max-width: 400px;
+  transition: all .25s linear;
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.4);
+  margin: 15px;
+}
+
+.example-card-info {
+  max-width: 600px;
+  transition: all .25s linear;
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.4);
+  margin: 15px;
+}
+
+.example-header-image-male {
+  background-image: url('https://semantic-ui.com/images/avatar/large/steve.jpg');
+  background-size: cover;
+}
+
+.example-header-image-female {
+  background-image: url('https://semantic-ui.com/images/avatar/large/jenny.jpg');
+  background-size: cover;
+}
+
+.example-card:hover,.example-card-info:hover{
+  box-shadow: -1px 10px 29px 0px rgba(0,0,0,0.8);
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-left: 15px;
+}
+
+.container {
+  display: inline-flex;
+}
