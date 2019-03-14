@@ -50,7 +50,7 @@ public class AvailabilityController {
     }
 
     @PostMapping(value = "/cart/checkout")
-    public ResponseEntity checkoutAvailabilityCart(@Valid @RequestBody final AvailabilityWrapper details) {
+    public ResponseEntity checkoutAvailabilityCart(@RequestBody final AvailabilityWrapper details) {
         try {
             PaymentPrototype prototype = new PaymentPrototype();
             PaymentAdapter adapter = new PaymentAdapter(prototype);
