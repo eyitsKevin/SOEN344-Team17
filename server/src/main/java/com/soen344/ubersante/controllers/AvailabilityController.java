@@ -73,6 +73,11 @@ public class AvailabilityController {
         return new ResponseEntity<>(cartService.retrieveCartAvailability(healthCard), HttpStatus.OK);
     }
 
+    @PostMapping(value = "/cart/empty")
+    public ResponseEntity emptyCart(@Valid @RequestBody final String healthCard) {
+        return new ResponseEntity<>(cartService.emptyCart(healthCard), HttpStatus.OK);
+    }
+
     @RequestMapping("/doctor/{permit}")
     public ResponseEntity getAllDoctorAvailabilities(@ValidPermitNumber @PathVariable String permit) {
         return new ResponseEntity<>(availabilityService.allAvailabilitiesByDoctorPermit(permit), HttpStatus.OK);
