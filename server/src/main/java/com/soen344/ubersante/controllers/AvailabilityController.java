@@ -10,6 +10,7 @@ import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.services.AvailabilityService;
+import com.soen344.ubersante.services.CartService;
 import com.soen344.ubersante.services.PaymentAdapter;
 import com.soen344.ubersante.services.PaymentPrototype;
 import com.soen344.ubersante.validation.ValidPermitNumber;
@@ -28,6 +29,9 @@ public class AvailabilityController {
 
     @Autowired
     private AvailabilityService availabilityService;
+
+    @Autowired
+    private CartService cartService;
 
     @Autowired
     private AvailabilityRepository availabilityRepository;
@@ -57,6 +61,21 @@ public class AvailabilityController {
         } catch (DoctorNotFoundException | PatientNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping(value = "/cart/save")
+    public ResponseEntity saveAvailabilityCart(@Valid @RequestBody final AvailabilityWrapper details) {
+        return new ResponseEntity<>(cartService.saveAvailability(details.getPatient().getHealthCard(), details.getCart()), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/cart/retrieve")
+    public ResponseEntity retrieveCart(@Valid @RequestBody final String healthCard) {
+        return new ResponseEntity<>(cartService.retrieveCartAvailability(healthCard), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/cart/empty")
+    public ResponseEntity emptyCart(@Valid @RequestBody final String healthCard) {
+        return new ResponseEntity<>(cartService.emptyCart(healthCard), HttpStatus.OK);
     }
 
     @RequestMapping("/doctor/{permit}")

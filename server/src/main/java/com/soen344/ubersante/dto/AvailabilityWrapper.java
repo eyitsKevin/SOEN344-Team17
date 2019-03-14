@@ -18,7 +18,6 @@ public class AvailabilityWrapper {
     @ValidCart
     private List<AvailabilityDetails> cart;
 
-    @NotNull
     private Payment payment;
 
 
