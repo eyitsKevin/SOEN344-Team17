@@ -2,6 +2,7 @@ package com.soen344.ubersante.services;
 
 import com.soen344.ubersante.dto.AppointmentDetails;
 import com.soen344.ubersante.dto.PatientDetails;
+import com.soen344.ubersante.exceptions.NoAppointmentException;
 import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Doctor;
 import com.soen344.ubersante.models.Patient;
@@ -30,9 +31,15 @@ public class AppointmentService {
     @Autowired
     private DoctorRepository doctorRepository;
 
-    public List<Appointment> findAppointmentForPatient(PatientDetails patientDetails) {
+    public List<Appointment> findAppointmentForPatient(PatientDetails patientDetails) throws NoAppointmentException {
         Patient patient = patientRepository.findByHealthCard(patientDetails.getHealthCard());
-        return appointmentRepository.findAppointmentByPatientId(patient.getId());
+        List<Appointment> listAppointment = appointmentRepository.findAppointmentByPatientId(patient.getId());
+
+        if (listAppointment == null) {
+            throw new NoAppointmentException("No appointment found for patient id " + patient.getId());
+        }
+
+        return listAppointment;
     }
 
     public List<AppointmentDetails> getAppointmentDetails(List<Appointment> appointmentList) {
