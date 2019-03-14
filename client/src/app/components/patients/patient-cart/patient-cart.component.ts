@@ -1,9 +1,11 @@
+import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { CartDataService } from '../../../services/cart-data.service';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { MatSnackBar } from '@angular/material';
 import { MatDialog } from '@angular/material';
 import { PatientPaymentComponent } from '../patient-payment/patient-payment.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-patient-cart',
@@ -15,7 +17,8 @@ export class PatientCartComponent implements OnInit {
   constructor(private cartDataService: CartDataService,
     private authenticationService: AuthenticationService,
     public snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private http: HttpClient
   ) { }
   cart = [];
   patient;
@@ -33,11 +36,9 @@ export class PatientCartComponent implements OnInit {
     });
   }
 
+
   ngOnInit() {
-
     this.cart = this.cartDataService.getAllAppointments();
-
-
     for (let i = 0; i < this.cart.length; i++) {
       const fullDate = this.cart[i].startTime.split('T');
       const fullDate2 = this.cart[i].endTime.split('T');

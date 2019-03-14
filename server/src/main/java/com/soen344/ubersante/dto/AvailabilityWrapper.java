@@ -18,11 +18,10 @@ public class AvailabilityWrapper {
     @ValidCart
     private List<AvailabilityDetails> cart;
 
-    @NotNull
     private Payment payment;
 
 
-    private class Payment {
+    public class Payment {
         private String ccNumber;
         private String cvv;
         private String exprMonth;

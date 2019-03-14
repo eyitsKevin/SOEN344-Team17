@@ -1,3 +1,6 @@
+import { map } from 'rxjs/operators';
+import { AuthenticationService } from './authentication.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 
@@ -7,31 +10,61 @@ import { Injectable } from '@angular/core';
 
 export class CartDataService {
   list = [];
-  
-  constructor() { 
-    this.list = [];
-    if(this.list.length==0){
-      console.log(localStorage.getItem("cart"));
-      this.list = JSON.parse(localStorage.getItem("cart"));
-    }
+  user;
+  constructor(private http: HttpClient, private userService: AuthenticationService) {
+    this.userService.user.subscribe(user => this.user = user);
+    this.http.post('/api/availability/cart/retrieve', this.user.healthCard )
+    .subscribe( (data: Array<Object>)=> {
+      data.map((element: any) => {this.list.push(element);
+        const fullDate = element.startTime.split('T');
+        const fullDate2 = element.endTime.split('T');
+        element.day = fullDate[0];
+        element.start = fullDate[1];
+        element.end = fullDate2[1];
+      }
+      );
+    });
   }
+  init() {
+    this.userService.user.subscribe(user => this.user = user);
+    this.http.post('/api/availability/cart/retrieve', this.user.healthCard )
+    .subscribe( (data: Array<Object>)=> {
+      data.map((element: any) => {this.list.push(element);
+        const fullDate = element.startTime.split('T');
+        const fullDate2 = element.endTime.split('T');
+        element.day = fullDate[0];
+        element.start = fullDate[1];
+        element.end = fullDate2[1];
+      });
+    });
+    // this.http.post('/api/availability/cart/retrieve', this.user.healthCard)
+    // .pipe(map(data => this.list.push(data)));
+
+  }
+
 
   addAppointment(appointment) {
     let exists = false;
-    if (this.list.length === 0) {
-      this.list.push(appointment);
-    } else {
       for (let i = 0; i < this.list.length; i++) {
         if (this.list[i].id === appointment.id ) {
           exists = true;
         }
-      }
-      if (exists === false) {
-        this.list.push(appointment);
-      }
     }
-
-    localStorage.setItem("cart", JSON.stringify(this.list));
+    if (!exists) {
+      this.list.push(appointment);
+      const patientAppointment = {
+        patient: this.user,
+        cart: this.list
+      };
+    this.list.filter(element =>  {if (element.appointmentType === 'Annual Checkup') {
+      element.appointmentType = 'ANNUAL_CHECKUP';
+    }
+    if (element.appointmentType === 'Walk-in') {
+      element.appointmentType = 'WALK_IN';
+    }});
+    this.http.post('/api/availability/cart/save', patientAppointment )
+    .subscribe(() => {});
+  }
   }
 
   getAllAppointments() {
@@ -40,11 +73,20 @@ export class CartDataService {
 
   deleteAllAppointments() {
     this.list = [];
-    localStorage.removeItem("cart");
   }
 
   removeAppointment(number) {
     this.list.splice(number, 1);
-    localStorage.setItem("cart", JSON.stringify(this.list));
+    const patientAppointment = {
+      patient: this.user,
+      cart: this.list
+    };
+    if (this.list.length === 0) {
+      this.http.post('/api/availability/cart/empty', this.user.healthCard )
+      .subscribe(() => {});
+    } else {
+    this.http.post('/api/availability/cart/save', patientAppointment )
+    .subscribe(() => {});
+    }
   }
 }

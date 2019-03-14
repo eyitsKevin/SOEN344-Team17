@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {Component, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { CartDataService } from '../../../services/cart-data.service';
@@ -16,8 +17,9 @@ export class PatientBookingComponent {
   constructor(
     public dialogRef: MatDialogRef<PatientBookingComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private cartDataService: CartDataService) {
-
+    private cartDataService: CartDataService,
+    private http: HttpClient
+    ) {
       const fullDate =  data['startTime'].split('T');
       const fullDate2 =  data['endTime'].split('T');
       this.day = fullDate[0];
