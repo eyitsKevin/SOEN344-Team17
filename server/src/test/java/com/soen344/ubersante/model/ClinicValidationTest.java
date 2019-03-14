@@ -1,6 +1,5 @@
 package com.soen344.ubersante.model;
 
-import com.soen344.ubersante.models.Availability;
 import com.soen344.ubersante.models.Clinic;
 import com.soen344.ubersante.models.ClinicHours;
 import org.junit.AfterClass;
@@ -13,8 +12,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Set;
 
