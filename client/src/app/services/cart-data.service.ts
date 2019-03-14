@@ -56,5 +56,11 @@ export class CartDataService {
 
   removeAppointment(number) {
     this.list.splice(number, 1);
+    const patientAppointment = {
+      patient: this.user,
+      cart: this.list
+    };
+    this.http.post('/api/availability/cart/save', patientAppointment )
+    .subscribe(() => {})
   }
 }
