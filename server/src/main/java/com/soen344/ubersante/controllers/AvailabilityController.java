@@ -6,6 +6,7 @@ import com.soen344.ubersante.exceptions.AvailabilityDoesNotExistException;
 import com.soen344.ubersante.exceptions.AvailabilityOverlapException;
 import com.soen344.ubersante.exceptions.DateNotFoundException;
 import com.soen344.ubersante.exceptions.InvalidAppointmentException;
+import com.soen344.ubersante.models.Availability;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.exceptions.*;
@@ -19,12 +20,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/availability")
+@RequestMapping("/clinics/availability")
 public class AvailabilityController {
 
     @Autowired
@@ -36,10 +40,10 @@ public class AvailabilityController {
     @Autowired
     private AvailabilityRepository availabilityRepository;
 
-    @RequestMapping(value = "/view/{availabilityType}/{month}")
-    public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType) {
+    @RequestMapping(value = "/view/{availabilityType}/{month}/{clinicId}")
+    public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType, @PathVariable String clinicId) {
         try {
-            return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType), HttpStatus.OK);
+           return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType, clinicId), HttpStatus.OK);
         } catch(DateNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch(InvalidAppointmentException e) {
