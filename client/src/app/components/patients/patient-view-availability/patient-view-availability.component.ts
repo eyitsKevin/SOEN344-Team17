@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {
-  isSameDay,
   isSameMonth,
 } from 'date-fns';
 import { Subject } from 'rxjs';
@@ -23,6 +22,7 @@ import { HttpClient } from '@angular/common/http';
 import {MAT_BOTTOM_SHEET_DATA} from '@angular/material';
 import {NursePatientBookingComponent} from '../../nurses/nurse-patient-booking/nurse-patient-booking.component';
 import {AuthenticationService} from '../../../services/authentication.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 const colors: any = {
   red: {
@@ -58,22 +58,15 @@ export class PatientViewAvailabilityComponent implements OnInit{
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    }
-  ];
-
+  chooseClinic: FormGroup;
   refresh: Subject<any> = new Subject();
-
+  clinics = [{id: "1", name: "clinic1"}, {id: "2", name: "clinic2"}, {id: "3", name: "clinic3"}, {id: "4", name: "clinic4"}];
+  selectedClinic: {id: "1", name: "clinic1"};
   events: CalendarEvent[] = [];
   activeDayIsOpen = true;
   authenticated;
 
-  constructor(private modal: NgbModal,
+  constructor(private formBuilder: FormBuilder,
               public dialog: MatDialog,
               private router: Router,
               private http: HttpClient,
@@ -82,9 +75,12 @@ export class PatientViewAvailabilityComponent implements OnInit{
 
   ngOnInit() {
     this.authenticationService.authenticated.subscribe(authenticated => this.authenticated = authenticated);
-    this.getNewAvailabilities();
+    this.getAllClinics();
+    this.getNewAvailabilities(this.clinics[0]["id"]);
+    this.chooseClinic = this.formBuilder.group({
+      clinic: [[]]
+    });
   }
-
 
   addAppointmentToCalendar(appointment) {
     const title = appointment.startTime.match(/(T........)/)[0].slice(1, 6);
@@ -97,30 +93,6 @@ export class PatientViewAvailabilityComponent implements OnInit{
     };
     this.events.push(newEvent);
     this.refresh.next();
-  }
-
-  getNewAvailabilities() {
-    if (this.router.url.includes('walkin') || !this.data.booking) {
-      this.http
-      .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
-      .subscribe((result: Array<Object>) => {
-        result.map(availability => this.addAppointmentToCalendar(availability));
-        result.forEach((element: any) => {
-          if (element.appointmentType === 'WALK_IN') {
-            element.appointmentType = 'Walk-in';
-          }});
-        });
-    } else if (this.router.url.includes('annual') || this.data.booking) {
-      this.http
-      .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
-      .subscribe((result: Array<Object>) => {
-        result.map(availability => this.addAppointmentToCalendar(availability));
-        result.forEach((element: any) => {
-          if (element.appointmentType === 'ANNUAL_CHECKUP') {
-            element.appointmentType = 'Annual Checkup';
-          }});
-      });
-    }
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -172,4 +144,47 @@ export class PatientViewAvailabilityComponent implements OnInit{
         console.log('The dialog was closed');
       });
     }}
+
+    getAllClinics() {
+      this.http.get("http://localhost:8080/clinics").subscribe(data => {
+        for (var i in data) {
+            let clinic = {
+              id: data[i]["id"],
+              name: data[i]["name"]
+            };
+          this.clinics.push(clinic);
+        }
+      });
+
+    }
+
+    getNewAvailabilities(id : string) {
+      console.log(id);
+      this.events = [];
+      if (this.router.url.includes('walkin') || !this.data.booking) {
+        this.http
+        .get('http://localhost:8080/clinics/availability/view/walkin/' + (this.viewDate.getMonth() + 1) + "/" + id)
+        .subscribe((result: Array<Object>) => {
+          result.map(availability => this.addAppointmentToCalendar(availability));
+          result.forEach((element: any) => {
+            if (element.appointmentType === 'WALK_IN') {
+              element.appointmentType = 'Walk-in';
+            }});
+          });
+      } else if (this.router.url.includes('annual') || this.data.booking) {
+        this.http
+        .get('http://localhost:8080/clinics/availability/view/annual/'  + (this.viewDate.getMonth() + 1) + "/" + id)
+        .subscribe((result: Array<Object>) => {
+          result.map(availability => this.addAppointmentToCalendar(availability));
+          result.forEach((element: any) => {
+            if (element.appointmentType === 'ANNUAL_CHECKUP') {
+              element.appointmentType = 'Annual Checkup';
+            }});
+        });
+      }
+
+      this.refresh.next();
+
+    }
+
 }
