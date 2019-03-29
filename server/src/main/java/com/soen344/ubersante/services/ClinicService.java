@@ -15,7 +15,7 @@ public class ClinicService {
     @Autowired
     private ClinicRepository clinicRepository;
 
-    public List<Clinic> getAllClinics(){
+    public List<Clinic> getAllClinics() {
         return clinicRepository.findAll();
     }
 }
