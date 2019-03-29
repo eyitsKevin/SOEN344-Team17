@@ -9,10 +9,8 @@ import {
   isSameMonth,
 } from 'date-fns';
 import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
-  CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView
 } from 'angular-calendar';
@@ -22,7 +20,6 @@ import { HttpClient } from '@angular/common/http';
 import {MAT_BOTTOM_SHEET_DATA} from '@angular/material';
 import {NursePatientBookingComponent} from '../../nurses/nurse-patient-booking/nurse-patient-booking.component';
 import {AuthenticationService} from '../../../services/authentication.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 const colors: any = {
   red: {
@@ -58,15 +55,13 @@ export class PatientViewAvailabilityComponent implements OnInit{
     event: CalendarEvent;
   };
 
-  chooseClinic: FormGroup;
   refresh: Subject<any> = new Subject();
   clinics = [];
   events: CalendarEvent[] = [];
   activeDayIsOpen = true;
   authenticated;
 
-  constructor(private formBuilder: FormBuilder,
-              public dialog: MatDialog,
+  constructor(public dialog: MatDialog,
               private router: Router,
               private http: HttpClient,
               @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -75,9 +70,6 @@ export class PatientViewAvailabilityComponent implements OnInit{
   ngOnInit() {
     this.authenticationService.authenticated.subscribe(authenticated => this.authenticated = authenticated);
     this.getAllClinics();
-    this.chooseClinic = this.formBuilder.group({
-      clinic: [[]]
-    });
   }
 
   addAppointmentToCalendar(appointment) {
@@ -154,7 +146,6 @@ export class PatientViewAvailabilityComponent implements OnInit{
           this.clinics.push(clinic);
         }
       });
-console.log(this.clinics);
     }
 
     getNewAvailabilities(id : string) {

@@ -1,6 +1,19 @@
 
   <div class = "content">
 
+      <div class="chooseClinic">
+          <form>
+              <mat-form-field>
+                  <mat-label>Choose Clinic</mat-label>
+                  <mat-select (selectionChange)="getNewAvailabilities($event.value);">
+                    <mat-option *ngFor="let clinic of clinics" [value]="clinic.id">
+                      {{clinic.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </form>
+        </div>
+
     <div class="row text-center">
       <div class="col-md-4">
         <div class="btn-group">

@@ -1,7 +1,7 @@
 <div class="content">
   
   <div class="chooseClinic">
-    <form [formGroup]="chooseClinic" (ngSubmit)="onSubmit()">
+    <form>
         <mat-form-field>
             <mat-label>Choose Clinic</mat-label>
             <mat-select (selectionChange)="getNewAvailabilities($event.value);">

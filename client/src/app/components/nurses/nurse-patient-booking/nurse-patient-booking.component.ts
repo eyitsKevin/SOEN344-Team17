@@ -35,7 +35,7 @@ export class NursePatientBookingComponent implements OnInit {
   }
 
   bookAppointment() {
-    this.http.post('/api/availability/cart/checkout', this.patientCart)
+    this.http.post('/api/clinics/availability/cart/checkout', this.patientCart)
       .subscribe(() => {
           this.dialogRef.close();
           this.bottomSheet.closeBottomSheet();

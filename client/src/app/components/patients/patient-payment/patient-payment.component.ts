@@ -52,7 +52,7 @@ export class PatientPaymentComponent implements OnInit {
           element.appointmentType = 'WALK_IN';
         }
       });
-      this.http.post('/api/availability/cart/checkout', this.data)
+      this.http.post('/api/clinics/availability/cart/checkout', this.data)
         .subscribe(() => {
           this.router.navigate(['patient']);
           this.openSnackBar("Appointment(s) booked!", "Close")
