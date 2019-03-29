@@ -10,6 +10,8 @@ import com.soen344.ubersante.repositories.AppointmentRepository;
 import com.soen344.ubersante.repositories.DoctorRepository;
 import com.soen344.ubersante.repositories.PatientRepository;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
+import com.soen344.ubersante.repositories.ClinicRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,14 +48,15 @@ public class AppointmentService {
         List<AppointmentDetails> detailList = new ArrayList<>();
         for (Appointment appointment: appointmentList) {
             AppointmentDetails appointmentDetails = new AppointmentDetails (
-                    appointment.getId(),
-                    appointment.getPatient(),
-                    appointment.getDoctor(),
-                    appointment.getCreatedBy(),
-                    appointment.getAppointmentType(),
-                    appointment.getDate().toLocalDate().toString(),
-                    appointment.getTime().toLocalTime().toString(),
-                    appointment.getCreatedAt().toString()
+                appointment.getId(),
+                appointment.getPatient(),
+                appointment.getDoctor(),
+                appointment.getCreatedBy(),
+                appointment.getAppointmentType(),
+                appointment.getDate().toLocalDate().toString(),
+                appointment.getTime().toLocalTime().toString(),
+                appointment.getCreatedAt().toString(),
+                appointment.getClinic().getName()
             );
             detailList.add(appointmentDetails);
         }
