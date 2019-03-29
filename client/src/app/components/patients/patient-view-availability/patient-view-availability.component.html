@@ -4,7 +4,7 @@
     <form [formGroup]="chooseClinic" (ngSubmit)="onSubmit()">
         <mat-form-field>
             <mat-label>Choose Clinic</mat-label>
-            <mat-select (change)="this.getNewAvailabilities(selectField.value);" #selectField>
+            <mat-select (selectionChange)="getNewAvailabilities($event.value);">
               <mat-option *ngFor="let clinic of clinics" [value]="clinic.id">
                 {{clinic.name}}
               </mat-option>

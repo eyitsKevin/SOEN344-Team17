@@ -60,8 +60,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
 
   chooseClinic: FormGroup;
   refresh: Subject<any> = new Subject();
-  clinics = [{id: "1", name: "clinic1"}, {id: "2", name: "clinic2"}, {id: "3", name: "clinic3"}, {id: "4", name: "clinic4"}];
-  selectedClinic: {id: "1", name: "clinic1"};
+  clinics = [];
   events: CalendarEvent[] = [];
   activeDayIsOpen = true;
   authenticated;
@@ -76,7 +75,6 @@ export class PatientViewAvailabilityComponent implements OnInit{
   ngOnInit() {
     this.authenticationService.authenticated.subscribe(authenticated => this.authenticated = authenticated);
     this.getAllClinics();
-    this.getNewAvailabilities(this.clinics[0]["id"]);
     this.chooseClinic = this.formBuilder.group({
       clinic: [[]]
     });
@@ -146,7 +144,8 @@ export class PatientViewAvailabilityComponent implements OnInit{
     }}
 
     getAllClinics() {
-      this.http.get("http://localhost:8080/clinics").subscribe(data => {
+      this.http.get("http://localhost:8080/clinics/view").subscribe(data => {
+        this.clinics = [];
         for (var i in data) {
             let clinic = {
               id: data[i]["id"],
@@ -155,13 +154,12 @@ export class PatientViewAvailabilityComponent implements OnInit{
           this.clinics.push(clinic);
         }
       });
-
+console.log(this.clinics);
     }
 
     getNewAvailabilities(id : string) {
-      console.log(id);
       this.events = [];
-      if (this.router.url.includes('walkin') || !this.data.booking) {
+      if (this.router.url.includes('walkin')) {
         this.http
         .get('http://localhost:8080/clinics/availability/view/walkin/' + (this.viewDate.getMonth() + 1) + "/" + id)
         .subscribe((result: Array<Object>) => {
