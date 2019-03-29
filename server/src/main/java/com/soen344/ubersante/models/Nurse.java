@@ -31,6 +31,9 @@ public class Nurse {
     @NotEmpty
     private String password;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Clinic clinic;
+
     public Nurse() {}
 
     public Nurse(String accessId, String password) {
@@ -82,6 +85,14 @@ public class Nurse {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 
     @Override

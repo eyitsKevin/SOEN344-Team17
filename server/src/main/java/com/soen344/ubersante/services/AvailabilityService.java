@@ -44,7 +44,7 @@ public class AvailabilityService {
     @Autowired
     ClinicRepository clinicRepository;
 
-    public List<Availability> getAvailabilityByMonth(String month, String availabilityType) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
+    public List<Availability> getAvailabilityByMonth(String month, String availabilityType, String clinicId) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
 
         int monthVal = Integer.parseInt(month);
         String availType;
@@ -59,12 +59,11 @@ public class AvailabilityService {
         } else {
             throw new InvalidAppointmentException("Invalid appointment type.");
         }
-
-        return availabilityRepository.findAvailabilitiesByMonth(month, availType);
+        return availabilityRepository.findAvailabilitiesByMonth(month, availType, clinicId);
     }
 
     public void addAppointmentToTable(AvailabilityDetails availability, Appointment appointment) {
-        availabilityRepository.addAppointmentToAvailability(availability.getId() ,appointment.getId());
+        availabilityRepository.addAppointmentToAvailability(availability.getId(), appointment.getId());
     }
 
     public boolean availabilityToAppointment(PatientDetails patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException, AvailabilityDoesNotExistException {
