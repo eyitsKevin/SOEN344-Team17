@@ -60,6 +60,7 @@ export class PatientUpdateComponent implements OnInit {
     };
 
     clinics = [];
+    selectedClinic = null;
 
     actions: CalendarEventAction[] = [
       {
@@ -113,6 +114,9 @@ export class PatientUpdateComponent implements OnInit {
     }
 
     getNewAvailabilities(id : string) {
+      if(this.selectedClinic == null) {
+        this.selectedClinic = id;
+      }
       this.events = [];
       if (this.data.appointmentType.includes('Walk-in')) {
         this.http
@@ -186,4 +190,9 @@ export class PatientUpdateComponent implements OnInit {
       });
     }
   }
+
+  getAvailabilities() {
+    this.getNewAvailabilities(this.selectedClinic);
+}
+
 }

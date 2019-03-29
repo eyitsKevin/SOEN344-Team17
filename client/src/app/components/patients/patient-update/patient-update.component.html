@@ -18,14 +18,14 @@
       <div class="col-md-4">
         <div class="btn-group">
           <div class="btn btn-primary mb1 black bg-darken-4" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-            (viewDateChange)="activeDayIsOpen = false">
+          (click)="getAvailabilities()" (viewDateChange)="activeDayIsOpen = false">
             Previous
           </div>
           <div class="btn btn-outline-secondary mb1 black bg-darken-4" mwlCalendarToday [(viewDate)]="viewDate">
             Today
           </div>
           <div class="btn btn-primary mb1 black bg-darken-4" mwlCalendarNextView [view]="view" (click)="getNewAvailabilities()" [(viewDate)]="viewDate"
-            (viewDateChange)="activeDayIsOpen = false">
+          (click)="getAvailabilities()" (viewDateChange)="activeDayIsOpen = false">
             Next
           </div>
         </div>

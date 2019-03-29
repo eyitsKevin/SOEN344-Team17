@@ -58,6 +58,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
   refresh: Subject<any> = new Subject();
   clinics = [];
   events: CalendarEvent[] = [];
+  selectedClinic = null;
   activeDayIsOpen = true;
   authenticated;
 
@@ -149,6 +150,9 @@ export class PatientViewAvailabilityComponent implements OnInit{
     }
 
     getNewAvailabilities(id : string) {
+      if(this.selectedClinic == null) {
+        this.selectedClinic = id;
+      }
       this.events = [];
       if (this.router.url.includes('walkin') || this.data.booking) {
         this.http
@@ -174,6 +178,10 @@ export class PatientViewAvailabilityComponent implements OnInit{
 
       this.refresh.next();
 
+    }
+
+    getAvailabilities() {
+        this.getNewAvailabilities(this.selectedClinic);
     }
 
 }
