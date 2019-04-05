@@ -2,6 +2,7 @@ package com.soen344.ubersante.services;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -244,11 +245,11 @@ public class AvailabilityService {
 
     private boolean outsideClinicHours(LocalDateTime start, LocalDateTime end, ClinicHours clinic) {
 
-        if (clinic.getOpen().isAfter(start.toLocalTime())) {
+        if (clinic.getOpen().isAfter(start.toLocalTime().minusHours(4))) {
             return true;
         }
 
-        if (clinic.getClose().isBefore(end.toLocalTime())) {
+        if (clinic.getClose().isBefore(end.toLocalTime().minusHours(4))) {
             return true;
         }
 
