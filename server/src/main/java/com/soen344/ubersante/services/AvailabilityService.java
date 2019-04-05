@@ -2,7 +2,6 @@ package com.soen344.ubersante.services;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -244,16 +243,10 @@ public class AvailabilityService {
     }
 
     private boolean outsideClinicHours(LocalDateTime start, LocalDateTime end, ClinicHours clinic) {
+        boolean startBeforeOpen = clinic.getOpen().isAfter(start.toLocalTime().minusHours(4));
+        boolean endAfterClose = clinic.getClose().isBefore(end.toLocalTime().minusHours(4));
 
-        if (clinic.getOpen().isAfter(start.toLocalTime().minusHours(4))) {
-            return true;
-        }
-
-        if (clinic.getClose().isBefore(end.toLocalTime().minusHours(4))) {
-            return true;
-        }
-
-        return false;
+        return startBeforeOpen || endAfterClose;
     }
   
     private boolean noRoomsAvailable(AvailabilityDetails potentialAppointment) {
