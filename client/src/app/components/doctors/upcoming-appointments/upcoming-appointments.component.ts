@@ -54,10 +54,4 @@ export class UpcomingAppointmentsComponent implements OnInit {
 
   }
 
-  convertTime(time) {
-    let newTime = new Date(time);
-    newTime.setHours(newTime.getHours() - 4);
-    return newTime.toString();
-  }
-
 }
