@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.soen344.ubersante.services.IPatientService;
+import com.soen344.ubersante.proxy.ProxyPatientService;
 import javax.validation.Valid;
 
 @CrossOrigin
@@ -21,7 +22,7 @@ import javax.validation.Valid;
 public class PatientController {
 
     @Autowired
-    private PatientService patientService;
+    private IPatientService patientService = new ProxyPatientService();
 
     @PostMapping("/registration")
     public ResponseEntity registerNewPatient(@Valid @RequestBody final PatientRegistrationForm registrationForm) {
