@@ -8,7 +8,7 @@
           <h5 routerLink="/user-profile"> {{user.firstName}} {{user.lastName}}  </h5>
       </div>
       <div class="mdc-layout-grid__cell">
-       <i *ngIf="this.authenticated==='patient'" class="material-icons" matBadge="{{this.cartDataService.list.length}}" routerLink="/cart">shopping_cart</i>
+       <i *ngIf="this.authenticated==='patient'" class="material-icons" matBadge="{{this.cart.length}}" routerLink="/cart">shopping_cart</i>
       </div>
     </div>
   </div>

@@ -1,3 +1,4 @@
+import { CartDataService } from './../../../../services/cart-data.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../../services/authentication.service';
@@ -16,7 +17,10 @@ export class PatientLoginComponent implements OnInit {
   register = false;
   authenticated;
 
-  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router, private http: HttpClient, public snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService,
+    private router: Router, private http: HttpClient, public snackBar: MatSnackBar,
+    private cartService: CartDataService
+    ) { }
 
   ngOnInit() {
 
@@ -35,6 +39,7 @@ export class PatientLoginComponent implements OnInit {
       this.http.post("http://localhost:8080/patients/login", patient)
         .subscribe(data => {
           this.login(data);
+          this.cartService.init();
         },
           error => { console.log(error); this.openSnackBar(error.error, "Close"); }
         );

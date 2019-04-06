@@ -10,6 +10,9 @@ import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.services.AvailabilityService;
+import com.soen344.ubersante.services.CartService;
+import com.soen344.ubersante.services.PaymentAdapter;
+import com.soen344.ubersante.services.PaymentPrototype;
 import com.soen344.ubersante.validation.ValidPermitNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,9 @@ public class AvailabilityController {
     private AvailabilityService availabilityService;
 
     @Autowired
+    private CartService cartService;
+
+    @Autowired
     private AvailabilityRepository availabilityRepository;
 
     @RequestMapping(value = "/view/{availabilityType}/{month}")
@@ -44,14 +50,32 @@ public class AvailabilityController {
     }
 
     @PostMapping(value = "/cart/checkout")
-    public ResponseEntity checkoutAvailabilityCart(@Valid @RequestBody final AvailabilityWrapper details) {
+    public ResponseEntity checkoutAvailabilityCart(@RequestBody final AvailabilityWrapper details) {
         try {
+            PaymentPrototype prototype = new PaymentPrototype();
+            PaymentAdapter adapter = new PaymentAdapter(prototype);
+            adapter.processPayment(details.getPayment());
             return new ResponseEntity<>(availabilityService.availabilityToAppointment(details.getPatient(), details.getCart()), HttpStatus.OK);
-        } catch (EmptyCartException | AnnualCheckupOverlapException e) {
+        } catch (EmptyCartException | AnnualCheckupOverlapException | InvalidAppointmentException | AvailabilityDoesNotExistException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (DoctorNotFoundException | PatientNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping(value = "/cart/save")
+    public ResponseEntity saveAvailabilityCart(@Valid @RequestBody final AvailabilityWrapper details) {
+        return new ResponseEntity<>(cartService.saveAvailability(details.getPatient().getHealthCard(), details.getCart()), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/cart/retrieve")
+    public ResponseEntity retrieveCart(@Valid @RequestBody final String healthCard) {
+        return new ResponseEntity<>(cartService.retrieveCartAvailability(healthCard), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/cart/empty")
+    public ResponseEntity emptyCart(@Valid @RequestBody final String healthCard) {
+        return new ResponseEntity<>(cartService.emptyCart(healthCard), HttpStatus.OK);
     }
 
     @RequestMapping("/doctor/{permit}")
@@ -66,7 +90,7 @@ public class AvailabilityController {
             return new ResponseEntity<>(availabilityService.addNewAvailability(availabilityDto), HttpStatus.CREATED);
         } catch (AvailabilityOverlapException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        } catch (InvalidAppointmentException e) {
+        } catch (InvalidAvailabilityException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

@@ -36,6 +36,8 @@ public class AppointmentDetails {
     @NotEmpty
     private String createdAt;
 
+    public AppointmentDetails() {}
+
     public AppointmentDetails(@NotEmpty long id, @NotEmpty Patient patient, @NotEmpty Doctor doctor, @NotEmpty String createdBy, @NotEmpty AppointmentType appointmentType, @NotEmpty String date, @NotEmpty String time, @NotEmpty String createdAt) {
         this.id = id;
         this.patientDetails = new PatientDetails(patient);

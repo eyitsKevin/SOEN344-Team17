@@ -2,9 +2,12 @@ package com.soen344.ubersante.services;
 
 import com.soen344.ubersante.dto.AppointmentDetails;
 import com.soen344.ubersante.dto.PatientDetails;
+import com.soen344.ubersante.exceptions.NoAppointmentException;
 import com.soen344.ubersante.models.Appointment;
+import com.soen344.ubersante.models.Doctor;
 import com.soen344.ubersante.models.Patient;
 import com.soen344.ubersante.repositories.AppointmentRepository;
+import com.soen344.ubersante.repositories.DoctorRepository;
 import com.soen344.ubersante.repositories.PatientRepository;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +28,18 @@ public class AppointmentService {
     @Autowired
     private PatientRepository patientRepository;
 
-    public List<Appointment> findAppointmentForPatient(PatientDetails patientDetails) {
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    public List<Appointment> findAppointmentForPatient(PatientDetails patientDetails) throws NoAppointmentException {
         Patient patient = patientRepository.findByHealthCard(patientDetails.getHealthCard());
-        return appointmentRepository.findAppointmentByPatientId(patient.getId());
+        List<Appointment> listAppointment = appointmentRepository.findAppointmentByPatientId(patient.getId());
+
+        if (listAppointment == null) {
+            throw new NoAppointmentException("No appointment found for patient id " + patient.getId());
+        }
+
+        return listAppointment;
     }
 
     public List<AppointmentDetails> getAppointmentDetails(List<Appointment> appointmentList) {
@@ -46,6 +58,11 @@ public class AppointmentService {
             detailList.add(appointmentDetails);
         }
         return detailList;
+    }
+
+    public List<AppointmentDetails> getAppointmentDetailsForDoctor(String permit) {
+        Doctor doctor = doctorRepository.findByPermitNumber(permit);
+        return getAppointmentDetails(appointmentRepository.findAllByDoctor(doctor));
     }
 
     public void cancelAppointmentforPatient(long id) {

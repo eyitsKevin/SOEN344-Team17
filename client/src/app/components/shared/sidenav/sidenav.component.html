@@ -1,5 +1,5 @@
 <mat-nav-list class="sidebar">
-  <a mat-list-item routerLink="/{{authenticated}}" *ngIf="this.authenticated=='doctor'"> This week </a>
+  <a mat-list-item routerLink="/{{authenticated}}" *ngIf="this.authenticated=='doctor'"> Next Appointments </a>
   <a mat-list-item routerLink="/{{authenticated}}/availabilities" *ngIf="this.authenticated==='doctor'">
     Your
     availabilities </a>
@@ -24,7 +24,9 @@
       </mat-nav-list>
     </mat-expansion-panel>
   </mat-accordion>
-
+  <a mat-list-item *ngIf="this.authenticated=='nurse'" routerLink="/{{authenticated}}/book">
+    Book for a patient
+  </a>
   <a mat-list-item (click)="this.logout()" id="logout"> Logout </a>
 
 </mat-nav-list>

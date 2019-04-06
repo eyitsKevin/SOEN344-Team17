@@ -2,12 +2,7 @@ package com.soen344.ubersante.models;
 
 import com.soen344.ubersante.validation.ValidPermitNumber;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
@@ -42,6 +37,9 @@ public class Doctor {
     @Column(name = "password", length = 60)
     @NotEmpty
     private String password;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Clinic clinic;
 
     public Doctor() {
 
@@ -111,6 +109,14 @@ public class Doctor {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 
     @Override

@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDate;
 
 @Service
@@ -74,23 +76,30 @@ public class PatientService implements IPatientService {
 
     private boolean emailExists(String email) {
         Patient patient = patientRepository.findByEmail(email);
+        return patient != null;
 
-        if (patient != null) {
-            return true;
-        }
-
-        return false;
     }
 
     private boolean healthCardExists(String healthCard) {
         Patient patient = patientRepository.findByHealthCard(healthCard);
+        return patient != null;
 
-        if (patient != null) {
-            return true;
-        }
-
-        return false;
     }
+
+    public List<PatientDetails> findAll() throws PatientNotFoundException {
+        List<PatientDetails> patientDetailsList = new ArrayList<>();
+        List<Patient> patientList = patientRepository.findAll();
+
+        if (patientList == null) {
+            return new ArrayList<>();
+        } else {
+            for (Patient patient : patientList) {
+                patientDetailsList.add(new PatientDetails(patient));
+            }
+        }
+        return patientDetailsList;
+    }
+
 
     private boolean underAge(LocalDate birthday) {
         LocalDate legalAgeBirthday = LocalDate.now().minusYears(18);

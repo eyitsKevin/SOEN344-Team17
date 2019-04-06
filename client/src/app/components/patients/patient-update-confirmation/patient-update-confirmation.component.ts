@@ -26,7 +26,7 @@ export class PatientUpdateConfirmationComponent {
       updateAppointment() {
       this.authenticationService.user.subscribe(user => this.user = user);
       const patientAppointment = {
-        appointmentId: this.data.old,
+        appointmentId: this.data.old.id,
         patient: this.user,
         cart: [this.data[0]]
       };

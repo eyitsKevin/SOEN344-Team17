@@ -13,12 +13,8 @@ import com.soen344.ubersante.enums.AppointmentType;
 import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.dto.AvailabilityDetails;
 import com.soen344.ubersante.dto.PatientDetails;
-import com.soen344.ubersante.models.Appointment;
-import com.soen344.ubersante.models.Availability;
-import com.soen344.ubersante.repositories.AppointmentRepository;
-import com.soen344.ubersante.repositories.AvailabilityRepository;
-import com.soen344.ubersante.repositories.DoctorRepository;
-import com.soen344.ubersante.repositories.PatientRepository;
+import com.soen344.ubersante.models.*;
+import com.soen344.ubersante.repositories.*;
 import com.soen344.ubersante.validation.ValidCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +41,9 @@ public class AvailabilityService {
     @Autowired
     PatientRepository patientRepository;
 
+    @Autowired
+    ClinicRepository clinicRepository;
+
     public List<Availability> getAvailabilityByMonth(String month, String availabilityType) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
 
         int monthVal = Integer.parseInt(month);
@@ -68,7 +67,7 @@ public class AvailabilityService {
         availabilityRepository.addAppointmentToAvailability(availability.getId() ,appointment.getId());
     }
 
-    public boolean availabilityToAppointment(PatientDetails patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException {
+    public boolean availabilityToAppointment(PatientDetails patient, List<AvailabilityDetails> availabilityDetailsCart) throws PatientNotFoundException, EmptyCartException, DoctorNotFoundException, AvailabilityDoesNotExistException {
         LocalDateTime ldt = LocalDateTime.now();
         Timestamp ts = Timestamp.valueOf(ldt);
 
@@ -86,8 +85,16 @@ public class AvailabilityService {
 
         for (AvailabilityDetails details : availabilityDetailsCart) {
 
+            if (availabilityRepository.checkIfAvailabilityExist(details.getId()).size() == 0) {
+                throw new AvailabilityDoesNotExistException("Availability not found for " + details.getStartTime());
+            }
+
             if (doctorRepository.findByPermitNumber(details.getDoctorPermitNumber()) == null) {
                 throw new DoctorNotFoundException("Doctor not found in " + this);
+            }
+
+            if (noRoomsAvailable(details)) {
+                throw new InvalidAppointmentException("No rooms available between " + details.getStartTime() + " and " + details.getEndTime());
             }
 
             Appointment appointment = new Appointment(
@@ -121,9 +128,14 @@ public class AvailabilityService {
         LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), DateTimeFormatter.RFC_1123_DATE_TIME);
         LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), DateTimeFormatter.RFC_1123_DATE_TIME);
         String doctorPermit = availabilityDto.getDoctorPermitNumber();
+        Clinic clinic = doctorRepository.findByPermitNumber(doctorPermit).getClinic();
 
         if (!availabilityRepository.findAllInDateRangeForDoctor(start, end, doctorPermit).isEmpty()) {
             throw new AvailabilityOverlapException("There exists an availability overlap conflict");
+        }
+
+        if (outsideClinicHours(start, end, clinic.getClinicHours())) {
+            throw new InvalidAvailabilityException("Outside available clinic hours");
         }
 
         final Availability availability = new Availability();
@@ -153,6 +165,11 @@ public class AvailabilityService {
         String doctorPermit = availabilityDto.getDoctorPermitNumber();
         LocalDateTime start = LocalDateTime.parse(availabilityDto.getStart(), DateTimeFormatter.RFC_1123_DATE_TIME);
         LocalDateTime end = LocalDateTime.parse(availabilityDto.getEnd(), DateTimeFormatter.RFC_1123_DATE_TIME);
+        Clinic clinic = doctorRepository.findByPermitNumber(doctorPermit).getClinic();
+
+        if (outsideClinicHours(start, end, clinic.getClinicHours())) {
+            throw new InvalidAvailabilityException("Outside available clinic hours");
+        }
 
         List<Availability> availabilityOverlap = availabilityRepository.findAllInDateRangeForDoctor(start, end, doctorPermit);
         availabilityOverlap.remove(availability);
@@ -223,5 +240,24 @@ public class AvailabilityService {
         Duration oneYear = Duration.ofDays(365);
 
         return duration.compareTo(oneYear) < 0;
+    }
+
+    private boolean outsideClinicHours(LocalDateTime start, LocalDateTime end, ClinicHours clinic) {
+        boolean startBeforeOpen = clinic.getOpen().isAfter(start.toLocalTime().minusHours(4));
+        boolean endAfterClose = clinic.getClose().isBefore(end.toLocalTime().minusHours(4));
+
+        return startBeforeOpen || endAfterClose;
+    }
+  
+    private boolean noRoomsAvailable(AvailabilityDetails potentialAppointment) {
+        // TEMPORARY HARD CODE UNTIL RELEASE 2
+        int roomCapacity = 5;
+
+        LocalDateTime start = LocalDateTime.parse(potentialAppointment.getStartTime());
+        LocalDateTime end = LocalDateTime.parse(potentialAppointment.getEndTime());
+
+        List<Appointment> appointments = appointmentRepository.findAllAppointmentsBetween(start, end);
+
+        return appointments.size() >= roomCapacity;
     }
 }
