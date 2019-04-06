@@ -243,16 +243,10 @@ public class AvailabilityService {
     }
 
     private boolean outsideClinicHours(LocalDateTime start, LocalDateTime end, ClinicHours clinic) {
+        boolean startBeforeOpen = clinic.getOpen().isAfter(start.toLocalTime().minusHours(4));
+        boolean endAfterClose = clinic.getClose().isBefore(end.toLocalTime().minusHours(4));
 
-        if (clinic.getOpen().isAfter(start.toLocalTime())) {
-            return true;
-        }
-
-        if (clinic.getClose().isBefore(end.toLocalTime())) {
-            return true;
-        }
-
-        return false;
+        return startBeforeOpen || endAfterClose;
     }
   
     private boolean noRoomsAvailable(AvailabilityDetails potentialAppointment) {
