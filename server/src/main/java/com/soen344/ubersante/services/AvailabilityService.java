@@ -142,6 +142,7 @@ public class AvailabilityService {
         availability.setStartTime(start);
         availability.setEndTime(end);
         availability.setDoctorPermitNumber(doctorPermit);
+        availability.setClinic(clinic);
 
         if (!validAvailability(availability)) {
             throw new InvalidAvailabilityException("Invalid availability, failed backend validation");
@@ -180,6 +181,7 @@ public class AvailabilityService {
         availability.setAppointmentType(availabilityDto.getAppointmentType());
         availability.setStartTime(start);
         availability.setEndTime(end);
+        availability.setClinic(clinic);
 
         if (!validAvailability(availability)) {
             throw new InvalidAvailabilityException("Invalid availability, failed backend validation");

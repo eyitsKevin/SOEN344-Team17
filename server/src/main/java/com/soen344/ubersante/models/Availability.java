@@ -94,13 +94,13 @@ public class Availability {
         this.appointment = appointment;
     }
 
-    // public Clinic getClinic() {
-    //     return clinic;
-    // }
+    public Clinic getClinic() {
+        return clinic;
+    }
 
-    // public void setClinic(Clinic clinic) {
-    //     this.clinic = clinic;
-    // }
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
 
     @Override
     public boolean equals(Object o) {
