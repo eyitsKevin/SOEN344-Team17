@@ -2,7 +2,6 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
 import {HttpClient} from '@angular/common/http';
 import {NurseBookingComponent} from '../nurse-booking/nurse-booking.component';
-import {UserDataService} from "../../../services/user-data.service";
 
 @Component({
   selector: 'app-nurse-patient-booking',
