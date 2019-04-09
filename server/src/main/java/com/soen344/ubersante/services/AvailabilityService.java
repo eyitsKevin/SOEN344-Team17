@@ -103,7 +103,9 @@ public class AvailabilityService {
                     details.getAppointmentType(),
                     LocalDateTime.parse(details.getStartTime()),
                     LocalDateTime.parse(details.getEndTime()),
-                    ts);
+                    ts,
+                    details.getClinic()
+                    );
             appointmentRepository.save(appointment);
             addAppointmentToTable(details, appointment);
         }

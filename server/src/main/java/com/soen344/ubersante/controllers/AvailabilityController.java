@@ -43,12 +43,12 @@ public class AvailabilityController {
     @RequestMapping(value = "/view/{availabilityType}/{month}/{clinicId}")
     public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType, @PathVariable String clinicId) {
         try {
-           return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType, clinicId), HttpStatus.OK);
-        } catch(DateNotFoundException e) {
+            return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType, clinicId), HttpStatus.OK);
+        } catch (DateNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch(InvalidAppointmentException e) {
+        } catch (InvalidAppointmentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

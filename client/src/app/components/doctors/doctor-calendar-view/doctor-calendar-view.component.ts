@@ -115,10 +115,10 @@ export class DoctorCalendarViewComponent {
     event.end = new Date(event.start.getTime() + ((event.duration) * 60000));
     var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: new Date(event.end).toUTCString() };
     this.http.post("http://localhost:8080/clinics/availability/create", eventDTO).subscribe(data => {
-      event.id = data['id'];
-      this.events.push(event);
-      this.refresh.next();
-    },
+        event.id = data['id'];
+        this.events.push(event);
+        this.refresh.next();
+      },
       error => { this.openSnackBar(error.error, "Close"); });
   }
 
@@ -126,22 +126,22 @@ export class DoctorCalendarViewComponent {
     let newEnd = new Date(event.start.getTime() + ((event.duration) * 60000));
     var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: newEnd.toUTCString() };
     this.http.put("http://localhost:8080/clinics/availability/modify", eventDTO).subscribe(data => {
-      for (var i in this.events) {
-        if (this.events[i]['id'] === data['id']) {
-          this.events[i]['end'] = this.convertTime(data['end']);
-          this.refresh.next();
+        for (var i in this.events) {
+          if (this.events[i]['id'] === data['id']) {
+            this.events[i]['end'] = this.convertTime(data['end']);
+            this.refresh.next();
+          }
         }
-      }
-    },
-      error => { this.openSnackBar(error.error, "Close"); 
-          window.location.reload();
-    });
+      },
+      error => { this.openSnackBar(error.error, "Close");
+        window.location.reload();
+      });
     this.refresh.next();
   }
 
   removeAvailability(id) {
     this.http.delete("http://localhost:8080/clinics/availability/delete/" + id).subscribe(data => {
-    },
+      },
       error => { this.openSnackBar(error.error, "Close"); });
   }
 
