@@ -14,7 +14,7 @@ import { DoctorCalendarViewComponent } from './components/doctors/doctor-calenda
 import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
 import {NurseBookingComponent} from './components/nurses/nurse-booking/nurse-booking.component';
 import { PatientCartComponent } from './components/patients/patient-cart/patient-cart.component';
-import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
+import {ClinicComponent} from './components/clinics/clinic/clinic.component';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
@@ -29,7 +29,7 @@ const routes: Routes = [
       { path: 'nurse/book', canActivate: [NurseAuthenticationGuard], component: NurseBookingComponent},
       { path: 'user-profile', component: UserProfileComponent},
       { path: 'cart', canActivate: [PatientAuthenticationGuard], component: PatientCartComponent},
-      { path: 'clinics', component: ClinicProfileComponent}
+      { path: 'clinics', component: ClinicComponent}
     ]},
   {path: 'login', component: LoginComponent},
   {path: '404', component: NotFoundComponent},

@@ -58,6 +58,7 @@ import { UpcomingAppointmentsComponent } from './components/doctors/upcoming-app
 import { PatientUpdateComponent } from './components/patients/patient-update/patient-update.component';
 import { PatientUpdateConfirmationComponent } from './components/patients/patient-update-confirmation/patient-update-confirmation.component';
 import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
+import { ClinicComponent } from './components/clinics/clinic/clinic.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { ClinicProfileComponent } from './components/clinics/clinic-profile/clin
     PatientPaymentComponent,
     PatientUpdateComponent,
     PatientUpdateConfirmationComponent,
-    ClinicProfileComponent
+    ClinicProfileComponent,
+    ClinicComponent
   ],
   imports: [
     BrowserModule,
