@@ -154,7 +154,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
         this.selectedClinic = id;
       }
       this.events = [];
-      if (this.router.url.includes('walkin') || this.data.booking) {
+      if (this.router.url.includes('walkin') || !this.data.booking) {
         this.http
         .get('http://localhost:8080/clinics/availability/view/walkin/' + (this.viewDate.getMonth() + 1) + "/" + id)
         .subscribe((result: Array<Object>) => {

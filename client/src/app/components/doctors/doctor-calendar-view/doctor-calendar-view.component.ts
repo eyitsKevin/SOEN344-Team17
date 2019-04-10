@@ -117,29 +117,29 @@ export class DoctorCalendarViewComponent {
 
   postAvailability(event) {
     event.end = new Date(event.start.getTime() + ((event.duration) * 60000));
-    const eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: new Date(event.end).toUTCString() };
+    let eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: new Date(event.end).toUTCString() };
     this.http.post('http://localhost:8080/clinics/availability/create', eventDTO).subscribe(data => {
-      event.id = data['id'];
-      this.events.push(event);
-      this.refresh.next();
-    },
+        event.id = data['id'];
+        this.events.push(event);
+        this.refresh.next();
+      },
       error => { this.openSnackBar(error.error, 'Close'); });
   }
 
   updateAvailability(event) {
-    const newEnd = new Date(event.start.getTime() + ((event.duration) * 60000));
-    const eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: newEnd.toUTCString() };
+    let newEnd = new Date(event.start.getTime() + ((event.duration) * 60000));
+    let eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: newEnd.toUTCString() };
     this.http.put('http://localhost:8080/clinics/availability/modify', eventDTO).subscribe(data => {
-      for (const i in this.events) {
-        if (this.events[i]['id'] === data['id']) {
-          this.events[i]['end'] = this.convert.UTCtoLocal(data['end']);
-          this.refresh.next();
+        for (const i in this.events) {
+          if (this.events[i]['id'] === data['id']) {
+            this.events[i]['end'] = this.convertTime(data['end']);
+            this.refresh.next();
+          }
         }
-      }
-    },
+      },
       error => { this.openSnackBar(error.error, 'Close');
-          window.location.reload();
-    });
+        window.location.reload();
+      });
     this.refresh.next();
   }
 
@@ -183,5 +183,8 @@ export class DoctorCalendarViewComponent {
     });
   }
 
+  private convertTime(datum: any) {
+    return undefined;
+  }
 }
 

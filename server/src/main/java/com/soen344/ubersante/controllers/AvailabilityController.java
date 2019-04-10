@@ -35,12 +35,12 @@ public class AvailabilityController {
     @RequestMapping(value = "/view/{availabilityType}/{month}/{clinicId}")
     public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType, @PathVariable String clinicId) {
         try {
-           return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType, clinicId), HttpStatus.OK);
-        } catch(DateNotFoundException e) {
+            return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType, clinicId), HttpStatus.OK);
+        } catch (DateNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch(InvalidAppointmentException e) {
+        } catch (InvalidAppointmentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -52,7 +52,7 @@ public class AvailabilityController {
             PaymentAdapter adapter = new PaymentAdapter(prototype);
             adapter.processPayment(details.getPayment());
             return new ResponseEntity<>(availabilityService.availabilityToAppointment(details.getPatient(), details.getCart()), HttpStatus.OK);
-        } catch (EmptyCartException | AnnualCheckupOverlapException | InvalidAppointmentException | AvailabilityDoesNotExistException e) {
+        } catch (EmptyCartException | AnnualCheckupOverlapException | InvalidAppointmentException | AvailabilityDoesNotExistException | WalkInOverlapException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (DoctorNotFoundException | PatientNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
