@@ -51,7 +51,7 @@ public class Appointment {
 
     public Appointment() { }
 
-    public Appointment(@NotNull Patient patient, @NotNull Doctor doctor, @NotNull String createdBy, @NotNull AppointmentType appointmentType, @NotNull LocalDateTime date, @NotNull LocalDateTime time, @NotNull Timestamp createdAt) {
+    public Appointment(@NotNull Patient patient, @NotNull Doctor doctor, @NotNull String createdBy, @NotNull AppointmentType appointmentType, @NotNull LocalDateTime date, @NotNull LocalDateTime time, @NotNull Timestamp createdAt, @NotNull Clinic clinic) {
         this.patient = patient;
         this.doctor = doctor;
         this.createdBy = createdBy;
@@ -59,6 +59,7 @@ public class Appointment {
         this.date = date;
         this.time = time;
         this.createdAt = createdAt;
+        this.clinic = clinic;
     }
 
     public long getId() {
