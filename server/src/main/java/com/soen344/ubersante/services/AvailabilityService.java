@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,6 +46,9 @@ public class AvailabilityService {
     ClinicRepository clinicRepository;
 
     public List<Availability> getAvailabilityByMonth(String month, String availabilityType) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
+    Map<String, ClinicAvailabilities> clinic;
+
+    public List<Availability> getAvailabilityByMonth(String month, String availabilityType, String clinicId) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
 
         int monthVal = Integer.parseInt(month);
         String availType;
@@ -61,6 +65,24 @@ public class AvailabilityService {
         }
 
         return availabilityRepository.findAvailabilitiesByMonth(month, availType);
+        if (availType == "0") {
+            if (clinic.get(clinicId).walkin[monthVal].hasChanged) {
+               // availabilityRepository.findAvailabilitiesByMonth(month, availType);
+               clinic.get(clinicId).walkin[monthVal].listAvail = new ArrayList<Availability>(); 
+               clinic.get(clinicId).walkin[monthVal].hasChanged = false;
+            } else {
+                return clinic.get(clinicId).walkin[monthVal].listAvail;
+            }
+        } else if (availType == "1") {
+            if (clinic.get(clinicId).annual[monthVal].hasChanged) {
+                // availabilityRepository.findAvailabilitiesByMonth(month, availType);
+                clinic.get(clinicId).annual[monthVal].listAvail = new ArrayList<Availability>(); 
+                clinic.get(clinicId).annual[monthVal].hasChanged = false;
+             } else {
+                 return clinic.get(clinicId).annual[monthVal].listAvail;
+             }
+        }   
+        // return availabilityRepository.findAvailabilitiesByMonth(month, availType);
     }
 
     public void addAppointmentToTable(AvailabilityDetails availability, Appointment appointment) {
@@ -105,8 +127,16 @@ public class AvailabilityService {
                     LocalDateTime.parse(details.getStartTime()),
                     LocalDateTime.parse(details.getEndTime()),
                     ts);
+            String month = LocalDateTime.parse(details.getStartTime()).getMonth().toString();
+            int monthVal = Integer.parseInt(month);
             appointmentRepository.save(appointment);
             addAppointmentToTable(details, appointment);
+            //TO DO: wait for clinic to be done
+            if(details.getAppointmentType().toString() == "WALK_IN"){
+                clinic.get(details.getClinicId()).walkin[monthVal].hasChanged = true;
+            } else {
+                clinic.get(details.getClinicId()).annual[monthVal].hasChanged = true;
+            }
         }
         return true;
     }
@@ -146,6 +176,15 @@ public class AvailabilityService {
 
         if (!validAvailability(availability)) {
             throw new InvalidAvailabilityException("Invalid availability, failed backend validation");
+        }
+
+        String month = start.getMonth().toString();
+        int monthVal = Integer.parseInt(month);
+        //TO DO: wait for clinic to be done
+        if(availability.getAppointmentType().toString() == "WALK_IN"){
+            clinic.get(availability.getClinicId()).walkin[monthVal].hasChanged = true;
+        } else {
+            clinic.get(availability.getClinicId()).annual[monthVal].hasChanged = true;
         }
 
         return convertToAvailabilityDto(availabilityRepository.save(availability));
