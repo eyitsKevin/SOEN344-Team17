@@ -1,8 +1,11 @@
 package com.soen344.ubersante.services;
 
+import com.soen344.ubersante.dto.DoctorRegistrationForm;
 import com.soen344.ubersante.dto.LoginForm;
 import com.soen344.ubersante.dto.NurseRegistrationForm;
+import com.soen344.ubersante.exceptions.DoctorRegistrationException;
 import com.soen344.ubersante.exceptions.NurseRegistrationException;
+import com.soen344.ubersante.models.Doctor;
 import com.soen344.ubersante.models.Nurse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,9 @@ public class AdminService {
     @Autowired
     private NurseService nurseService;
 
+    @Autowired
+    private DoctorService doctorService;
+
     // hardcoded admin for milestone 2
     public Boolean validateLogin(LoginForm form) {
         boolean validUser = form.getUserName().equals(USERNAME);
@@ -26,10 +32,15 @@ public class AdminService {
     }
 
     public Boolean registerNewNurse(NurseRegistrationForm nurseRegistrationForm) throws NurseRegistrationException {
-
         Nurse newNurse = nurseService.registerNewNurse(nurseRegistrationForm);
 
         return newNurse != null;
+    }
+
+    public Boolean registerNewDoctor(DoctorRegistrationForm doctorRegistrationForm) throws DoctorRegistrationException {
+        Doctor newDoctor = doctorService.registerNewDoctor(doctorRegistrationForm);
+
+        return newDoctor!= null;
     }
 
 }

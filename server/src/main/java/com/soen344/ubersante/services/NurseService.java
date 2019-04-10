@@ -13,6 +13,7 @@ import com.soen344.ubersante.repositories.NurseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 
 @Service
@@ -41,6 +42,7 @@ public class NurseService implements INurseService {
         return new NurseDetails(nurse);
     }
 
+    @Transactional
     public Nurse registerNewNurse(NurseRegistrationForm nurseRegistrationForm) throws NurseRegistrationException {
 
         if (accessIdExists(nurseRegistrationForm.getAccessId())) {
