@@ -1,5 +1,6 @@
 package com.soen344.ubersante.controllers;
 
+import com.soen344.ubersante.dto.ClinicRegistrationForm;
 import com.soen344.ubersante.dto.DoctorRegistrationForm;
 import com.soen344.ubersante.dto.LoginForm;
 import com.soen344.ubersante.dto.NurseRegistrationForm;
@@ -44,6 +45,15 @@ public class AdminController {
         try {
             return new ResponseEntity<>(adminService.registerNewDoctor(registrationForm), HttpStatus.OK);
         } catch (DoctorRegistrationException e) {
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("register/clinic")
+    public ResponseEntity<Boolean> registerNewClinic(@Valid @RequestBody final ClinicRegistrationForm registrationForm) {
+        try {
+            return new ResponseEntity<>(adminService.registerNewClinic(registrationForm), HttpStatus.OK);
+        } catch (Exception e){
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
     }
