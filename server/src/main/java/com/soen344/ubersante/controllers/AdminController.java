@@ -1,6 +1,8 @@
 package com.soen344.ubersante.controllers;
 
 import com.soen344.ubersante.dto.LoginForm;
+import com.soen344.ubersante.dto.NurseRegistrationForm;
+import com.soen344.ubersante.exceptions.NurseRegistrationException;
 import com.soen344.ubersante.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,16 @@ public class AdminController {
 
         return validLogin ? new ResponseEntity<>(true, HttpStatus.OK) : new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
 
+    }
+
+    @PostMapping("register/nurse")
+    public ResponseEntity<Boolean> registerNewNurse(@Valid @RequestBody final NurseRegistrationForm registrationForm) {
+
+        try {
+           return new ResponseEntity<>(adminService.registerNewNurse(registrationForm), HttpStatus.OK);
+        } catch (NurseRegistrationException e) {
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
     }
 
 
