@@ -13,8 +13,8 @@ export class CartDataService {
   user;
   constructor(private http: HttpClient, private userService: AuthenticationService) {
     this.userService.user.subscribe(user => this.user = user);
-    this.http.post('/api/availability/cart/retrieve', this.user.healthCard )
-    .subscribe( (data: Array<Object>)=> {
+    this.http.post('/api/clinics/availability/cart/retrieve', this.user.healthCard )
+    .subscribe( (data: Array<Object>) => {
       data.map((element: any) => {this.list.push(element);
         const fullDate = element.startTime.split('T');
         const fullDate2 = element.endTime.split('T');
@@ -27,7 +27,7 @@ export class CartDataService {
   }
   init() {
     this.userService.user.subscribe(user => this.user = user);
-    this.http.post('/api/availability/cart/retrieve', this.user.healthCard )
+    this.http.post('/api/clinics/availability/cart/retrieve', this.user.healthCard )
     .subscribe( (data: Array<Object>)=> {
       data.map((element: any) => {this.list.push(element);
         const fullDate = element.startTime.split('T');
@@ -37,8 +37,6 @@ export class CartDataService {
         element.end = fullDate2[1];
       });
     });
-    // this.http.post('/api/availability/cart/retrieve', this.user.healthCard)
-    // .pipe(map(data => this.list.push(data)));
 
   }
 
@@ -62,7 +60,7 @@ export class CartDataService {
     if (element.appointmentType === 'Walk-in') {
       element.appointmentType = 'WALK_IN';
     }});
-    this.http.post('/api/availability/cart/save', patientAppointment )
+    this.http.post('/api/clinics/availability/cart/save', patientAppointment )
     .subscribe(() => {});
   }
   }
@@ -72,7 +70,7 @@ export class CartDataService {
   }
 
   deleteAllAppointments() {
-    this.list = [];
+    this.list.splice(0, this.list.length);
   }
 
   removeAppointment(number) {
@@ -82,10 +80,10 @@ export class CartDataService {
       cart: this.list
     };
     if (this.list.length === 0) {
-      this.http.post('/api/availability/cart/empty', this.user.healthCard )
+      this.http.post('/api/clinics/availability/cart/empty', this.user.healthCard )
       .subscribe(() => {});
     } else {
-    this.http.post('/api/availability/cart/save', patientAppointment )
+    this.http.post('/api/clinics/availability/cart/save', patientAppointment )
     .subscribe(() => {});
     }
   }

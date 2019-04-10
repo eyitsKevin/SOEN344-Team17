@@ -15,8 +15,8 @@ import java.util.List;
 public interface AvailabilityRepository extends JpaRepository<Availability, Long> {
 
 
-    @Query(value = "SELECT * FROM us_db.doctor_availability WHERE MONTH(start_time) = ?1 AND appointment_type = ?2 AND appointment_id IS NULL", nativeQuery = true)
-    List<Availability> findAvailabilitiesByMonth(String month, String availabilityType);
+    @Query(value = "SELECT * FROM us_db.doctor_availability WHERE MONTH(start_time) = ?1 AND appointment_type = ?2 AND clinic_id = ?3 AND appointment_id IS NULL", nativeQuery = true)
+    List<Availability> findAvailabilitiesByMonth(String month, String availabilityType, String clinicId);
 
     @Transactional
     @Modifying

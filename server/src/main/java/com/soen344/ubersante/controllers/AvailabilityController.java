@@ -1,14 +1,10 @@
 package com.soen344.ubersante.controllers;
 
 import com.soen344.ubersante.dto.AvailabilityDto;
-import com.soen344.ubersante.dto.Response;
-import com.soen344.ubersante.exceptions.AvailabilityDoesNotExistException;
-import com.soen344.ubersante.exceptions.AvailabilityOverlapException;
-import com.soen344.ubersante.exceptions.DateNotFoundException;
-import com.soen344.ubersante.exceptions.InvalidAppointmentException;
-import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.dto.AvailabilityWrapper;
+import com.soen344.ubersante.dto.Response;
 import com.soen344.ubersante.exceptions.*;
+import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.services.AvailabilityService;
 import com.soen344.ubersante.services.CartService;
 import com.soen344.ubersante.services.PaymentAdapter;
@@ -24,7 +20,7 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/availability")
+@RequestMapping("/clinics/availability")
 public class AvailabilityController {
 
     @Autowired
@@ -36,15 +32,15 @@ public class AvailabilityController {
     @Autowired
     private AvailabilityRepository availabilityRepository;
 
-    @RequestMapping(value = "/view/{availabilityType}/{month}")
-    public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType) {
+    @RequestMapping(value = "/view/{availabilityType}/{month}/{clinicId}")
+    public ResponseEntity getAvailabilityByMonth(@PathVariable String month, @PathVariable String availabilityType, @PathVariable String clinicId) {
         try {
-            return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType), HttpStatus.OK);
-        } catch(DateNotFoundException e) {
+            return new ResponseEntity<>(availabilityService.getAvailabilityByMonth(month, availabilityType, clinicId), HttpStatus.OK);
+        } catch (DateNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch(InvalidAppointmentException e) {
+        } catch (InvalidAppointmentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -55,8 +51,9 @@ public class AvailabilityController {
             PaymentPrototype prototype = new PaymentPrototype();
             PaymentAdapter adapter = new PaymentAdapter(prototype);
             adapter.processPayment(details.getPayment());
+            cartService.emptyCart(details.getPatient().getHealthCard());
             return new ResponseEntity<>(availabilityService.availabilityToAppointment(details.getPatient(), details.getCart()), HttpStatus.OK);
-        } catch (EmptyCartException | AnnualCheckupOverlapException | InvalidAppointmentException | AvailabilityDoesNotExistException e) {
+        } catch (EmptyCartException | AnnualCheckupOverlapException | InvalidAppointmentException | AvailabilityDoesNotExistException | WalkInOverlapException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (DoctorNotFoundException | PatientNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -77,6 +74,8 @@ public class AvailabilityController {
     public ResponseEntity emptyCart(@Valid @RequestBody final String healthCard) {
         return new ResponseEntity<>(cartService.emptyCart(healthCard), HttpStatus.OK);
     }
+
+
 
     @RequestMapping("/doctor/{permit}")
     public ResponseEntity getAllDoctorAvailabilities(@ValidPermitNumber @PathVariable String permit) {

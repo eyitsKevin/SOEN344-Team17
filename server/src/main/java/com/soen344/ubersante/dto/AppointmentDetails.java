@@ -36,9 +36,12 @@ public class AppointmentDetails {
     @NotEmpty
     private String createdAt;
 
+    @NotEmpty
+    private String clinicName;
+
     public AppointmentDetails() {}
 
-    public AppointmentDetails(@NotEmpty long id, @NotEmpty Patient patient, @NotEmpty Doctor doctor, @NotEmpty String createdBy, @NotEmpty AppointmentType appointmentType, @NotEmpty String date, @NotEmpty String time, @NotEmpty String createdAt) {
+    public AppointmentDetails(@NotEmpty long id, @NotEmpty Patient patient, @NotEmpty Doctor doctor, @NotEmpty String createdBy, @NotEmpty AppointmentType appointmentType, @NotEmpty String date, @NotEmpty String time, @NotEmpty String createdAt, @NotEmpty String clinicName) {
         this.id = id;
         this.patientDetails = new PatientDetails(patient);
         this.doctorDetails = new DoctorDetails(doctor);
@@ -47,6 +50,7 @@ public class AppointmentDetails {
         this.date = date;
         this.time = time;
         this.createdAt = createdAt;
+        this.clinicName = clinicName;
     }
 
     public long getId() {
@@ -113,6 +117,14 @@ public class AppointmentDetails {
         this.createdAt = createdAt;
     }
 
+    public String getClinicName() {
+        return clinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        this.clinicName = clinicName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -124,12 +136,14 @@ public class AppointmentDetails {
                 getAppointmentType() == that.getAppointmentType() &&
                 Objects.equals(getDate(), that.getDate()) &&
                 Objects.equals(getTime(), that.getTime()) &&
-                Objects.equals(getCreatedAt(), that.getCreatedAt());
+                Objects.equals(getCreatedAt(), that.getCreatedAt()) &&
+                Objects.equals(getClinicName(), that.getClinicName());
+                
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPatientDetails(), getDoctorDetails(), getCreatedBy(), getAppointmentType(), getDate(), getTime(), getCreatedAt());
+        return Objects.hash(getPatientDetails(), getDoctorDetails(), getCreatedBy(), getAppointmentType(), getDate(), getTime(), getCreatedAt(), getClinicName());
     }
 
     @Override
@@ -142,6 +156,7 @@ public class AppointmentDetails {
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", createdAt='" + createdAt + '\'' +
+                ", clinicName='" + clinicName + '\'' +
                 '}';
     }
 }

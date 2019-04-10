@@ -21,7 +21,7 @@
                 <button mat-button style="float: right;" (click)="cancelBooking(list)">Cancel</button>
                 <button mat-button style="float: right;" (click)="updateBooking(list)">Update</button>
                 <p mat-line>
-                  <span>Booking is on {{this.convertTime((list.date + " "  + list.time))}}</span>
+                  <span>Booking is on {{this.convertTime((list.date + " "  + list.time))}} at clinic {{list.clinicName}}</span>
                 </p>
               </mat-list-item>
             </mat-list>
@@ -46,7 +46,7 @@
                   <span>{{list.appointmentType}} Appointment: </span>
                 </p>
                 <p mat-line>
-                  <span>Booking was on {{this.convertTime((list.date + " "  + list.time))}}</span>
+                  <span>Booking was on {{this.convertTime((list.date + " "  + list.time))}} at clinic {{list.clinicName}}</span>
                 </p>
               </mat-list-item>
             </mat-list>
