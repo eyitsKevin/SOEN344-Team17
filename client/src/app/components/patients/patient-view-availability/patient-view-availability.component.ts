@@ -154,7 +154,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
         this.selectedClinic = id;
       }
       this.events = [];
-      if (this.router.url.includes('walkin') || !this.data.booking) {
+      if (this.router.url.includes('walkin') || (this.authenticated === 'nurse' && !this.data.booking)) {
         this.http
         .get('http://localhost:8080/clinics/availability/view/walkin/' + (this.viewDate.getMonth() + 1) + "/" + id)
         .subscribe((result: Array<Object>) => {
@@ -164,7 +164,7 @@ export class PatientViewAvailabilityComponent implements OnInit{
               element.appointmentType = 'Walk-in';
             }});
           });
-      } else if (this.router.url.includes('annual') || this.data.booking) {
+      } else if (this.router.url.includes('annual') || (this.authenticated === 'nurse' && this.data.booking)) {
         this.http
         .get('http://localhost:8080/clinics/availability/view/annual/'  + (this.viewDate.getMonth() + 1) + "/" + id)
         .subscribe((result: Array<Object>) => {
