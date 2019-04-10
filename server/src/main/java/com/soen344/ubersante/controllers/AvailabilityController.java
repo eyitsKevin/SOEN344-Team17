@@ -1,15 +1,10 @@
 package com.soen344.ubersante.controllers;
 
 import com.soen344.ubersante.dto.AvailabilityDto;
-import com.soen344.ubersante.dto.Response;
-import com.soen344.ubersante.exceptions.AvailabilityDoesNotExistException;
-import com.soen344.ubersante.exceptions.AvailabilityOverlapException;
-import com.soen344.ubersante.exceptions.DateNotFoundException;
-import com.soen344.ubersante.exceptions.InvalidAppointmentException;
-import com.soen344.ubersante.models.Availability;
-import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.dto.AvailabilityWrapper;
+import com.soen344.ubersante.dto.Response;
 import com.soen344.ubersante.exceptions.*;
+import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.services.AvailabilityService;
 import com.soen344.ubersante.services.CartService;
 import com.soen344.ubersante.services.PaymentAdapter;
@@ -19,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;

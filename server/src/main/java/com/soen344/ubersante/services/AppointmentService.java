@@ -7,11 +7,9 @@ import com.soen344.ubersante.models.Appointment;
 import com.soen344.ubersante.models.Doctor;
 import com.soen344.ubersante.models.Patient;
 import com.soen344.ubersante.repositories.AppointmentRepository;
+import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.repositories.DoctorRepository;
 import com.soen344.ubersante.repositories.PatientRepository;
-import com.soen344.ubersante.repositories.AvailabilityRepository;
-import com.soen344.ubersante.repositories.ClinicRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
