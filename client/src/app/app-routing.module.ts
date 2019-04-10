@@ -15,6 +15,7 @@ import { PatientViewAvailabilityComponent } from './components/patients/patient-
 import {NurseBookingComponent} from './components/nurses/nurse-booking/nurse-booking.component';
 import { PatientCartComponent } from './components/patients/patient-cart/patient-cart.component';
 import {ClinicComponent} from './components/clinics/clinic/clinic.component';
+import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
@@ -29,7 +30,7 @@ const routes: Routes = [
       { path: 'nurse/book', canActivate: [NurseAuthenticationGuard], component: NurseBookingComponent},
       { path: 'user-profile', component: UserProfileComponent},
       { path: 'cart', canActivate: [PatientAuthenticationGuard], component: PatientCartComponent},
-      { path: 'clinics', component: ClinicComponent}
+      { path: 'clinics', component: ClinicProfileComponent}
     ]},
   {path: 'login', component: LoginComponent},
   {path: '404', component: NotFoundComponent},

@@ -59,6 +59,7 @@ import { PatientUpdateComponent } from './components/patients/patient-update/pat
 import { PatientUpdateConfirmationComponent } from './components/patients/patient-update-confirmation/patient-update-confirmation.component';
 import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
 import { ClinicComponent } from './components/clinics/clinic/clinic.component';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { ClinicComponent } from './components/clinics/clinic/clinic.component';
       useFactory: adapterFactory
     }),
     MatListModule,
-    MatCardModule
+    MatCardModule,
+    MatTreeModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [
