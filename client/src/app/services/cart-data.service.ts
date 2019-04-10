@@ -14,7 +14,7 @@ export class CartDataService {
   constructor(private http: HttpClient, private userService: AuthenticationService) {
     this.userService.user.subscribe(user => this.user = user);
     this.http.post('/api/clinics/availability/cart/retrieve', this.user.healthCard )
-    .subscribe( (data: Array<Object>)=> {
+    .subscribe( (data: Array<Object>) => {
       data.map((element: any) => {this.list.push(element);
         const fullDate = element.startTime.split('T');
         const fullDate2 = element.endTime.split('T');
@@ -70,7 +70,7 @@ export class CartDataService {
   }
 
   deleteAllAppointments() {
-    this.list = [];
+    this.list.splice(0, this.list.length);
   }
 
   removeAppointment(number) {

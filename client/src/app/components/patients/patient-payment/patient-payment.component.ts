@@ -56,7 +56,7 @@ export class PatientPaymentComponent implements OnInit {
         .subscribe(() => {
           this.router.navigate(['patient']);
           this.openSnackBar('Appointment(s) booked!', 'Close');
-          this.dialogRef.close();
+          this.dialogRef.close(this.data.cart);
         }, message => {
           this.openSnackBar(message.error, 'Close');
           this.dialogRef.close();

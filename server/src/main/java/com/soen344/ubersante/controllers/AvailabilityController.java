@@ -51,6 +51,7 @@ public class AvailabilityController {
             PaymentPrototype prototype = new PaymentPrototype();
             PaymentAdapter adapter = new PaymentAdapter(prototype);
             adapter.processPayment(details.getPayment());
+            cartService.emptyCart(details.getPatient().getHealthCard());
             return new ResponseEntity<>(availabilityService.availabilityToAppointment(details.getPatient(), details.getCart()), HttpStatus.OK);
         } catch (EmptyCartException | AnnualCheckupOverlapException | InvalidAppointmentException | AvailabilityDoesNotExistException | WalkInOverlapException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -73,6 +74,8 @@ public class AvailabilityController {
     public ResponseEntity emptyCart(@Valid @RequestBody final String healthCard) {
         return new ResponseEntity<>(cartService.emptyCart(healthCard), HttpStatus.OK);
     }
+
+
 
     @RequestMapping("/doctor/{permit}")
     public ResponseEntity getAllDoctorAvailabilities(@ValidPermitNumber @PathVariable String permit) {
