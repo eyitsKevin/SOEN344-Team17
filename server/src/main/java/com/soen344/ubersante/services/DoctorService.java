@@ -3,11 +3,10 @@ package com.soen344.ubersante.services;
 import com.soen344.ubersante.dto.DoctorDetails;
 import com.soen344.ubersante.dto.DoctorLoginForm;
 import com.soen344.ubersante.dto.DoctorRegistrationForm;
-import com.soen344.ubersante.exceptions.DoctorNotFoundException;
-import com.soen344.ubersante.exceptions.DoctorRegistrationException;
-import com.soen344.ubersante.exceptions.InvalidPasswordException;
+import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.models.Clinic;
 import com.soen344.ubersante.models.Doctor;
+import com.soen344.ubersante.repositories.AppointmentRepository;
 import com.soen344.ubersante.repositories.ClinicRepository;
 import com.soen344.ubersante.repositories.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,9 @@ public class DoctorService {
 
     @Autowired
     private ClinicRepository clinicRepository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     public DoctorDetails validateDoctorLogin(DoctorLoginForm loginForm)
             throws DoctorNotFoundException, InvalidPasswordException {
@@ -66,6 +68,35 @@ public class DoctorService {
         doctor.setSpecialty(doctorRegistrationForm.getSpecialty());
         doctor.setPassword(doctorRegistrationForm.getPassword());
         doctor.setClinic(clinic);
+
+        return doctorRepository.save(doctor);
+    }
+
+    @Transactional
+    public Doctor modifyDoctor(DoctorDetails doctorDetails) {
+        Doctor doctor = doctorRepository.findByPermitNumber(doctorDetails.getPermitNumber());
+
+        if (doctor == null) {
+            throw new DoctorNotFoundException("Could not find doctor");
+        }
+
+        // cannot modify with existing appointments
+        if (doctor.getClinic().getId() != doctorDetails.getClinicId() && !appointmentRepository.findAllByDoctor(doctor).isEmpty()) {
+            throw new AppointmentException("Cannot modify clinic with pending appointments");
+        }
+
+        Clinic clinic;
+        try {
+            clinic = clinicRepository.findById(doctorDetails.getClinicId()).get();
+        } catch (NoSuchElementException e) {
+            throw new ClinicNotFoundException();
+        }
+
+        doctor.setSpecialty(doctorDetails.getSpecialty());
+        doctor.setCity(doctorDetails.getCity());
+        doctor.setClinic(clinic);
+        doctor.setFirstName(doctorDetails.getFirstName());
+        doctor.setLastName(doctorDetails.getLastName());
 
         return doctorRepository.save(doctor);
     }

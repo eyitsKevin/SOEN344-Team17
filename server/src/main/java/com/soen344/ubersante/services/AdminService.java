@@ -57,6 +57,12 @@ public class AdminService {
         return nurse != null;
     }
 
+    public Boolean modifyDoctor(DoctorDetails doctorDetails) {
+        Doctor doctor = doctorService.modifyDoctor(doctorDetails);
+
+        return doctor != null;
+    }
+
     public Boolean deleteNurse(NurseDetails nurseDetails) {
         return nurseService.deleteNurse(nurseDetails);
     }

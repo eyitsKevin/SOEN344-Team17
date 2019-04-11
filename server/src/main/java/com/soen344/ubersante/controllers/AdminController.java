@@ -64,6 +64,15 @@ public class AdminController {
         }
     }
 
+    @PutMapping("/update/doctor")
+    public ResponseEntity<Boolean> updateDoctor(@Valid @RequestBody final DoctorDetails doctorDetails) {
+        try {
+            return new ResponseEntity<>(adminService.modifyDoctor(doctorDetails), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/delete/nurse")
     public ResponseEntity<Boolean> deleteNurse(@Valid @RequestBody final NurseDetails nurseDetails) {
         try {
