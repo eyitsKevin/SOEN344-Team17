@@ -64,5 +64,14 @@ public class AdminController {
         }
     }
 
+    @DeleteMapping("/delete/nurse")
+    public ResponseEntity<Boolean> deleteNurse(@Valid @RequestBody final NurseDetails nurseDetails) {
+        try {
+            return new ResponseEntity<>(adminService.deleteNurse(nurseDetails), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

@@ -92,8 +92,22 @@ public class NurseService implements INurseService {
         return nurseRepository.save(nurse);
     }
 
+    @Transactional
+    public boolean deleteNurse(NurseDetails nurseDetails) {
+        Nurse nurse = nurseRepository.findAccessByAccessId(nurseDetails.getAccessId());
+
+        if (nurse == null) {
+            throw new NurseNotFoundException("Could not find nurse");
+        }
+
+        nurseRepository.delete(nurse);
+        return true;
+    }
+
     private boolean accessIdExists(String accessId) {
         Nurse nurse = nurseRepository.findAccessByAccessId(accessId);
         return nurse != null;
     }
+
+
 }

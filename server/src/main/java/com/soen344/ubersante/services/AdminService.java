@@ -57,4 +57,8 @@ public class AdminService {
         return nurse != null;
     }
 
+    public Boolean deleteNurse(NurseDetails nurseDetails) {
+        return nurseService.deleteNurse(nurseDetails);
+    }
+
 }
