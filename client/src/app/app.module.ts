@@ -63,6 +63,9 @@ import { RegisterNurseComponent } from './components/admin/registration/register
 import { RegisterClinicComponent } from './components/admin/registration/register-clinic/register-clinic.component';
 import { AdminComponent } from './components/admin/admin/admin.component';
 import { AdminRegistrationComponent } from './components/admin/registration/admin-registration.component';
+import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
+import { ClinicComponent } from './components/clinics/clinic/clinic.component';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -96,7 +99,9 @@ import { AdminRegistrationComponent } from './components/admin/registration/admi
     RegisterNurseComponent,
     RegisterClinicComponent,
     AdminComponent,
-    AdminRegistrationComponent
+    AdminRegistrationComponent,
+    ClinicProfileComponent,
+    ClinicComponent
   ],
   imports: [
     BrowserModule,
@@ -134,7 +139,8 @@ import { AdminRegistrationComponent } from './components/admin/registration/admi
       useFactory: adapterFactory
     }),
     MatListModule,
-    MatCardModule
+    MatCardModule,
+    MatTreeModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [

@@ -18,6 +18,8 @@ import { PatientCartComponent } from './components/patients/patient-cart/patient
 import { AdminLoginComponent } from './components/admin/login/admin-login.component';
 import { AdminComponent } from './components/admin/admin/admin.component';
 import { AdminRegistrationComponent } from './components/admin/registration/admin-registration.component';
+import { ClinicComponent } from './components/clinics/clinic/clinic.component';
+import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
@@ -33,7 +35,9 @@ const routes: Routes = [
       { path: 'user-profile', component: UserProfileComponent},
       { path: 'cart', canActivate: [PatientAuthenticationGuard], component: PatientCartComponent},
       { path: 'admin', canActivate: [AdminAuthenticationGuard], component: AdminComponent},
-      { path: 'admin/register', canActivate: [AdminAuthenticationGuard], component: AdminRegistrationComponent}
+      { path: 'admin/register', canActivate: [AdminAuthenticationGuard], component: AdminRegistrationComponent},
+      { path: 'clinics', component: ClinicComponent},
+      { path: 'clinics/view/:id', component: ClinicProfileComponent}
     ]},
   {path: 'login', component: LoginComponent},
   {path: 'login/admin', component: AdminLoginComponent},

@@ -23,6 +23,9 @@ public class DoctorDetails {
     private String city;
 
     private long clinicId;
+    
+    @NotEmpty
+    private String clinicName;
 
     public DoctorDetails(Doctor doctor) {
         permitNumber = doctor.getPermitNumber();
@@ -30,6 +33,7 @@ public class DoctorDetails {
         firstName = doctor.getFirstName();
         specialty = doctor.getSpecialty();
         city = doctor.getCity();
+        clinicName = doctor.getClinic().getName();
     }
 
     public String getPermitNumber() {
@@ -78,6 +82,15 @@ public class DoctorDetails {
 
     public void setClinicId(long clinicId) {
         this.clinicId = clinicId;
+
+    }
+    
+    public String getClinicName() {
+        return clinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        this.clinicName = clinicName;
     }
 
     @Override
@@ -88,6 +101,7 @@ public class DoctorDetails {
                 ", firstName='" + firstName + '\'' +
                 ", specialty='" + specialty + '\'' +
                 ", city='" + city + '\'' +
+                ", clinicName='" + clinicName + '\'' +
                 '}';
     }
 }

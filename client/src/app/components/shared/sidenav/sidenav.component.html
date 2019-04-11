@@ -3,6 +3,8 @@
 
   <a mat-list-item routerLink="/{{authenticated}}/availabilities" *ngIf="this.authenticated==='doctor'"> Your availabilities </a>
 
+  <a mat-list-item routerLink="/clinics"> View Clinics </a>
+
   <mat-accordion *ngIf="this.authenticated==='patient'">
 
     <a mat-list-item routerLink="/{{authenticated}}"> View Bookings </a>
@@ -27,8 +29,6 @@
   <a mat-list-item *ngIf="this.authenticated=='nurse'" routerLink="/{{authenticated}}/book"> Book for a patient </a>
 
   <a mat-list-item *ngIf="this.authenticated=='admin'" routerLink="/{{authenticated}}/register"> Register </a>
-
-  <a mat-list-item *ngIf="this.authenticated=='admin'" routerLink="/{{authenticated}}/view"> View </a>
 
   <a mat-list-item (click)="this.logout()" id="logout"> Logout </a>
 
