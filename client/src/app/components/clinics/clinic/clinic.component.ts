@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from "rxjs";
-import {Patient} from "../../../models/patient";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-clinic',
@@ -10,7 +9,7 @@ import {Patient} from "../../../models/patient";
 })
 export class ClinicComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   clinics;
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-clinic-profile',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClinicProfileComponent implements OnInit {
 
-  constructor() {}
+  constructor(private _activatedRoute: ActivatedRoute) {}
+  id;
 
   ngOnInit() {
+    this.id = this._activatedRoute.snapshot.params['id'];
   }
 
 }

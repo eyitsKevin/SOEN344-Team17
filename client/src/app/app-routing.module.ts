@@ -30,7 +30,8 @@ const routes: Routes = [
       { path: 'nurse/book', canActivate: [NurseAuthenticationGuard], component: NurseBookingComponent},
       { path: 'user-profile', component: UserProfileComponent},
       { path: 'cart', canActivate: [PatientAuthenticationGuard], component: PatientCartComponent},
-      { path: 'clinics', component: ClinicProfileComponent}
+      { path: 'clinics', component: ClinicComponent},
+      { path: 'clinics/view/:id', component: ClinicProfileComponent}
     ]},
   {path: 'login', component: LoginComponent},
   {path: '404', component: NotFoundComponent},
