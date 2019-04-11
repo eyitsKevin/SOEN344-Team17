@@ -82,7 +82,7 @@ public class DoctorService {
 
         // cannot modify with existing appointments
         if (doctor.getClinic().getId() != doctorDetails.getClinicId() && !appointmentRepository.findAllByDoctor(doctor).isEmpty()) {
-            throw new AppointmentException("Cannot modify clinic with pending appointments");
+            throw new AppointmentException("Cannot modify doctor with pending appointments");
         }
 
         Clinic clinic;
@@ -101,8 +101,26 @@ public class DoctorService {
         return doctorRepository.save(doctor);
     }
 
+    @Transactional
+    public boolean deleteDoctor(DoctorDetails doctorDetails) {
+        Doctor doctor = doctorRepository.findByPermitNumber(doctorDetails.getPermitNumber());
+
+        if (doctor == null) {
+            throw new DoctorNotFoundException("Could not find doctor");
+        }
+
+        if (!appointmentRepository.findAllByDoctor(doctor).isEmpty()) {
+            throw new AppointmentException("Cannot delete doctor with pending appointments");
+        }
+
+        doctorRepository.delete(doctor);
+        return true;
+    }
+
     private boolean permitNumberExists(String permitNumber) {
         Doctor doctor = doctorRepository.findByPermitNumber(permitNumber);
         return doctor != null;
     }
+
+
 }

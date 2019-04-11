@@ -67,4 +67,8 @@ public class AdminService {
         return nurseService.deleteNurse(nurseDetails);
     }
 
+    public Boolean deleteDoctor(DoctorDetails doctorDetails) {
+        return doctorService.deleteDoctor(doctorDetails);
+    }
+
 }
