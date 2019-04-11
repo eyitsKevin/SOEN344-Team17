@@ -9,12 +9,17 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalTime;
+import java.util.List;
 
 @Service
 public class ClinicService {
 
     @Autowired
     private ClinicRepository clinicRepository;
+
+    public List<Clinic> getAllClinics() {
+        return clinicRepository.findAll();
+    }
 
     @Transactional
     public Clinic registerNewClinic(ClinicRegistrationForm clinicRegistrationForm) {

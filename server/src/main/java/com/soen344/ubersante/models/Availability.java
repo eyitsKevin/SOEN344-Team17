@@ -39,6 +39,9 @@ public class Availability {
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Clinic clinic;
+
     public Availability() {
 
     }
@@ -89,6 +92,14 @@ public class Availability {
 
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
+    }
+
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 
     @Override

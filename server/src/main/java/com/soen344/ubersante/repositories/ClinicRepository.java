@@ -1,8 +1,14 @@
 package com.soen344.ubersante.repositories;
 
 import com.soen344.ubersante.models.Clinic;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClinicRepository extends CrudRepository<Clinic, Long> {
+import java.util.List;
 
+public interface ClinicRepository extends JpaRepository<Clinic, Long> {
+
+    List<Clinic> findAll();
+
+    @Override
+    Clinic getOne(Long aLong);
 }
