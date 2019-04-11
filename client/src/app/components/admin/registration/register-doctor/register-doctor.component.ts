@@ -45,16 +45,20 @@ export class RegisterDoctorComponent implements OnInit {
 
   onSubmit() {
   if (this.doctorRegistration.valid) {
-    const patient = {
+    const doctor = {
      ...this.doctorRegistration.value
     };
-    this.http.post("http://localhost:8080/patients/registration", patient)
-      .subscribe(data => {
-        this.openSnackBar(data["message"], "Close");
-        this.router.navigate(['']);
-      },
-      error => { this.openSnackBar(error.error, "Close"); }
-      );
+    this.http.post("http://localhost:8080/admin/register/doctor", doctor)
+    .subscribe(data => {
+      if (data == true) {
+        this.openSnackBar("Registered", "Close");
+      }
+      else {
+        this.openSnackBar("Error", "Close");
+      }
+    },
+    error => { this.openSnackBar(error.error, "Close"); }
+    );
   }
   
 }

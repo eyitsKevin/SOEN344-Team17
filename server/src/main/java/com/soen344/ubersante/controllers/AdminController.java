@@ -28,7 +28,7 @@ public class AdminController {
 
     }
 
-    @PostMapping("register/nurse")
+    @PostMapping("/register/nurse")
     public ResponseEntity<Boolean> registerNewNurse(@Valid @RequestBody final NurseRegistrationForm registrationForm) {
         try {
            return new ResponseEntity<>(adminService.registerNewNurse(registrationForm), HttpStatus.OK);
@@ -37,7 +37,7 @@ public class AdminController {
         }
     }
 
-    @PostMapping("register/doctor")
+    @PostMapping("/register/doctor")
     public ResponseEntity<Boolean> registerNewDoctor(@Valid @RequestBody final DoctorRegistrationForm registrationForm) {
         try {
             return new ResponseEntity<>(adminService.registerNewDoctor(registrationForm), HttpStatus.OK);
@@ -46,7 +46,7 @@ public class AdminController {
         }
     }
 
-    @PostMapping("register/clinic")
+    @PostMapping("/register/clinic")
     public ResponseEntity<Boolean> registerNewClinic(@Valid @RequestBody final ClinicRegistrationForm registrationForm) {
         try {
             return new ResponseEntity<>(adminService.registerNewClinic(registrationForm), HttpStatus.OK);

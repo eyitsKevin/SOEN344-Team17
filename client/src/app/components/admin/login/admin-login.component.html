@@ -1,6 +1,6 @@
 <div class="content">
   <h2> Admin Login </h2>
-  <form *ngIf="!(this.authenticated)" [formGroup]="adminLogin" (ngSubmit)="onSubmit2()">
+  <form *ngIf="!(this.authenticated)" [formGroup]="adminLogin" (ngSubmit)="onSubmit()">
     <div>
       <mat-form-field>
         <input matInput placeholder="Username" formControlName="userName">

@@ -32,8 +32,13 @@ export class AdminLoginComponent implements OnInit {
       };
       this.http.post("http://localhost:8080/admin/login", admin)
         .subscribe(data => {
+          console.log(data);
           if (data == true) {
             this.authenticationService.changeAuthentication("admin");
+            this.login();
+          }
+          else {
+            this.openSnackBar("Incorrect", "Close");
           }
         },
           error => { this.openSnackBar("Incorrect", "Close"); }
@@ -41,7 +46,7 @@ export class AdminLoginComponent implements OnInit {
     }
   }
 
-  onSubmit2() {
+  login() {
     let user = {"firstName" : "admin"};
     this.authenticationService.changeAuthentication("admin");
     this.authenticationService.changeUser(user);
