@@ -10,10 +10,14 @@ import { UserProfileComponent } from './components/shared/user-profile/user-prof
 import { DoctorAuthenticationGuard } from './guards/doctor-authentication.guard';
 import { PatientAuthenticationGuard } from './guards/patient-authentication.guard';
 import { NurseAuthenticationGuard } from './guards/nurse-authentication.guard';
+import { AdminAuthenticationGuard } from './guards/admin-authentication.guard';
 import { DoctorCalendarViewComponent } from './components/doctors/doctor-calendar-view/doctor-calendar-view.component';
 import { PatientViewAvailabilityComponent } from './components/patients/patient-view-availability/patient-view-availability.component';
-import {NurseBookingComponent} from './components/nurses/nurse-booking/nurse-booking.component';
+import { NurseBookingComponent} from './components/nurses/nurse-booking/nurse-booking.component';
 import { PatientCartComponent } from './components/patients/patient-cart/patient-cart.component';
+import { AdminLoginComponent } from './components/admin/login/admin-login.component';
+import { AdminComponent } from './components/admin/admin/admin.component';
+import { AdminRegistrationComponent } from './components/admin/registration/admin-registration.component';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
@@ -27,9 +31,12 @@ const routes: Routes = [
       { path: 'nurse', canActivate: [NurseAuthenticationGuard], component: NurseComponent},
       { path: 'nurse/book', canActivate: [NurseAuthenticationGuard], component: NurseBookingComponent},
       { path: 'user-profile', component: UserProfileComponent},
-      { path: 'cart', canActivate: [PatientAuthenticationGuard], component: PatientCartComponent}
+      { path: 'cart', canActivate: [PatientAuthenticationGuard], component: PatientCartComponent},
+      { path: 'admin', canActivate: [AdminAuthenticationGuard], component: AdminComponent},
+      { path: 'admin/register', canActivate: [AdminAuthenticationGuard], component: AdminRegistrationComponent}
     ]},
   {path: 'login', component: LoginComponent},
+  {path: 'login/admin', component: AdminLoginComponent},
   {path: '404', component: NotFoundComponent},
   {path: '**', redirectTo: '/404'}
 ];

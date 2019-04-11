@@ -1,0 +1,13 @@
+<div class="register">
+
+  <mat-button-toggle-group [(ngModel)]="toggleValue" name="userType" multiple=false #group="matButtonToggleGroup">
+    <mat-button-toggle value="clinic">Clinic</mat-button-toggle>
+    <mat-button-toggle value="doctor">Doctor</mat-button-toggle>
+    <mat-button-toggle value="nurse">Nurse</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <app-register-clinic *ngIf="toggleValue==='clinic'"></app-register-clinic>
+  <app-register-doctor *ngIf="toggleValue==='doctor'"></app-register-doctor>
+  <app-register-nurse *ngIf="toggleValue==='nurse'"></app-register-nurse>
+
+</div>

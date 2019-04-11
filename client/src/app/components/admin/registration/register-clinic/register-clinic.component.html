@@ -1,0 +1,27 @@
+<form [formGroup]="clinicRegistration" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input matInput placeholder="Name" formControlName="name">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="# of Rooms" formControlName="rooms">
+    <mat-error *ngIf="clinicRegistration.get('rooms').hasError('pattern')">
+      Enter a positive number
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Open Time" formControlName="openTime">
+    <mat-error *ngIf="clinicRegistration.get('openTime').hasError('pattern')">
+        Invalid Open Time
+      </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Close Time" formControlName="closeTime">
+    <mat-error *ngIf="clinicRegistration.get('closeTime').hasError('pattern')">
+        Invalid Close Time
+      </mat-error>
+  </mat-form-field>
+  <div>
+    <button mat-raised-button type="submit" mat-button> Register </button>
+  </div>
+
+</form>
