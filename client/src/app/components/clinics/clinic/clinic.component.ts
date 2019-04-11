@@ -23,10 +23,4 @@ export class ClinicComponent implements OnInit {
     });
   }
 
-  // getClinicById(id) {
-  //   this.http
-  //     .get('/view/' + id, {responseType: 'text'})
-  //     .subscribe(string => this.title = string.toString());
-  // }
-
 }
