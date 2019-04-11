@@ -22,6 +22,8 @@ public class DoctorDetails {
     @NotEmpty
     private String city;
 
+    private long clinicId;
+
     public DoctorDetails(Doctor doctor) {
         permitNumber = doctor.getPermitNumber();
         lastName = doctor.getLastName();
@@ -68,6 +70,14 @@ public class DoctorDetails {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public long getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(long clinicId) {
+        this.clinicId = clinicId;
     }
 
     @Override
