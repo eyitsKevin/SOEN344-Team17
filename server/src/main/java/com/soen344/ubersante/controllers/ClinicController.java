@@ -21,14 +21,9 @@ public class ClinicController {
         
     }
 
-    @GetMapping("/view/doctors/{id}")
-    public ResponseEntity viewDoctorsByClinic(@PathVariable long id) {
-        return new ResponseEntity<>(clinicService.getDoctorByClinicId(id), HttpStatus.OK);
-    }
-
-    @GetMapping("/view/nurses/{id}")
-    public ResponseEntity viewNursesByClinic(@PathVariable long id) {
-        return new ResponseEntity<>(clinicService.getNurseByClinicId(id), HttpStatus.OK);
+    @GetMapping("/view/{id}")
+    public ResponseEntity viewByClinic(@PathVariable long id) {
+        return new ResponseEntity<>(clinicService.buildClinicDto(id), HttpStatus.OK);
     }
 
 }

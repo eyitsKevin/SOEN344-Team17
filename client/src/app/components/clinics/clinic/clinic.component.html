@@ -1,3 +1,4 @@
-<p>
-  clinic works!
-</p>
+<mat-list>
+  <mat-list-item *ngFor="let clinic of clinics">
+    <mat-card class="card"> {{clinic.name}} </mat-card>
+</mat-list>

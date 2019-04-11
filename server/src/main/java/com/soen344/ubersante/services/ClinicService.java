@@ -1,5 +1,8 @@
 package com.soen344.ubersante.services;
 
+import com.soen344.ubersante.dto.ClinicDto;
+import com.soen344.ubersante.dto.DoctorDetails;
+import com.soen344.ubersante.dto.NurseDetails;
 import com.soen344.ubersante.models.Clinic;
 import com.soen344.ubersante.models.Doctor;
 import com.soen344.ubersante.models.Nurse;
@@ -9,6 +12,8 @@ import com.soen344.ubersante.repositories.NurseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,12 +36,28 @@ public class ClinicService {
         return clinicRepository.getOne(id);
     }
 
-    public List<Doctor> getDoctorByClinicId(long id) {
-        return doctorRepository.findAllByClinicId(id);
+    public ClinicDto buildClinicDto(long id) {
+        Clinic clinic = getClinicById(id);
+        List<DoctorDetails> doctorDetailsList = getDoctorByClinicId(id);
+        List<NurseDetails> nurseDetailsList = getNurseByClinicId(id);
+
+        return new ClinicDto(clinic, doctorDetailsList, nurseDetailsList);
     }
 
-    public List<Nurse> getNurseByClinicId(long id) {
-        return nurseRepository.findAllByClinicId(id);
+    private List<DoctorDetails> getDoctorByClinicId(long id) {
+        List<DoctorDetails> doctorDetailsList = new ArrayList<>();
+        for (Doctor doctor : doctorRepository.findAllByClinicId(id)) {
+            doctorDetailsList.add(new DoctorDetails(doctor));
+        }
+        return doctorDetailsList;
+    }
+
+    private List<NurseDetails> getNurseByClinicId(long id) {
+        List<NurseDetails> nurseDetails = new ArrayList<>();
+        for (Nurse nurse : nurseRepository.findAllByClinicId(id)) {
+            nurseDetails.add(new NurseDetails(nurse));
+        }
+        return nurseDetails;
     }
 
 

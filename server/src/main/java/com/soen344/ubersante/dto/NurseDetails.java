@@ -17,10 +17,14 @@ public class NurseDetails  {
     @NotEmpty
     private String lastName;
 
+    @NotEmpty
+    private String clinicName;
+
     public NurseDetails(Nurse nurse) {
         accessId = nurse.getAccessId();
         firstName = nurse.getFirstName();
         lastName = nurse.getLastName();
+        clinicName = nurse.getClinic().getName();
     }
 
     public String getAccessId() {
@@ -47,12 +51,21 @@ public class NurseDetails  {
         this.lastName = lastName;
     }
 
+    public String getClinicName() {
+        return clinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        this.clinicName = clinicName;
+    }
+
     @Override
     public String toString() {
         return "NurseDetails{" +
                 "accessId='" + accessId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", clinicName='" + clinicName + '\'' +
                 '}';
     }
 
