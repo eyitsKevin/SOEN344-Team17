@@ -1,9 +1,6 @@
 package com.soen344.ubersante.services;
 
-import com.soen344.ubersante.dto.ClinicRegistrationForm;
-import com.soen344.ubersante.dto.DoctorRegistrationForm;
-import com.soen344.ubersante.dto.LoginForm;
-import com.soen344.ubersante.dto.NurseRegistrationForm;
+import com.soen344.ubersante.dto.*;
 import com.soen344.ubersante.exceptions.DoctorRegistrationException;
 import com.soen344.ubersante.exceptions.NurseRegistrationException;
 import com.soen344.ubersante.models.Clinic;
@@ -52,6 +49,12 @@ public class AdminService {
         Clinic newClinic = clinicService.registerNewClinic(clinicRegistrationForm);
 
         return newClinic != null;
+    }
+
+    public Boolean modifyNurse(NurseDetails nurseDetails) {
+        Nurse nurse = nurseService.modifyNurse(nurseDetails);
+
+        return nurse != null;
     }
 
 }

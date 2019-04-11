@@ -1,9 +1,6 @@
 package com.soen344.ubersante.controllers;
 
-import com.soen344.ubersante.dto.ClinicRegistrationForm;
-import com.soen344.ubersante.dto.DoctorRegistrationForm;
-import com.soen344.ubersante.dto.LoginForm;
-import com.soen344.ubersante.dto.NurseRegistrationForm;
+import com.soen344.ubersante.dto.*;
 import com.soen344.ubersante.exceptions.DoctorRegistrationException;
 import com.soen344.ubersante.exceptions.NurseRegistrationException;
 import com.soen344.ubersante.services.AdminService;
@@ -54,6 +51,15 @@ public class AdminController {
         try {
             return new ResponseEntity<>(adminService.registerNewClinic(registrationForm), HttpStatus.OK);
         } catch (Exception e){
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/update/nurse")
+    public ResponseEntity<Boolean> updateNurse(@Valid @RequestBody final NurseDetails nurseDetails) {
+        try {
+            return new ResponseEntity<>(adminService.modifyNurse(nurseDetails), HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
     }

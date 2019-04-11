@@ -3,6 +3,7 @@ package com.soen344.ubersante.services;
 import com.soen344.ubersante.dto.NurseDetails;
 import com.soen344.ubersante.dto.NurseLoginForm;
 import com.soen344.ubersante.dto.NurseRegistrationForm;
+import com.soen344.ubersante.exceptions.ClinicNotFoundException;
 import com.soen344.ubersante.exceptions.InvalidPasswordException;
 import com.soen344.ubersante.exceptions.NurseRegistrationException;
 import com.soen344.ubersante.exceptions.NurseNotFoundException;
@@ -64,6 +65,28 @@ public class NurseService implements INurseService {
         nurse.setFirstName(nurseRegistrationForm.getFirstName());
         nurse.setLastName(nurseRegistrationForm.getLastName());
         nurse.setPassword(nurseRegistrationForm.getPassword());
+        nurse.setClinic(clinic);
+
+        return nurseRepository.save(nurse);
+    }
+
+    @Transactional
+    public Nurse modifyNurse(NurseDetails nurseDetails) {
+        Nurse nurse = nurseRepository.findAccessByAccessId(nurseDetails.getAccessId());
+
+        if (nurse == null) {
+            throw new NurseNotFoundException("Could not find nurse");
+        }
+
+        Clinic clinic;
+        try {
+            clinic = clinicRepository.findById(nurseDetails.getClinicId()).get();
+        } catch (NoSuchElementException e) {
+            throw new ClinicNotFoundException();
+        }
+
+        nurse.setFirstName(nurseDetails.getFirstName());
+        nurse.setLastName(nurseDetails.getLastName());
         nurse.setClinic(clinic);
 
         return nurseRepository.save(nurse);
