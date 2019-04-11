@@ -57,6 +57,9 @@ import { PatientPaymentComponent } from './components/patients/patient-payment/p
 import { UpcomingAppointmentsComponent } from './components/doctors/upcoming-appointments/upcoming-appointments.component';
 import { PatientUpdateComponent } from './components/patients/patient-update/patient-update.component';
 import { PatientUpdateConfirmationComponent } from './components/patients/patient-update-confirmation/patient-update-confirmation.component';
+import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
+import { ClinicComponent } from './components/clinics/clinic/clinic.component';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -85,6 +88,8 @@ import { PatientUpdateConfirmationComponent } from './components/patients/patien
     PatientPaymentComponent,
     PatientUpdateComponent,
     PatientUpdateConfirmationComponent,
+    ClinicProfileComponent,
+    ClinicComponent
   ],
   imports: [
     BrowserModule,
@@ -122,7 +127,8 @@ import { PatientUpdateConfirmationComponent } from './components/patients/patien
       useFactory: adapterFactory
     }),
     MatListModule,
-    MatCardModule
+    MatCardModule,
+    MatTreeModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [
