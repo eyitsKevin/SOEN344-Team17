@@ -1,7 +1,6 @@
 package com.soen344.ubersante.repositories;
 
 import com.soen344.ubersante.models.Doctor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
