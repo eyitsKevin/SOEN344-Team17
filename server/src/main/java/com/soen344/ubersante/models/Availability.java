@@ -39,7 +39,7 @@ public class Availability {
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Clinic clinic;
 
     public Availability() {
