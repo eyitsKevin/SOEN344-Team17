@@ -1,0 +1,34 @@
+<form [formGroup]="doctorRegistration" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input matInput placeholder="First Name" formControlName="firstName">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Last Name" formControlName="lastName">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Permit Number" formControlName="permitNumber">
+    <mat-error *ngIf="doctorRegistration.get('permitNumber').hasError('pattern')">
+        Invalid permit #
+      </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Clinic" formControlName="clinicId">
+      <mat-option *ngFor="let clinic of clinics" [value]="clinic.id">
+        {{clinic.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Specialty" formControlName="specialty">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="City" formControlName="city" name="city">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Password" type="password" formControlName="password">
+  </mat-form-field>
+  <div>
+    <button mat-raised-button type="submit" mat-button> Register </button>
+  </div>
+
+</form>

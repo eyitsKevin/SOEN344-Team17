@@ -1,0 +1,6 @@
+<mat-list>
+  <mat-list-item *ngFor="let clinic of clinics">
+    <mat-card class="card" [routerLink]="['/clinics/view', clinic.id]"> {{clinic.name}} </mat-card>
+  </mat-list-item>
+</mat-list>
+
