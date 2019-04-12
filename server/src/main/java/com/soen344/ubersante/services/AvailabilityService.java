@@ -4,7 +4,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -44,8 +46,9 @@ public class AvailabilityService {
     @Autowired
     ClinicRepository clinicRepository;
 
-    public List<Availability> getAvailabilityByMonth(String month, String availabilityType, String clinicId) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
+    public Map<Long, ClinicAvailabilities> clinic = new HashMap<Long,ClinicAvailabilities>();
 
+    public List<Availability> getAvailabilityByMonth(String month, String availabilityType, String clinicId) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
         int monthVal = Integer.parseInt(month);
         String availType;
         if (monthVal <= 0 || monthVal > 12) {
@@ -59,7 +62,26 @@ public class AvailabilityService {
         } else {
             throw new InvalidAppointmentException("Invalid appointment type.");
         }
-        return availabilityRepository.findAvailabilitiesByMonth(month, availType, clinicId);
+        if (clinic.get(Long.parseLong(clinicId)) == null){
+        clinic.put(Long.parseLong(clinicId), new ClinicAvailabilities());
+        }
+
+        if (availType.equals("0")) {
+            if (clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).hasChanged) {
+                clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).listAvail = availabilityRepository.findAvailabilitiesByMonth(month, availType, clinicId);
+                clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).hasChanged = false;
+            } else {
+                return clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).listAvail;
+            }
+        } else if (availType.equals("1")) {
+            if (clinic.get(Long.parseLong(clinicId)).annual.get(monthVal).hasChanged) {
+                clinic.get(Long.parseLong(clinicId)).annual.get(monthVal).listAvail = availabilityRepository.findAvailabilitiesByMonth(month, availType, clinicId);
+                clinic.get(Long.parseLong(clinicId)).annual.get(monthVal).hasChanged = false;
+             } else {
+                 return clinic.get(Long.parseLong(clinicId)).annual.get(monthVal).listAvail;
+             }
+        }   
+        return clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).listAvail;
     }
 
     public void addAppointmentToTable(AvailabilityDetails availability, Appointment appointment) {
@@ -110,9 +132,19 @@ public class AvailabilityService {
                     LocalDateTime.parse(details.getEndTime()),
                     ts,
                     clinicRepository.getOne(details.getClinic().getId())
-            );
+                    );
+    
+            clinicRepository.getOne(details.getClinic().getId());
             appointmentRepository.save(appointment);
             addAppointmentToTable(details, appointment);
+
+            int monthVal = LocalDateTime.parse(details.getStartTime()).getMonthValue();
+            // update the map 
+            if (details.getAppointmentType().toString().equals("WALK_IN")){
+                clinic.get(details.getClinic().getId()).walkin.get(monthVal).hasChanged = true;
+            } else {
+                clinic.get(details.getClinic().getId()).annual.get(monthVal).hasChanged = true;
+            }
         }
         return true;
     }
@@ -155,6 +187,19 @@ public class AvailabilityService {
             throw new InvalidAvailabilityException("Invalid availability, failed backend validation");
         }
 
+        // check if the map is initialized or not
+        if (this.clinic.get(clinic.getId()) == null){
+            this.clinic.put(clinic.getId(), new ClinicAvailabilities());
+        }
+        
+        // update the map
+        int monthVal = start.getMonth().getValue();
+        if (availability.getAppointmentType().toString().equals("WALK_IN")){
+            this.clinic.get(clinic.getId()).walkin.get(monthVal).hasChanged = true;
+        } else {
+            this.clinic.get(clinic.getId()).annual.get(monthVal).hasChanged = true;
+        }
+
         return convertToAvailabilityDto(availabilityRepository.save(availability));
     }
 
@@ -192,6 +237,20 @@ public class AvailabilityService {
 
         if (!validAvailability(availability)) {
             throw new InvalidAvailabilityException("Invalid availability, failed backend validation");
+        }
+
+
+        // check if the map is initialized or not
+        if (this.clinic.get(clinic.getId()) == null){
+            this.clinic.put(clinic.getId(), new ClinicAvailabilities());
+        }
+
+        // update the map
+        int monthVal = start.getMonth().getValue();
+        if (availability.getAppointmentType().toString() == "WALK_IN"){
+            this.clinic.get(clinic.getId()).walkin.get(monthVal).hasChanged = true;
+        } else {
+            this.clinic.get(clinic.getId()).annual.get(monthVal).hasChanged = true;
         }
 
         return convertToAvailabilityDto(availabilityRepository.save(availability));
