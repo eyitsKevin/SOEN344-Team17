@@ -4,6 +4,7 @@ import com.soen344.ubersante.dto.AvailabilityDto;
 import com.soen344.ubersante.dto.AvailabilityWrapper;
 import com.soen344.ubersante.dto.Response;
 import com.soen344.ubersante.exceptions.*;
+import com.soen344.ubersante.models.ClinicAvailabilities;
 import com.soen344.ubersante.repositories.AvailabilityRepository;
 import com.soen344.ubersante.services.AvailabilityService;
 import com.soen344.ubersante.services.CartService;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -111,7 +114,7 @@ public class AvailabilityController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteAvailability(@PathVariable("id") long id) {
         availabilityRepository.deleteById(id);
-
+        availabilityService.clinic = new HashMap<Long,ClinicAvailabilities>();
         return new ResponseEntity<>(new Response("Availability has been deleted"), HttpStatus.OK);
     }
 }

@@ -4,7 +4,14 @@ import java.util.List;
 
 public class AvailabilitiesByMonth {
 
-    public List<Availability> listAvail;
+    public AvailabilitiesByMonth[] annual;
+    public AvailabilitiesByMonth[] walkin = new AvailabilitiesByMonth[12];
     public boolean hasChanged = true;
+    public List<Availability> listAvail;
+
+    public AvailabilitiesByMonth(){
+        this.hasChanged = true;
+        this.listAvail = null;
+    }
 
 }
