@@ -74,11 +74,11 @@ public class AvailabilityService {
                 return clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).listAvail;
             }
         } else if (availType.equals("1")) {
-            if (clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).hasChanged) {
-                clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).listAvail = availabilityRepository.findAvailabilitiesByMonth(month, availType, clinicId);
-                clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).hasChanged = false;
+            if (clinic.get(Long.parseLong(clinicId)).annual.get(monthVal).hasChanged) {
+                clinic.get(Long.parseLong(clinicId)).annual.get(monthVal).listAvail = availabilityRepository.findAvailabilitiesByMonth(month, availType, clinicId);
+                clinic.get(Long.parseLong(clinicId)).annual.get(monthVal).hasChanged = false;
              } else {
-                 return clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).listAvail;
+                 return clinic.get(Long.parseLong(clinicId)).annual.get(monthVal).listAvail;
              }
         }   
         return clinic.get(Long.parseLong(clinicId)).walkin.get(monthVal).listAvail;
@@ -133,18 +133,17 @@ public class AvailabilityService {
                     ts,
                     clinicRepository.getOne(details.getClinic().getId())
                     );
-                    String month = LocalDateTime.parse(details.getStartTime()).getMonth().toString();
-                    int monthVal = Integer.parseInt(month);
     
-                    clinicRepository.getOne(details.getClinic().getId());
+            clinicRepository.getOne(details.getClinic().getId());
             appointmentRepository.save(appointment);
             addAppointmentToTable(details, appointment);
 
+            int monthVal = LocalDateTime.parse(details.getStartTime()).getMonthValue();
             // update the map 
             if (details.getAppointmentType().toString().equals("WALK_IN")){
                 clinic.get(details.getClinic().getId()).walkin.get(monthVal).hasChanged = true;
             } else {
-                clinic.get(details.getClinic().getId()).walkin.get(monthVal).hasChanged = true;
+                clinic.get(details.getClinic().getId()).annual.get(monthVal).hasChanged = true;
             }
         }
         return true;
@@ -198,7 +197,7 @@ public class AvailabilityService {
         if (availability.getAppointmentType().toString().equals("WALK_IN")){
             this.clinic.get(clinic.getId()).walkin.get(monthVal).hasChanged = true;
         } else {
-            this.clinic.get(clinic.getId()).walkin.get(monthVal).hasChanged = true;
+            this.clinic.get(clinic.getId()).annual.get(monthVal).hasChanged = true;
         }
 
         return convertToAvailabilityDto(availabilityRepository.save(availability));
@@ -251,7 +250,7 @@ public class AvailabilityService {
         if (availability.getAppointmentType().toString() == "WALK_IN"){
             this.clinic.get(clinic.getId()).walkin.get(monthVal).hasChanged = true;
         } else {
-            this.clinic.get(clinic.getId()).walkin.get(monthVal).hasChanged = true;
+            this.clinic.get(clinic.getId()).annual.get(monthVal).hasChanged = true;
         }
 
         return convertToAvailabilityDto(availabilityRepository.save(availability));
