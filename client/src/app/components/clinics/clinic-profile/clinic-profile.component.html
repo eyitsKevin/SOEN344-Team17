@@ -1,0 +1,79 @@
+<mat-card *ngIf="this.data">
+  <h3> {{this.data.clinic.name}} </h3>
+
+  <mat-list role="list">
+
+    <mat-divider></mat-divider>
+    <h3 matSubheader>Our Clinic Hours </h3>
+    <mat-list-item role="listitem">{{this.data.clinic.clinicHours.open}} - {{this.data.clinic.clinicHours.close}}</mat-list-item>
+
+    <mat-divider></mat-divider>
+    <h3 matSubheader>Our Doctors</h3>
+      <mat-tree [dataSource]="doctorDataSource" [treeControl]="treeControl" class="example-tree">
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+          <li class="mat-tree-node">
+            <ul> <li> <b> Full Name: </b> {{node.firstName}} {{node.lastName}} </li> </ul>
+          </li>
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+          <li>
+            <div class="mat-tree-node">
+              <button mat-icon-button matTreeNodeToggle
+                      [attr.aria-label]="'toggle ' + node.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button>
+              {{node.firstName}}  {{node.lastName}}
+            </div>
+            <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+              <ng-container matTreeNodeOutlet> </ng-container>
+              <li class="mat-tree-node"> <ul> <li> <b> Permit Number:</b> {{node.children[0].permitNumber}} </li> </ul> </li>
+              <li class="mat-tree-node"> <ul> <li> <b> Specialty: </b> {{node.children[0].specialty}}  </li> </ul> </li>
+              <li class="mat-tree-node"> <ul> <li> <b> Clinic Name: </b> {{node.children[0].clinicName}} </li> </ul> </li>
+              <li class="mat-tree-node"> <ul> <li> <b> City: </b> {{node.children[0].city}} </li> </ul> </li>
+            </ul>
+          </li>
+        </mat-nested-tree-node>
+      </mat-tree>
+
+    <mat-divider></mat-divider>
+    <h3 matSubheader>Our Nurses</h3>
+    <mat-tree [dataSource]="nurseDataSource" [treeControl]="treeControl" class="example-tree">
+      <!-- This is the tree node template for leaf nodes -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+        <li class="mat-tree-node">
+          <ul> <li> <b> Full Name: </b> {{node.firstName}} {{node.lastName}} </li> </ul>
+        </li>
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+        <li>
+          <div class="mat-tree-node">
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'toggle ' + node.name">
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+            {{node.firstName}}  {{node.lastName}}
+          </div>
+          <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+            <ng-container matTreeNodeOutlet> </ng-container>
+            <li class="mat-tree-node"> <ul> <li> <b> Access Id:</b> {{node.children[0].accessId}} </li> </ul> </li>
+            <li class="mat-tree-node"> <ul> <li> <b> Clinic Name: </b> {{node.children[0].clinicName}}  </li> </ul> </li>
+          </ul>
+        </li>
+      </mat-nested-tree-node>
+    </mat-tree>
+
+    <mat-divider></mat-divider>
+    <h3 matSubheader>Our Available Rooms </h3>
+    <mat-list-item role="listitem"> {{this.data.clinic.rooms}}</mat-list-item>
+  </mat-list>
+  <p></p>
+
+  <button mat-flat-button routerLink="/clinics">Back</button>
+</mat-card>

@@ -3,10 +3,10 @@ import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../../services/authentication.service';
-import { MatSnackBar } from "@angular/material";
-import { TimeConversion } from "../../../services/time-conversion.service";
+import { MatSnackBar } from '@angular/material';
+import { TimeConversion } from '../../../services/time-conversion.service';
 
 const colors: any = {
   red: {
@@ -21,12 +21,12 @@ const colors: any = {
 
 const type: any = {
   walkin: {
-    title: "Walk-In",
+    title: 'Walk-In',
     color: colors.yellow,
     duration: 20
   },
   checkup: {
-    title: "Annual Checkup",
+    title: 'Annual Checkup',
     color: colors.red,
     duration: 60
   }
@@ -53,9 +53,13 @@ export class DoctorCalendarViewComponent {
   events: CalendarEvent[] = [];
   user;
 
-  activeDayIsOpen: boolean = false;
+  activeDayIsOpen = false;
 
-  constructor(private modal: NgbModal, private http: HttpClient, private authenticationService: AuthenticationService, public snackBar: MatSnackBar, public convert : TimeConversion) {
+  constructor(private modal: NgbModal,
+              private http: HttpClient,
+              private authenticationService: AuthenticationService,
+              public snackBar: MatSnackBar,
+              public convert: TimeConversion) {
     this.authenticationService.user.subscribe(user => this.user = user);
     this.getAvailabilities();
   }
@@ -87,9 +91,9 @@ export class DoctorCalendarViewComponent {
   }
 
   addAvailability(availabilityType): void {
-    let startTime = new Date();
+    const startTime = new Date();
     startTime.setHours(8, 0, 0);
-    let newEvent = {
+    const newEvent = {
       id: null,
       title: availabilityType,
       start: startTime,
@@ -98,15 +102,14 @@ export class DoctorCalendarViewComponent {
       color: type[availabilityType].color,
       draggable: true
     };
-    this.handleEvent("add", newEvent);
+    this.handleEvent('add', newEvent);
     this.refresh.next();
   }
 
   apply(action, event) {
-    if (action === "add") {
+    if (action === 'add') {
       this.postAvailability(event);
-    }
-    else {
+    } else {
       this.updateAvailability(event);
     }
     this.refresh.next();
@@ -114,41 +117,41 @@ export class DoctorCalendarViewComponent {
 
   postAvailability(event) {
     event.end = new Date(event.start.getTime() + ((event.duration) * 60000));
-    var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: this.convert.LocaltoUTC(event.start), duration: event.duration, title: event.title, end: this.convert.LocaltoUTC(event.end) };
-    this.http.post("http://localhost:8080/availability/create", eventDTO).subscribe(data => {
-      event.id = data['id'];
-      this.events.push(event);
-      this.refresh.next();
-    },
-      error => { this.openSnackBar(error.error, "Close"); });
+    let eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: new Date(event.end).toUTCString() };
+    this.http.post('http://localhost:8080/clinics/availability/create', eventDTO).subscribe(data => {
+        event.id = data['id'];
+        this.events.push(event);
+        this.refresh.next();
+      },
+      error => { this.openSnackBar(error.error, 'Close'); });
   }
 
   updateAvailability(event) {
     let newEnd = new Date(event.start.getTime() + ((event.duration) * 60000));
-    var eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: this.convert.LocaltoUTC(event.start), duration: event.duration, title: event.title, end: this.convert.LocaltoUTC(event.end) };
-    this.http.put("http://localhost:8080/availability/modify", eventDTO).subscribe(data => {
-      for (var i in this.events) {
-        if (this.events[i]['id'] === data['id']) {
-          this.events[i]['end'] = this.convert.UTCtoLocal(data['end']);
-          this.refresh.next();
+    let eventDTO = { doctorPermitNumber: this.user.permitNumber, id: event.id, start: new Date(event.start).toUTCString(), duration: event.duration, title: event.title, end: newEnd.toUTCString() };
+    this.http.put('http://localhost:8080/clinics/availability/modify', eventDTO).subscribe(data => {
+        for (const i in this.events) {
+          if (this.events[i]['id'] === data['id']) {
+            this.events[i]['end'] = this.convertTime(data['end']);
+            this.refresh.next();
+          }
         }
-      }
-    },
-      error => { this.openSnackBar(error.error, "Close"); 
-          window.location.reload();
-    });
+      },
+      error => { this.openSnackBar(error.error, 'Close');
+        window.location.reload();
+      });
     this.refresh.next();
   }
 
   removeAvailability(id) {
-    this.http.delete("http://localhost:8080/availability/delete/" + id).subscribe(data => {
+    this.http.delete('http://localhost:8080/clinics/availability/delete/' + id).subscribe(data => {
     },
-      error => { this.openSnackBar(error.error, "Close"); });
+      error => { this.openSnackBar(error.error, 'Close'); });
   }
 
   remove(id) {
     this.removeAvailability(id);
-    for (var i = 0; i < this.events.length; i++) {
+    for (let i = 0; i < this.events.length; i++) {
       if (this.events[i].id === id) {
         this.events.splice(i, 1);
       }
@@ -157,15 +160,15 @@ export class DoctorCalendarViewComponent {
   }
 
   getAvailabilities() {
-    this.http.get("http://localhost:8080/availability/doctor/" + this.user.permitNumber).subscribe(data => {
-      for (var i in data) {
-        let event = {
-          id: data[i]["id"],
-          title: data[i]["title"],
-          start: this.convert.UTCtoLocal(data[i]["start"]),
-          duration: data[i]["duration"],
-          end: this.convert.UTCtoLocal(data[i]["end"]),
-          color: type[data[i]["title"]].color,
+    this.http.get('http://localhost:8080/clinics/availability/doctor/' + this.user.permitNumber).subscribe(data => {
+      for (const i in data) {
+        const event = {
+          id: data[i]['id'],
+          title: data[i]['title'],
+          start: this.convert.UTCtoLocal(data[i]['start']),
+          duration: data[i]['duration'],
+          end: this.convert.UTCtoLocal(data[i]['end']),
+          color: type[data[i]['title']].color,
           draggable: true
         };
         this.events.push(event);
@@ -180,5 +183,8 @@ export class DoctorCalendarViewComponent {
     });
   }
 
+  private convertTime(datum: any) {
+    return undefined;
+  }
 }
 

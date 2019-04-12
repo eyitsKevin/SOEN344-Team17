@@ -57,6 +57,19 @@ import { PatientPaymentComponent } from './components/patients/patient-payment/p
 import { UpcomingAppointmentsComponent } from './components/doctors/upcoming-appointments/upcoming-appointments.component';
 import { PatientUpdateComponent } from './components/patients/patient-update/patient-update.component';
 import { PatientUpdateConfirmationComponent } from './components/patients/patient-update-confirmation/patient-update-confirmation.component';
+import { AdminLoginComponent } from './components/admin/login/admin-login.component';
+import { RegisterDoctorComponent } from './components/admin/registration/register-doctor/register-doctor.component';
+import { RegisterNurseComponent } from './components/admin/registration/register-nurse/register-nurse.component';
+import { RegisterClinicComponent } from './components/admin/registration/register-clinic/register-clinic.component';
+import { AdminComponent } from './components/admin/admin/admin.component';
+import { AdminRegistrationComponent } from './components/admin/registration/admin-registration.component';
+import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
+import { ClinicComponent } from './components/clinics/clinic/clinic.component';
+import { MatTreeModule } from '@angular/material/tree';
+import { ManageComponent } from './components/admin/manage/manage.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ManageNurseComponent } from './components/admin/manage/manage-nurse/manage-nurse.component';
+
 
 @NgModule({
   declarations: [
@@ -85,6 +98,16 @@ import { PatientUpdateConfirmationComponent } from './components/patients/patien
     PatientPaymentComponent,
     PatientUpdateComponent,
     PatientUpdateConfirmationComponent,
+    AdminLoginComponent,
+    RegisterDoctorComponent,
+    RegisterNurseComponent,
+    RegisterClinicComponent,
+    AdminComponent,
+    AdminRegistrationComponent,
+    ClinicProfileComponent,
+    ClinicComponent,
+    ManageComponent,
+    ManageNurseComponent
   ],
   imports: [
     BrowserModule,
@@ -117,12 +140,14 @@ import { PatientUpdateConfirmationComponent } from './components/patients/patien
     MatBottomSheetModule,
     MatSlideToggleModule,
     MatListModule,
+    DragDropModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
     }),
     MatListModule,
-    MatCardModule
+    MatCardModule,
+    MatTreeModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [

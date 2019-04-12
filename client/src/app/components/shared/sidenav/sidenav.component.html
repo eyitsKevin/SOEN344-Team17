@@ -1,18 +1,19 @@
 <mat-nav-list class="sidebar">
   <a mat-list-item routerLink="/{{authenticated}}" *ngIf="this.authenticated=='doctor'"> Next Appointments </a>
-  <a mat-list-item routerLink="/{{authenticated}}/availabilities" *ngIf="this.authenticated==='doctor'">
-    Your
-    availabilities </a>
+
+  <a mat-list-item routerLink="/{{authenticated}}/availabilities" *ngIf="this.authenticated==='doctor'"> Your availabilities </a>
+
+  <a mat-list-item routerLink="/clinics"> View Clinics </a>
 
   <mat-accordion *ngIf="this.authenticated==='patient'">
 
-      <a mat-list-item routerLink="/{{authenticated}}"> View Bookings </a>
+    <a mat-list-item routerLink="/{{authenticated}}"> View Bookings </a>
 
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <p class="dropdown" mat-list-item> Book </p>
       </mat-expansion-panel-header>
-      <mat-nav-list class = "dropdown-options">
+      <mat-nav-list class="dropdown-options">
         <button mat-button routerLink="/{{authenticated}}/book/walkin">
           <i class="material-icons">directions_walk</i>
           Walk-in
@@ -24,9 +25,29 @@
       </mat-nav-list>
     </mat-expansion-panel>
   </mat-accordion>
-  <a mat-list-item *ngIf="this.authenticated=='nurse'" routerLink="/{{authenticated}}/book">
-    Book for a patient
-  </a>
+
+  <a mat-list-item *ngIf="this.authenticated=='nurse'" routerLink="/{{authenticated}}/book"> Book for a patient </a>
+
+  <a mat-list-item *ngIf="this.authenticated=='admin'" routerLink="/{{authenticated}}/register"> Register </a>
+
+  <mat-accordion *ngIf="this.authenticated==='admin'">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <p class="dropdown" mat-list-item> Manage </p>
+      </mat-expansion-panel-header>
+      <mat-nav-list class="dropdown-options">
+        <button mat-button  routerLink="/{{authenticated}}/manage/doctor">
+          <i class="material-icons">enhanced_encryption</i>
+          Doctors
+        </button>
+        <button mat-button routerLink="/{{authenticated}}/manage/nurse">
+          <i class="material-icons">pregnant_woman</i>
+          Nurses
+        </button>
+      </mat-nav-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+
   <a mat-list-item (click)="this.logout()" id="logout"> Logout </a>
 
 </mat-nav-list>

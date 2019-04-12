@@ -3,6 +3,7 @@ package com.soen344.ubersante.models;
 import com.soen344.ubersante.validation.ValidClinicHours;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalTime;
@@ -72,7 +73,7 @@ public class Clinic {
         this.rooms = rooms;
     }
 
-    public void setClinicHours(ClinicHours clinicHours) {
+    public void setClinicHours(@ValidClinicHours ClinicHours clinicHours) {
         this.clinicHours = clinicHours;
     }
 

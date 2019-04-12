@@ -1,6 +1,7 @@
 package com.soen344.ubersante.dto;
 
 import com.soen344.ubersante.enums.AppointmentType;
+import com.soen344.ubersante.models.Clinic;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
@@ -25,6 +26,9 @@ public class AvailabilityDetails {
 
     @NotEmpty
     private String endTime;
+
+    @NotEmpty
+    private Clinic clinic;
 
     public long getId() {
         return id;
@@ -66,6 +70,14 @@ public class AvailabilityDetails {
         this.endTime = endTime;
     }
 
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,22 +87,12 @@ public class AvailabilityDetails {
                 Objects.equals(getDoctorPermitNumber(), that.getDoctorPermitNumber()) &&
                 getAppointmentType() == that.getAppointmentType() &&
                 Objects.equals(getStartTime(), that.getStartTime()) &&
-                Objects.equals(getEndTime(), that.getEndTime());
+                Objects.equals(getEndTime(), that.getEndTime()) &&
+                Objects.equals(getClinic(), that.getClinic());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDoctorPermitNumber(), getAppointmentType(), getStartTime(), getEndTime());
-    }
-
-    @Override
-    public String toString() {
-        return "AvailabilityDetails{" +
-                "id=" + id +
-                ", doctorPermitNumber='" + doctorPermitNumber + '\'' +
-                ", appointmentType=" + appointmentType +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                '}';
+        return Objects.hash(getId(), getDoctorPermitNumber(), getAppointmentType(), getStartTime(), getEndTime(), getClinic());
     }
 }

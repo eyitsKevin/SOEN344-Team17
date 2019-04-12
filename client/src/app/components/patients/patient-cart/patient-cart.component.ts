@@ -34,6 +34,11 @@ export class PatientCartComponent implements OnInit {
       height: '500px',
       data: patientWithcart
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+      this.cartDataService.deleteAllAppointments();
+      }
+    });
   }
 
 
@@ -46,6 +51,10 @@ export class PatientCartComponent implements OnInit {
       this.cart[i].start = fullDate[1];
       this.cart[i].end = fullDate2[1];
     }
+  }
+
+  removeAll() {
+    this.cartDataService.deleteAllAppointments();
   }
 
   remove(index) {

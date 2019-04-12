@@ -1,7 +1,29 @@
 .content {
     margin-right: 20%;
     margin-left: 5%;
+}
+
+.calendar {
     font-size: 10px;
+}
+
+.chooseClinic {
+    padding: 2%;
+    text-align: center;
+    margin: -5%;
+    margin-bottom: 3%;
+    padding-bottom: 2%;
+    font-size: 18px;
+    border-bottom: solid grey;
+}
+
+mat-form-field {
+    width: 90%;
+    background-color: white;
+    padding: 0 10px;
+    padding-top: 10px;
+    font-size: 20px;
+    border-radius: 20px;
 }
 
 .walkin {

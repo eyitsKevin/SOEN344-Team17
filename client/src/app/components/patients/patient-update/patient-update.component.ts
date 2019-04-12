@@ -59,6 +59,9 @@ export class PatientUpdateComponent implements OnInit {
       event: CalendarEvent;
     };
 
+    clinics = [];
+    selectedClinic = null;
+
     actions: CalendarEventAction[] = [
       {
         label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -80,7 +83,7 @@ export class PatientUpdateComponent implements OnInit {
         private http: HttpClient) {}
 
     ngOnInit() {
-      this.getNewAvailabilities();
+      this.getAllClinics();
     }
 
 
@@ -97,30 +100,37 @@ export class PatientUpdateComponent implements OnInit {
       this.refresh.next();
     }
 
-    getNewAvailabilities() {
+    getAllClinics() {
+      this.http.get("http://localhost:8080/clinics/view").subscribe(data => {
+        this.clinics = [];
+        for (var i in data) {
+            let clinic = {
+              id: data[i]["id"],
+              name: data[i]["name"]
+            };
+          this.clinics.push(clinic);
+        }
+      });
+    }
 
-      const newEvent = {
-        title: 'Current appointment time ' + this.data.time,
-        start: new Date(this.data.date + 'T'  + this.data.time),
-        duration: 20,
-        color: colors.blue,
-        data: this.data
-      };
-      this.events.push(newEvent);
-      this.refresh.next();
+    getNewAvailabilities(id : string) {
+      if(this.selectedClinic == null) {
+        this.selectedClinic = id;
+      }
+      this.events = [];
       if (this.data.appointmentType.includes('Walk-in')) {
         this.http
-        .get('http://localhost:8080/availability/view/walkin/' + (this.viewDate.getMonth() + 1))
+        .get('http://localhost:8080/clinics/availability/view/walkin/' + (this.viewDate.getMonth() + 1) + "/" + id)
         .subscribe((result: Array<Object>) => {
           result.map(availability => this.addAppointmentToCalendar(availability));
           result.forEach((element: any) => {
             if (element.appointmentType === 'WALK_IN') {
               element.appointmentType = 'Walk-in';
             }});
-        });
-      } else if (this.data.appointmentType.includes('Annual checkup')) {
+          });
+        if (this.data.appointmentType.includes('Walk-in')) {
         this.http
-        .get('http://localhost:8080/availability/view/annual/'  + (this.viewDate.getMonth() + 1))
+        .get('http://localhost:8080/clinics/availability/view/annual/'  + (this.viewDate.getMonth() + 1) + "/" + id)
         .subscribe((result: Array<Object>) => {
           result.map(availability => this.addAppointmentToCalendar(availability));
           result.forEach((element: any) => {
@@ -129,8 +139,12 @@ export class PatientUpdateComponent implements OnInit {
             }});
         });
       }
+
+      this.refresh.next();
+
     }
 
+  }
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
       if (isSameMonth(date, this.viewDate)) {
         this.viewDate = date;
@@ -176,4 +190,9 @@ export class PatientUpdateComponent implements OnInit {
       });
     }
   }
+
+  getAvailabilities() {
+    this.getNewAvailabilities(this.selectedClinic);
+}
+
 }

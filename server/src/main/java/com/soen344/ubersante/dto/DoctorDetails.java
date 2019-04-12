@@ -22,12 +22,30 @@ public class DoctorDetails {
     @NotEmpty
     private String city;
 
+    private long clinicId;
+    
+    @NotEmpty
+    private String clinicName;
+
+
+
+    public DoctorDetails(String permitNumber, @NotEmpty String lastName, @NotEmpty String firstName, @NotEmpty String specialty, @NotEmpty String city, long clinicId, @NotEmpty String clinicName) {
+        this.permitNumber = permitNumber;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.specialty = specialty;
+        this.city = city;
+        this.clinicId = clinicId;
+        this.clinicName = clinicName;
+    }
+
     public DoctorDetails(Doctor doctor) {
         permitNumber = doctor.getPermitNumber();
         lastName = doctor.getLastName();
         firstName = doctor.getFirstName();
         specialty = doctor.getSpecialty();
         city = doctor.getCity();
+        clinicName = doctor.getClinic().getName();
     }
 
     public String getPermitNumber() {
@@ -70,6 +88,23 @@ public class DoctorDetails {
         this.city = city;
     }
 
+    public long getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(long clinicId) {
+        this.clinicId = clinicId;
+
+    }
+    
+    public String getClinicName() {
+        return clinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        this.clinicName = clinicName;
+    }
+
     @Override
     public String toString() {
         return "DoctorDetails{" +
@@ -78,6 +113,7 @@ public class DoctorDetails {
                 ", firstName='" + firstName + '\'' +
                 ", specialty='" + specialty + '\'' +
                 ", city='" + city + '\'' +
+                ", clinicName='" + clinicName + '\'' +
                 '}';
     }
 }

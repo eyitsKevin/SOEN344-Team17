@@ -1,11 +1,14 @@
 package com.soen344.ubersante.controllers;
 
+import java.util.HashMap;
+
 import com.soen344.ubersante.dto.PatientDetails;
 import com.soen344.ubersante.dto.UpdateAppointmentWrapper;
 import com.soen344.ubersante.exceptions.DoctorNotFoundException;
 import com.soen344.ubersante.exceptions.EmptyCartException;
 import com.soen344.ubersante.exceptions.NoAppointmentException;
 import com.soen344.ubersante.exceptions.PatientNotFoundException;
+import com.soen344.ubersante.models.ClinicAvailabilities;
 import com.soen344.ubersante.services.AppointmentService;
 import com.soen344.ubersante.services.AvailabilityService;
 
@@ -38,6 +41,7 @@ public class AppointmentController {
     @PostMapping("/cancel")
     @ResponseStatus(value = HttpStatus.OK)
     public void cancelAppointmentPatient(@RequestBody long id) {
+        availabilityService.clinic = new HashMap<Long,ClinicAvailabilities>();
         appointmentService.cancelAppointmentforPatient(id);
     }
 
@@ -45,6 +49,7 @@ public class AppointmentController {
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity updateAppointmentPatient(@RequestBody UpdateAppointmentWrapper details) {
         try {
+            availabilityService.clinic = new HashMap<Long,ClinicAvailabilities>();
             appointmentService.cancelAppointmentforPatient(details.getAppointmentId());
             return new ResponseEntity<>(availabilityService.availabilityToAppointment(details.getPatient(), details.getCart()), HttpStatus.OK);
         } catch (EmptyCartException e) {
