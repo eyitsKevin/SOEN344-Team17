@@ -22,6 +22,8 @@ public class DoctorDetails {
     @NotEmpty
     private String city;
 
+    private long clinicId;
+    
     @NotEmpty
     private String clinicName;
 
@@ -74,6 +76,15 @@ public class DoctorDetails {
         this.city = city;
     }
 
+    public long getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(long clinicId) {
+        this.clinicId = clinicId;
+
+    }
+    
     public String getClinicName() {
         return clinicName;
     }

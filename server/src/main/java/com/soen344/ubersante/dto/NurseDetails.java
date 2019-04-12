@@ -17,6 +17,8 @@ public class NurseDetails  {
     @NotEmpty
     private String lastName;
 
+    private long clinicId;
+    
     @NotEmpty
     private String clinicName;
 
@@ -51,6 +53,14 @@ public class NurseDetails  {
         this.lastName = lastName;
     }
 
+    public long getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(long clinicId) {
+        this.clinicId = clinicId;
+    }
+    
     public String getClinicName() {
         return clinicName;
     }
