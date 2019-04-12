@@ -20,6 +20,8 @@ import { AdminComponent } from './components/admin/admin/admin.component';
 import { AdminRegistrationComponent } from './components/admin/registration/admin-registration.component';
 import { ClinicComponent } from './components/clinics/clinic/clinic.component';
 import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
+import {ManageComponent} from './components/admin/manage/manage.component';
+import {ManageNurseComponent} from './components/admin/manage/manage-nurse/manage-nurse.component';
 
 const routes: Routes = [
   {path: '', component: SiteComponent,
@@ -37,7 +39,10 @@ const routes: Routes = [
       { path: 'admin', canActivate: [AdminAuthenticationGuard], component: AdminComponent},
       { path: 'admin/register', canActivate: [AdminAuthenticationGuard], component: AdminRegistrationComponent},
       { path: 'clinics', component: ClinicComponent},
-      { path: 'clinics/view/:id', component: ClinicProfileComponent}
+      { path: 'clinics/view/:id', component: ClinicProfileComponent},
+      { path: 'admin/manage/doctor', component: ManageComponent},
+      { path: 'admin/manage/nurse', component: ManageNurseComponent}
+
     ]},
   {path: 'login', component: LoginComponent},
   {path: 'login/admin', component: AdminLoginComponent},

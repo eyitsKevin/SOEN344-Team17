@@ -66,6 +66,10 @@ import { AdminRegistrationComponent } from './components/admin/registration/admi
 import { ClinicProfileComponent } from './components/clinics/clinic-profile/clinic-profile.component';
 import { ClinicComponent } from './components/clinics/clinic/clinic.component';
 import { MatTreeModule } from '@angular/material/tree';
+import { ManageComponent } from './components/admin/manage/manage.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ManageNurseComponent } from './components/admin/manage/manage-nurse/manage-nurse.component';
+
 
 @NgModule({
   declarations: [
@@ -101,7 +105,9 @@ import { MatTreeModule } from '@angular/material/tree';
     AdminComponent,
     AdminRegistrationComponent,
     ClinicProfileComponent,
-    ClinicComponent
+    ClinicComponent,
+    ManageComponent,
+    ManageNurseComponent
   ],
   imports: [
     BrowserModule,
@@ -134,6 +140,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatBottomSheetModule,
     MatSlideToggleModule,
     MatListModule,
+    DragDropModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory

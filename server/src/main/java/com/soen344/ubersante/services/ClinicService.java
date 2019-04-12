@@ -31,7 +31,7 @@ public class ClinicService {
 
     @Autowired
     private NurseRepository nurseRepository;
-    
+
     public List<Clinic> getAllClinics() {
         return clinicRepository.findAll();
     }
@@ -51,6 +51,16 @@ public class ClinicService {
 
     public Clinic getClinicById(long id) {
         return clinicRepository.getOne(id);
+    }
+
+    public List<ClinicDto> getAllClinicDto() {
+        List<Clinic> clinicList = getAllClinics();
+        List<ClinicDto> clinicDtos = new ArrayList<>();
+
+        for (Clinic clinic : clinicList) {
+            clinicDtos.add(buildClinicDto(clinic.getId()));
+        }
+        return  clinicDtos;
     }
 
     public ClinicDto buildClinicDto(long id) {

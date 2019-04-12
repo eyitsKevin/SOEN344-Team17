@@ -1,8 +1,7 @@
 package com.soen344.ubersante.controllers;
 
 import com.soen344.ubersante.dto.*;
-import com.soen344.ubersante.exceptions.DoctorRegistrationException;
-import com.soen344.ubersante.exceptions.NurseRegistrationException;
+import com.soen344.ubersante.exceptions.*;
 import com.soen344.ubersante.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,11 +64,12 @@ public class AdminController {
     }
 
     @PutMapping("/update/doctor")
-    public ResponseEntity<Boolean> updateDoctor(@Valid @RequestBody final DoctorDetails doctorDetails) {
+    public ResponseEntity updateDoctor(@Valid @RequestBody final DoctorDetails doctorDetails) {
         try {
             return new ResponseEntity<>(adminService.modifyDoctor(doctorDetails), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        } catch (InvalidAppointmentException | DoctorNotFoundException | ClinicNotFoundException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

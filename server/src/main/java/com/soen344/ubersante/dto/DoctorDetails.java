@@ -27,6 +27,18 @@ public class DoctorDetails {
     @NotEmpty
     private String clinicName;
 
+
+
+    public DoctorDetails(String permitNumber, @NotEmpty String lastName, @NotEmpty String firstName, @NotEmpty String specialty, @NotEmpty String city, long clinicId, @NotEmpty String clinicName) {
+        this.permitNumber = permitNumber;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.specialty = specialty;
+        this.city = city;
+        this.clinicId = clinicId;
+        this.clinicName = clinicName;
+    }
+
     public DoctorDetails(Doctor doctor) {
         permitNumber = doctor.getPermitNumber();
         lastName = doctor.getLastName();
