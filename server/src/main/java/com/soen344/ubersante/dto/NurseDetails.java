@@ -22,6 +22,14 @@ public class NurseDetails  {
     @NotEmpty
     private String clinicName;
 
+    public NurseDetails(String accessId, @NotEmpty String firstName, @NotEmpty String lastName, long clinicId, @NotEmpty String clinicName) {
+        this.accessId = accessId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.clinicId = clinicId;
+        this.clinicName = clinicName;
+    }
+
     public NurseDetails(Nurse nurse) {
         accessId = nurse.getAccessId();
         firstName = nurse.getFirstName();
