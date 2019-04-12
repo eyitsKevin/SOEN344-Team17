@@ -74,7 +74,6 @@ export class ClinicProfileComponent implements OnInit {
   }
 
   hasChild(_: number, node: DoctorDetails) {
-    console.log(node);
     return !!node.children && node.children.length > 0;
   }
 
