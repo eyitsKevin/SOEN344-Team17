@@ -45,7 +45,7 @@ public class AvailabilityService {
 
     @Autowired
     ClinicRepository clinicRepository;
-    // Map<Integer, ClinicAvailabilities> avail = new HashMap<Integer, ClinicAvailabilities>();
+    
     public Map<Long, ClinicAvailabilities> clinic = new HashMap<Long,ClinicAvailabilities>();
 
     public List<Availability> getAvailabilityByMonth(String month, String availabilityType, String clinicId) throws DateNotFoundException, InvalidAppointmentException, NumberFormatException {
