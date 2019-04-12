@@ -1,0 +1,30 @@
+<h2>
+  Manage doctor
+</h2>
+
+<br>
+
+<div cdkDropListGroup>
+  <div class="example-container" *ngFor="let data of this.data">
+    <h3> {{data.clinic.name}} </h3>
+    <h5> {{data.clinic.clinicHours.open}} - {{data.clinic.clinicHours.close}} </h5>
+    <div
+      cdkDropList
+      #container="cdkDropList"
+      [cdkDropListData]="data.doctorDetailsList"
+      [cdkDropListConnectedTo]="[container]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event, data.clinic)">
+      <div class="example-box" *ngFor="let item of data.doctorDetailsList" cdkDrag>
+        <ul style="list-style: none;">
+          <li> {{item.firstName}} {{item.lastName}} </li>
+          <li> Permit Number: {{item.permitNumber}} </li>
+          <li> Speciality: {{item.specialty}} </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
