@@ -26,4 +26,9 @@ public class ClinicController {
         return new ResponseEntity<>(clinicService.buildClinicDto(id), HttpStatus.OK);
     }
 
+    @GetMapping("/view/all")
+    public ResponseEntity viewByClinic() {
+        return new ResponseEntity<>(clinicService.getAllClinicDto(), HttpStatus.OK);
+    }
+
 }
